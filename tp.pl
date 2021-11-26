@@ -23,6 +23,7 @@ entrega(portatil, rui, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11
 entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
 entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
+entrega(telemovel, ze-joao, pedro, acores/terceira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
 
 % Gives the length of a list.
@@ -84,3 +85,9 @@ encomendas_do_estafeta_PorCliente(Cliente, [IdEncomenda|Xs], Lista, Res) :-
         append(Lista, S, L),
         encomendas_do_estafeta_PorCliente(Cliente, Xs, L, Res).
 %------------------------------------------------------------------------------------------
+
+%QUERY 3 - identificar os clientes servidos por um determinado estafeta; 
+%para testar:   clientesPorEstafeta(ze-joao, X).
+
+clientesPorEstafeta(IdEstafeta, Res) :- 
+        findall(IdCliente, entrega(_, IdEstafeta, IdCliente, _, _, _, _, _), Res).
