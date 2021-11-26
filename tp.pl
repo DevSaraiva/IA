@@ -16,11 +16,13 @@ estafeta(ze-joao, 30, barcelos, bicicleta,3).
 
 
 
-%entrega(idEstafeta, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
+%entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 
-entrega(joquim,vila-caiz/aldeia-nova, date(2007, 1, 30)/date(2007, 1, 29),5, 30/80, 10).
-entrega(rui,roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
-entrega(ze-joao, barcelos/pedreira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
+entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, date(2007, 1, 30)/date(2007, 1, 29),5, 30/80, 10).
+entrega(portatil, rui, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
+entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
+
+entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
 
 
 % Gives the length of a list.
@@ -69,4 +71,14 @@ encontraMaisEcologico(ListaEstafetasCarro,Res) :-
         maisEcologico(ListaEstafetasCarro,Res).
 
 
+%------------------------------------------------------------------------------------------
+%QUERY 2 - identificar  que  estafetas  entregaram  determinada(s)  encomenda(s)  a  um determinado cliente;
+%entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 
+encomendas_do_estafeta_PorCliente(_, [], Lista, Lista).
+
+encomendas_do_estafeta_PorCliente(Cliente, [IdEncomenda|Xs], Lista, Res) :- 
+        findall(IdEstafeta, entrega(IdEncomenda, IdEstafeta, IdCliente, _, _ , _, _, _), S),
+        append(Lista, S, L),
+        encomendas_do_estafeta_PorCliente(Cliente, Xs, L, Res).
+%------------------------------------------------------------------------------------------
