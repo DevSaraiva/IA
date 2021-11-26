@@ -32,9 +32,9 @@ listlength([_|Xs] , L ):-
     L is N+1. 
 
 
-
+%-------------------------------------------------------------------------------------------------------
 % Query 1 - identificar o estafeta que utilizou mais vezes um meio de transporte mais ecológico;
-
+% para testar:  encontraMaisEcologico(_, X).
 
 findEstafetasPorVeiculo(Veiculo, Res) :-
                         findall(IdEstafeta/TotalEntregas, estafeta(IdEstafeta, TotalEntregas,_,Veiculo,_), Res). % Coloca no res a todos os ids de estafeta que usaram determinado veiculo
@@ -72,8 +72,10 @@ encontraMaisEcologico(ListaEstafetasCarro,Res) :-
 
 
 %------------------------------------------------------------------------------------------
+
+
 %QUERY 2 - identificar  que  estafetas  entregaram  determinada(s)  encomenda(s)  a  um determinado cliente;
-%entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
+% para testar:  encomendas_do_estafeta_PorCliente(bernardo, [portatil, forno], [], Res).
 
 encomendas_do_estafeta_PorCliente(_, [], Lista, Lista).
 
