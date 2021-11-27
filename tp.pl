@@ -23,7 +23,7 @@ entrega(portatil, rui, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11
 entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
 entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
-entrega(telemovel, ze-joao, pedro, acores/terceira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
+entrega(telemovel, ze-joao, pedro, vila-caiz/aldeia-nova, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
 
 % Gives the length of a list.
@@ -105,3 +105,38 @@ somaElementos([H|Xs], Res) :- somaElementos(Xs, Sum), Res is Sum+H.
 faturacaoDiaria(DataEntrega, Res) :- 
         findall(Preco, entrega(_, _, _, _, _/DataEntrega , _, _, Preco), S),
         somaElementos(S, Res).
+
+
+%-----------------------------------------------------------------------------------------
+
+%QUERY 5 - identificar  quais  as  zonas  (e.g.,  rua  ou  freguesia)  com  maior  volume  de entregas por parte da Green Distribution; 
+%para testar:   zonasComMaisEntregas(Res).
+
+
+listaDasZonas(Res) :- 
+        findall(Zona, entrega(_, _, _, Zona, _, _, _, _), S), sort(S, Res).       %deve haver uma soluçao melhor que nao devolva repetidos sem ter que fazer o sort... TESTAR COM setof
+
+
+%para testar:   entregasPorZona(roriz/pidre, Res).
+entregasPorZona(Zona, Res) :- 
+        findall(Zona, entrega(_, _, _, Zona, _, _, _, _), S),
+        length(S, Res).
+
+%para testar:   entregasPorZonaLista([roriz/pidre], [], Res).
+entregasPorZonaLista([], Lista, Lista).
+entregasPorZonaLista([Zona|Xs], Lista, Res) :- 
+        entregasPorZona(Zona, X1),                      %tentar descobrir o Max e fazer a lista só com os que tiverem o Max (assim nao precisava de ordenar)
+        append(Lista, [Zona/X1], L3),      
+        entregasPorZonaLista(Xs, L3, Res).
+
+zonasComMaisEntregas(Res) :- listaDasZonas(ListaZonas), entregasPorZonaLista(ListaZonas, [], Lista), pair_sort(Lista, Res).
+
+%Auxiliar que ordena a lista de tuplos
+:-use_module(library(clpfd)).
+
+swap_internals((X/Y), Y1-X):- Y1 #= -Y.
+
+pair_sort(L,Sorted):- 
+      maplist(swap_internals, L, L2),
+      keysort(L2, L3),
+      maplist(swap_internals, Sorted, L3).
