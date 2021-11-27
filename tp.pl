@@ -22,7 +22,7 @@ entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, date(2007, 1, 30)/dat
 entrega(portatil, rui, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
 entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
-entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
+entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
 entrega(telemovel, ze-joao, pedro, acores/terceira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
 
@@ -91,3 +91,17 @@ encomendas_do_estafeta_PorCliente(Cliente, [IdEncomenda|Xs], Lista, Res) :-
 
 clientesPorEstafeta(IdEstafeta, Res) :- 
         findall(IdCliente, entrega(_, IdEstafeta, IdCliente, _, _, _, _, _), Res).
+
+
+%-----------------------------------------------------------------------------------------
+
+%QUERY 4 - calcular o valor faturado pela Green Distribution num determinado dia;
+%para testar: faturacaoDiaria(date(2007,1,29), Res).
+
+somaElementos([], 0).
+somaElementos([H|Xs], Res) :- somaElementos(Xs, Sum), Res is Sum+H.
+
+
+faturacaoDiaria(DataEntrega, Res) :- 
+        findall(Preco, entrega(_, _, _, _, _/DataEntrega , _, _, Preco), S),
+        somaElementos(S, Res).
