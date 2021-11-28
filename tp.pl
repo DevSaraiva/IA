@@ -170,8 +170,84 @@ pair_sort(L,Sorted):-
       maplist(swap_internals, Sorted, L3).
 
 
+%-----------------------------------------------------------------------------------------
+
+%QUERY 6 - calcular a classificação média de satisfação de cliente para um determinado estafeta;
+%para testar: classificacaoDoClienteParaEstafeta(ze-joao,Res).
 
 
+somaLista([],0).
+somaLista([H|T],S) :-
+        somaLista(T,G),
+        S is H+G.
+
+classificacaoDoClienteParaEstafeta(IdEstafeta,Res) :- 
+        findall(Classificacao,entrega(_, IdEstafeta, _, _, _, Classificacao, _, _), Lista),
+        somaLista(Lista,S),
+        length(Lista,T),
+        Res is S / T.
+
+%-----------------------------------------------------------------------------------------
+
+% QUERY 7 - identificar o número total de entregas pelos diferentes meios de transporte,num determinado intervalo de tempo;
+% para testar: numeroTotalEntregas(date(2000,1,1),date(2010,12,30),EntregasBicicleta,EntregasCarro,EntregasMoto).
+
+listaEntregasDurante(DataI/DataF,CL) :-
+        findall(Data/IdEstafeta,entrega(_ , IdEstafeta, _, _, _/Data, _, _, _), L),
+        removeListaEntregasForaDoIntervalo(DataI/DataF, L, CL).
+
+
+removeListaEntregasForaDoIntervalo(_, [], []) :- !.
+
+removeListaEntregasForaDoIntervalo(DataI/DataF, [X/IdEstafeta|XS], Res):-
+        !,
+        compare_date(X, >, DataI), 
+        compare_date(X, <, DataF),
+        removeListaEntregasForaDoIntervalo(DataI/DataF, XS, Y),
+        append([X/IdEstafeta], Y, Res).
+
+ removeListaEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
+        removeListaEntregasForaDoIntervalo(DataI/DataF, XS, Res).
+
+criaListaVeiculo([],Lista,Lista).
+criaListaVeiculo([_/Id|Estafetas],Lista, Res) :-
+        findall(Veiculo,estafeta(Id,_,_,Veiculo,_),V),
+        append(Lista,V,L8),
+        criaListaVeiculo(Estafetas,L8,Res).
+
+
+contaBicicletas([],0).
+contaBicicletas([bicicleta|T],N) :- 
+        contaBicicletas(T,N1), N is N1 + 1.
+contaBicicletas([X|T],N) :- 
+        X \= bicicleta,
+        contaBicicletas(T,N).
+
+contaCarros([],0).
+contaCarros([carro|T],N) :- 
+        contaCarros(T,N1), N is N1 + 1.
+contaCarros([X|T],N) :- 
+        X \= carro,
+        contaCarros(T,N).
+
+contaMotas([],0).
+contaMotas([mota|T],N) :- 
+        contaMotas(T,N1), N is N1 + 1.
+contaMotas([X|T],N) :- 
+        X \= mota,
+        contaMotas(T,N).
+        
+
+
+numeroTotalEntregas(DataI,DataF,EntregasBicicleta,EntregasCarro,EntregasMoto) :-
+        listaEntregasDurante(DataI/DataF,ListaEstafetas),
+        criaListaVeiculo(ListaEstafetas,[],ListaVeiculos),
+        contaBicicletas(ListaVeiculos,EntregasBicicleta),
+        contaCarros(ListaVeiculos,EntregasCarro),
+        contaMotas(ListaVeiculos,EntregasMoto),
+        !.
+
+%---------------------------------------------------------------------------------------
 
 % Query 8 - identificar o número total de entregas pelos estafetas, num determinado
 %intervalo de tempo;
@@ -196,8 +272,8 @@ removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
         
 
         
-      
 
+%---------------------------------------------------------------------------------------
 
 %QUERY 9: calcular  o  número  de  encomendas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
 %para testar:   calculaNEncomendasIntervalo(date(2000,1,1)/date(2008,1,1), Entregues, NaoEntregues).
@@ -206,5 +282,32 @@ calculaNEncomendasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :-
         length(L, TotalEncomendas),
         entregasDurante(DataI/DataF, ResEntregues),
         ResNaoEntregues is (TotalEncomendas - ResEntregues).
+
+
+
+%---------------------------------------------------------------------------------------
+
+%QUERY 10 - calcular o peso total transportado por estafeta num determinado dia.
+%para testar: pesoTotalPorEstafetas(Lista)
+
+
+% para testar: pesoTotalPorEstafeta(ze-joao,PT).
+pesoTotalPorEstafeta(IdEstafeta,PT) :-
+        findall(Peso, entrega(_, IdEstafeta, _, _, _/DataEntrega , _, Peso/_ , _), S),
+        somaElementos(S, PT).
+
+
+% para testar: pesoTotalPorEstafetasLista([ze-joao,rui],[],Lista).
+pesoTotalPorEstafetasLista([], Lista, Lista).
+pesoTotalPorEstafetasLista([Estafeta|Estafetas],Lista,Res) :-
+        pesoTotalPorEstafeta(Estafeta,PT),
+        append(Lista, [Estafeta/PT], L10),
+        pesoTotalPorEstafetasLista(Estafetas,L10,Res). 
+         
+
+pesoTotalPorEstafetas(Res) :-
+        findall(IdEstafeta, estafeta(IdEstafeta, _, _, _, _),ListaEstafetas),
+        pesoTotalPorEstafetasLista(ListaEstafetas,[],Res).
+
         
 
