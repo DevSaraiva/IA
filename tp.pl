@@ -39,17 +39,22 @@ listlength([_|Xs] , L ):-
 % Comparar datas
 
 compare_date(date(YY,MM,DD), = ,date(YY,MM,DD)).
+
 compare_date(date(Y,M,D), > ,date(YY,MM,DD)) :-
-        Y => YY;
-        M => MM;
-        D => DD.
+        Y > YY.
+compare_date(date(Y,M,D), > ,date(Y,MM,DD)) :-
+        M > MM.
+compare_date(date(Y,M,D), > ,date(Y,M,DD)) :-
+        D > DD.
 
 compare_date(date(Y,M,D), < ,date(YY,MM,DD)) :-
-        Y =< YY;
-        M =< MM;
-        D =< DD.
+        Y < YY.
 
+compare_date(date(Y,M,D), < ,date(Y,MM,DD)) :-
+        M < MM.
 
+compare_date(date(Y,M,D), < ,date(Y,M,DD)) :-
+        D < DD.
 
 
 %-------------------------------------------------------------------------------------------------------
@@ -162,28 +167,29 @@ pair_sort(L,Sorted):-
 
 
 
-% Query 7 - identificar o número total de entregas pelos estafetas, num determinado
+
+
+% Query 8 - identificar o número total de entregas pelos estafetas, num determinado
 %intervalo de tempo;
 
-entregasDurante(date(YI,MI,DI)/date(YF,MF,DF),Res) :-
-        findall(date(Y,M,D),entrega(IdEncomenda, _, _, _, _/date(Y,M,D), _, _, _), L),
-        removeEntregasForaDoIntervalo(date(YI,MI,DI)/date(YF,MF,DF), L, Res).
-
+entregasDurante(DataI/DataF,Res) :-
+        findall(Data,entrega(_, _, _, _, _/Data, _, _, _), L),
+        removeEntregasForaDoIntervalo(DataI/DataF, L, CL),
+        length(CL,Res).
 
 removeEntregasForaDoIntervalo(_, [], []) :- !.
 
 removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res):-
         !,
-        compare_date(X, >, DateI), 
-        compare_date(Y, <, DataF),
-        removeEntregasForaDoIntervalo(DataI/DataF, Xs, Y),
-        append([X], Y, Res), !.
+        compare_date(X, >, DataI), 
+        compare_date(X, <, DataF),
+        removeEntregasForaDoIntervalo(DataI/DataF, XS, Y),
+        append([X], Y, Res).
 
-removeEntregasForaDoIntervalo(DataI/DataF, [X|Xs], Res) :-
+removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
         !,
-        removeEntregasForaDoIntervalo(DataI/DataF, Xs, Res).
+        removeEntregasForaDoIntervalo(DataI/DataF, XS, Res).
         
-
 
         
       
