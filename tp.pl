@@ -1,4 +1,3 @@
-:- use_module(library(date)).
 :-style_check(-singleton).
 
 % veiculo (tipo de veiculo, velocidade_media, cargaMax, vertente_ecologica)
@@ -26,11 +25,31 @@ entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2007, 1, 
 entrega(telemovel, ze-joao, pedro, vila-caiz/aldeia-nova, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
 
+
+
+% Queries auxiliares
+
 % Gives the length of a list.
 listlength([]     , 0 ).
 listlength([_|Xs] , L ):- 
     listlength(Xs,N), 
     L is N+1. 
+
+
+% Comparar datas
+
+compare_date(date(YY,MM,DD), = ,date(YY,MM,DD)).
+compare_date(date(Y,M,D), > ,date(YY,MM,DD)) :-
+        Y => YY;
+        M => MM;
+        D => DD.
+
+compare_date(date(Y,M,D), < ,date(YY,MM,DD)) :-
+        Y =< YY;
+        M =< MM;
+        D =< DD.
+
+
 
 
 %-------------------------------------------------------------------------------------------------------
@@ -140,3 +159,34 @@ pair_sort(L,Sorted):-
       maplist(swap_internals, L, L2),
       keysort(L2, L3),
       maplist(swap_internals, Sorted, L3).
+
+
+
+% Query 7 - identificar o número total de entregas pelos estafetas, num determinado
+%intervalo de tempo;
+
+entregasDurante(date(YI,MI,DI)/date(YF,MF,DF),Res) :-
+        findall(date(Y,M,D),entrega(IdEncomenda, _, _, _, _/date(Y,M,D), _, _, _), L),
+        removeEntregasForaDoIntervalo(date(YI,MI,DI)/date(YF,MF,DF), L, Res).
+
+
+removeEntregasForaDoIntervalo(_, [], []) :- !.
+
+removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res):-
+        !,
+        compare_date(X, >, DateI), 
+        compare_date(Y, <, DataF),
+        removeEntregasForaDoIntervalo(DataI/DataF, Xs, Y),
+        append([X], Y, Res), !.
+
+removeEntregasForaDoIntervalo(DataI/DataF, [X|Xs], Res) :-
+        !,
+        removeEntregasForaDoIntervalo(DataI/DataF, Xs, Res).
+        
+
+
+        
+      
+
+
+
