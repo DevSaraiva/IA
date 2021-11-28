@@ -24,6 +24,10 @@ entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2008, 3, 10)/date(20
 entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
 entrega(telemovel, ze-joao, pedro, vila-caiz/aldeia-nova, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
 
+entrega(teclado, rui, alberto, esposende/margem, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
+entrega(teclado, miguel, joao, esposende/margem, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
+entrega(teclado, margarida, ana, esposende/margem, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
+
 
 
 
@@ -195,4 +199,12 @@ removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
       
 
 
+%QUERY 9: calcular  o  número  de  encomendas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
+%para testar:   calculaNEncomendasIntervalo(date(2000,1,1)/date(2008,1,1), Entregues, NaoEntregues).
+calculaNEncomendasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :- 
+        findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _), L),
+        length(L, TotalEncomendas),
+        entregasDurante(DataI/DataF, ResEntregues),
+        ResNaoEntregues is (TotalEncomendas - ResEntregues).
+        
 
