@@ -23,12 +23,12 @@ estafeta(margarida, guimaraes, mota).
 
 entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, date(2021, 1, 30)/date(2021, 1, 29),5, 30/80, 10).
 entrega(portatil, rui, bernardo, roriz/pidre, date(2021, 2, 12)/date(2021, 2, 11),4 , 12/30, 5).
-entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2021, 3, 10)/date(2021, 3, 9), 3, 3/10, 3).
+entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2021, 3, 10)/date(2021, 1, 29), 3, 3/10, 3).
 
 entrega(forno, painatal, bernardo, roriz/pidre, date(2021, 2, 12)/date(2021, 3, 29), 1, 12/30, 5).
 entrega(telemovel, margarida, pedro, vila-caiz/aldeia-nova, date(2021, 3, 10)/date(2021, 3, 9), 2, 3/10, 3).
 
-entrega(teclado, rui, alberto, esposende/margem, date(2021, 6, 19)/date(2021, 5, 22), 4, 21/30, 4).
+entrega(teclado, rui, alberto, esposende/margem, date(2021, 6, 19)/date(2021, 5, 22), 5, 21/30, 4).
 entrega(rato, miguel, joao, esposende/margem, date(2021, 6, 22)/date(2021, 6, 22), 5, 2/30, 50).
 entrega(headset, margarida, ana, esposende/margem, date(2021, 12, 30)/date(2021, 12, 29), 3, 9/30, 24).
 
@@ -112,10 +112,10 @@ encontraMaisEcologico(ListaEstafetasCarro,Res) :-
 
 encomendas_do_estafeta_PorCliente(_, [], Lista, Lista).
 
-encomendas_do_estafeta_PorCliente(Cliente, [IdEncomenda|Xs], Lista, Res) :- 
+encomendas_do_estafeta_PorCliente(IdCliente, [IdEncomenda|Xs], Lista, Res) :- 
         findall(IdEstafeta, entrega(IdEncomenda, IdEstafeta, IdCliente, _, _ , _, _, _), S),
         append(Lista, S, L),
-        encomendas_do_estafeta_PorCliente(Cliente, Xs, L, Res).
+        encomendas_do_estafeta_PorCliente(IdCliente, Xs, L, Res).
 %------------------------------------------------------------------------------------------
 
 %QUERY 3 - identificar os clientes servidos por um determinado estafeta; 
@@ -127,7 +127,7 @@ clientesPorEstafeta(IdEstafeta, Res) :-
 
 %-----------------------------------------------------------------------------------------
 
-%QUERY 4 - calcular o valor faturado pela Green Distribution num determinado dia;
+%QUERY 4 - calcular o valor faturado pela Green Distribution num determinado dia; (Considerando no dia em que a encomenda foi entregue)
 %para testar: faturacaoDiaria(date(2021,1,29), Res).
 
 somaElementos([], 0).
@@ -194,17 +194,16 @@ classificacaoDoClienteParaEstafeta(IdEstafeta,Res) :-
 %-----------------------------------------------------------------------------------------
 
 % QUERY 7 - identificar o número total de entregas pelos diferentes meios de transporte,num determinado intervalo de tempo;
-% para testar: numeroTotalEntregas(date(2000,1,1),date(2010,12,30),EntregasBicicleta,EntregasCarro,EntregasMoto).
+% para testar: numeroTotalEntregas(date(2020,1,1)/date(2022,12,30),EntregasBicicleta,EntregasCarro,EntregasMoto).
 
 listaEntregasDurante(DataI/DataF,CL) :-
         findall(Data/IdEstafeta,entrega(_ , IdEstafeta, _, _, _/Data, _, _, _), L),
         removeListaEntregasForaDoIntervalo(DataI/DataF, L, CL).
 
 
-removeListaEntregasForaDoIntervalo(_, [], []) :- !.
+removeListaEntregasForaDoIntervalo(_, [], []).
 
 removeListaEntregasForaDoIntervalo(DataI/DataF, [X/IdEstafeta|XS], Res):-
-        !,
         compare_date(X, >, DataI), 
         compare_date(X, <, DataF),
         removeListaEntregasForaDoIntervalo(DataI/DataF, XS, Y),
@@ -243,7 +242,7 @@ contaMotas([X|T],N) :-
         
 
 
-numeroTotalEntregas(DataI,DataF,EntregasBicicleta,EntregasCarro,EntregasMoto) :-
+numeroTotalEntregas(DataI/DataF,EntregasBicicleta,EntregasCarro,EntregasMoto) :-
         listaEntregasDurante(DataI/DataF,ListaEstafetas),
         criaListaVeiculo(ListaEstafetas,[],ListaVeiculos),
         contaBicicletas(ListaVeiculos,EntregasBicicleta),
@@ -255,23 +254,22 @@ numeroTotalEntregas(DataI,DataF,EntregasBicicleta,EntregasCarro,EntregasMoto) :-
 
 % Query 8 - identificar o número total de entregas pelos estafetas, num determinado
 %intervalo de tempo;
+%para testar:   entregasDurante(date(2021,5,19)/date(2022,12,31), Res).
 
 entregasDurante(DataI/DataF,Res) :-
         findall(Data,entrega(_, _, _, _, _/Data, _, _, _), L),
         removeEntregasForaDoIntervalo(DataI/DataF, L, CL),
         length(CL,Res).
 
-removeEntregasForaDoIntervalo(_, [], []) :- !.
+removeEntregasForaDoIntervalo(_, [], []).
 
 removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res):-
-        !,
         compare_date(X, >, DataI), 
         compare_date(X, <, DataF),
         removeEntregasForaDoIntervalo(DataI/DataF, XS, Y),
         append([X], Y, Res).
 
 removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
-        !,
         removeEntregasForaDoIntervalo(DataI/DataF, XS, Res).
         
 
@@ -280,19 +278,20 @@ removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
 %---------------------------------------------------------------------------------------
 
 %QUERY 9: calcular  o  número  de  encomendas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
-%para testar:   calculaNEncomendasIntervalo(date(2000,1,1)/date(2021,1,1), Entregues, NaoEntregues).
+%para testar:   calculaNEncomendasIntervalo(date(2021,1,1)/date(2021,12,19), Entregues, NaoEntregues).
 calculaNEncomendasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :- 
         findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _), L),
         length(L, TotalEncomendas),
         entregasDurante(DataI/DataF, ResEntregues),
-        ResNaoEntregues is (TotalEncomendas - ResEntregues).
+        ResNaoEntregues is (TotalEncomendas - ResEntregues),
+        !.
 
 
 
 %---------------------------------------------------------------------------------------
 
 %QUERY 10 - calcular o peso total transportado por estafeta num determinado dia.
-%para testar: pesoTotalPorEstafetas(Lista)
+%para testar: pesoTotalPorEstafetas(Lista).
 
 
 % para testar: pesoTotalPorEstafeta(ze-joao,PT).
