@@ -7,26 +7,30 @@ veiculo(mota, 35, 20, 30).
 veiculo(carro, 25, 100, 10). 
 
 
-% estafeta(idEstafeta, totalEntregas, freguesia, veiculo, avaliacao)
+% estafeta(idEstafeta, freguesia, veiculo)
 
-estafeta(joaquim, 10, vila-caiz, carro, 5).
-estafeta(rui, 20, roriz, mota, 4).
-estafeta(ze-joao, 30, barcelos, bicicleta,3).
+estafeta(joaquim, vila-caiz, carro).
+estafeta(painatal, roriz, carro).
+estafeta(rui, roriz, mota).
+estafeta(ze-joao, barcelos, bicicleta).
+estafeta(miguel, braga, bicicleta).
+estafeta(margarida, guimaraes, mota).
+
 
 
 
 %entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 
-entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, date(2007, 1, 30)/date(2007, 1, 29),5, 30/80, 10).
-entrega(portatil, rui, bernardo, roriz/pidre, date(2008, 2, 12)/date(2008, 2, 11),4 , 12/30, 5).
-entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
+entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, date(2021, 1, 30)/date(2021, 1, 29),5, 30/80, 10).
+entrega(portatil, rui, bernardo, roriz/pidre, date(2021, 2, 12)/date(2021, 2, 11),4 , 12/30, 5).
+entrega(telemovel, ze-joao, miguel, barcelos/pedreira, date(2021, 3, 10)/date(2021, 3, 9), 3, 3/10, 3).
 
-entrega(forno, painatal, bernardo, roriz/pidre, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
-entrega(telemovel, ze-joao, pedro, vila-caiz/aldeia-nova, date(2008, 3, 10)/date(2008, 3, 9), 3, 3/10, 3).
+entrega(forno, painatal, bernardo, roriz/pidre, date(2021, 2, 12)/date(2021, 3, 29), 1, 12/30, 5).
+entrega(telemovel, margarida, pedro, vila-caiz/aldeia-nova, date(2021, 3, 10)/date(2021, 3, 9), 2, 3/10, 3).
 
-entrega(teclado, rui, alberto, esposende/margem, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
-entrega(teclado, miguel, joao, esposende/margem, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
-entrega(teclado, margarida, ana, esposende/margem, date(2008, 2, 12)/date(2007, 1, 29),4 , 12/30, 5).
+entrega(teclado, rui, alberto, esposende/margem, date(2021, 6, 19)/date(2021, 5, 22), 4, 21/30, 4).
+entrega(rato, miguel, joao, esposende/margem, date(2021, 6, 22)/date(2021, 6, 22), 5, 2/30, 50).
+entrega(headset, margarida, ana, esposende/margem, date(2021, 12, 30)/date(2021, 12, 29), 3, 9/30, 24).
 
 
 
@@ -66,7 +70,7 @@ compare_date(date(Y,M,D), < ,date(Y,M,DD)) :-
 % para testar:  encontraMaisEcologico(_, X).
 
 findEstafetasPorVeiculo(Veiculo, Res) :-
-                        findall(IdEstafeta/TotalEntregas, estafeta(IdEstafeta, TotalEntregas,_,Veiculo,_), Res). % Coloca no res a todos os ids de estafeta que usaram determinado veiculo
+                        findall(IdEstafeta/TotalEntregas, estafeta(IdEstafeta, _,Veiculo), Res). % Coloca no res a todos os ids de estafeta que usaram determinado veiculo
 
 
 maisEcologico([IdEstafeta/_|[]],IdEstafeta).
@@ -124,7 +128,7 @@ clientesPorEstafeta(IdEstafeta, Res) :-
 %-----------------------------------------------------------------------------------------
 
 %QUERY 4 - calcular o valor faturado pela Green Distribution num determinado dia;
-%para testar: faturacaoDiaria(date(2007,1,29), Res).
+%para testar: faturacaoDiaria(date(2021,1,29), Res).
 
 somaElementos([], 0).
 somaElementos([H|Xs], Res) :- somaElementos(Xs, Sum), Res is Sum+H.
@@ -211,7 +215,7 @@ removeListaEntregasForaDoIntervalo(DataI/DataF, [X/IdEstafeta|XS], Res):-
 
 criaListaVeiculo([],Lista,Lista).
 criaListaVeiculo([_/Id|Estafetas],Lista, Res) :-
-        findall(Veiculo,estafeta(Id,_,_,Veiculo,_),V),
+        findall(Veiculo,estafeta(Id,_,Veiculo),V),
         append(Lista,V,L8),
         criaListaVeiculo(Estafetas,L8,Res).
 
@@ -276,7 +280,7 @@ removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
 %---------------------------------------------------------------------------------------
 
 %QUERY 9: calcular  o  número  de  encomendas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
-%para testar:   calculaNEncomendasIntervalo(date(2000,1,1)/date(2008,1,1), Entregues, NaoEntregues).
+%para testar:   calculaNEncomendasIntervalo(date(2000,1,1)/date(2021,1,1), Entregues, NaoEntregues).
 calculaNEncomendasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :- 
         findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _), L),
         length(L, TotalEncomendas),
@@ -306,7 +310,7 @@ pesoTotalPorEstafetasLista([Estafeta|Estafetas],Lista,Res) :-
          
 
 pesoTotalPorEstafetas(Res) :-
-        findall(IdEstafeta, estafeta(IdEstafeta, _, _, _, _),ListaEstafetas),
+        findall(IdEstafeta, estafeta(IdEstafeta, _, _),ListaEstafetas),
         pesoTotalPorEstafetasLista(ListaEstafetas,[],Res).
 
         
