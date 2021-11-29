@@ -37,12 +37,6 @@ entrega(headset, margarida, ana, esposende/margem, date(2021, 12, 30)/date(2021,
 
 % Queries auxiliares
 
-% Gives the length of a list.
-listlength([]     , 0 ).
-listlength([_|Xs] , L ):- 
-    listlength(Xs,N), 
-    L is N+1. 
-
 
 % Comparar datas
 
@@ -69,39 +63,57 @@ compare_date(date(Y,M,D), < ,date(Y,M,DD)) :-
 % Query 1 - identificar o estafeta que utilizou mais vezes um meio de transporte mais ecológico;
 % para testar:  encontraMaisEcologico(_, X).
 
+
+
 findEstafetasPorVeiculo(Veiculo, Res) :-
-                        findall(IdEstafeta/TotalEntregas, estafeta(IdEstafeta, _,Veiculo), Res). % Coloca no res a todos os ids de estafeta que usaram determinado veiculo
+                        findall(IdEstafeta, estafeta(IdEstafeta, _,Veiculo), Res). % Coloca no res a todos os ids de estafeta que usaram determinado veiculo
 
 
-maisEcologico([IdEstafeta/_|[]],IdEstafeta).
+calculaEncomendasEstafeta(IdEstafeta,Res) :-
+        findall(IdEncomenda,entrega(IdEncomenda, IdEstafeta, _, _, _, _, _, _),Lista),
+        length(Lista,Res).
 
-maisEcologico([IdEstafeta1/TotalEntregas1, _/TotalEntregas2  |Xs],Ecologico) :-
-                        TotalEntregas1 > TotalEntregas2,
-                        maisEcologico([IdEstafeta1/TotalEntregas1|Xs],Ecologico).
 
-maisEcologico([_/TotalEntregas1, IdEstafeta2/TotalEntregas2  |Xs],Ecologico) :-
-                        TotalEntregas1 =< TotalEntregas2,
-                        maisEcologico([IdEstafeta2/TotalEntregas2|Xs],Ecologico).
-                         
+
+maisEcologico([IdEstafeta|[]],IdEstafeta).
+
+maisEcologico([IdEstafeta1, IdEstafeta2 |Xs],Ecologico) :-
+        calculaEncomendasEstafeta(IdEstafeta1,Encomendas1),
+        calculaEncomendasEstafeta(IdEstafeta2,Encomendas2),
+        Encomendas1 > Encomendas2,
+        maisEcologico([IdEstafeta1|Xs],Ecologico).
+
+
+maisEcologico([IdEstafeta1, IdEstafeta2|Xs],Ecologico) :-
+        calculaEncomendasEstafeta(IdEstafeta1,Encomendas1),
+        calculaEncomendasEstafeta(IdEstafeta2,Encomendas2),
+        Encomendas1 =< Encomendas2,
+        maisEcologico([IdEstafeta2|Xs],Ecologico).
+
+      
+
 
 encontraMaisEcologico(ListaEstafetasBicicleta,Res) :- 
         findEstafetasPorVeiculo(bicicleta,ListaEstafetasBicicleta),
-        listlength(ListaEstafetasBicicleta,L),
+        length(ListaEstafetasBicicleta,L),
         L > 0,
-        maisEcologico(ListaEstafetasBicicleta,Res).
+        maisEcologico(ListaEstafetasBicicleta,Res),
+        !.
 
 
 encontraMaisEcologico(ListaEstafetasMota,Res) :- 
         findEstafetasPorVeiculo(mota,ListaEstafetasMota),
-        listlength(ListaEstafetasMota,L),
+        length(ListaEstafetasMota,L),
         L > 0,
-        maisEcologico(ListaEstafetasMota,Res).
+        maisEcologico(ListaEstafetasMota,Res),
+        !.
 
 encontraMaisEcologico(ListaEstafetasCarro,Res) :- 
         findEstafetasPorVeiculo(carro,ListaEstafetasCarro),
-        listlength(ListaEstafetasCarro,L),
+        length(ListaEstafetasCarro,L),
         L > 0,
-        maisEcologico(ListaEstafetasCarro,Res).
+        maisEcologico(ListaEstafetasCarro,Res),
+        !.
 
 
 %------------------------------------------------------------------------------------------
