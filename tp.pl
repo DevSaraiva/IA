@@ -1,5 +1,8 @@
 :-style_check(-singleton).
 
+
+
+
 % veiculo (tipo de veiculo, velocidade_media, cargaMax, vertente_ecologica)
 
 veiculo(bicicleta, 10, 5, 50).
@@ -15,6 +18,7 @@ estafeta(rui, roriz, mota).
 estafeta(ze-joao, barcelos, bicicleta).
 estafeta(miguel, braga, bicicleta).
 estafeta(margarida, guimaraes, mota).
+estafeta(gigachad, braga, bicicleta).
 
 
 
@@ -31,7 +35,8 @@ encomenda(teclado, rui, alberto, esposende/margem, data(2021, 6, 19)/data(2021, 
 encomenda(rato, miguel, joao, esposende/margem, data(2021, 6, 22)/data(2021, 6, 22), 5, 2/30, 50).
 encomenda(headset, margarida, ana, esposende/margem, data(2021, 12, 30)/data(2021, 12, 29), 3, 9/30, 24).
 
-
+encomenda(pao, gigachad, ana, braga/vila-verde,data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
+encomenda(pizza, gigachad, ana, braga/vila-verde,data(2021, 3, 11)/data(2021, 1, 30), 3, 3/10, 3).
 
 
 % Queries auxiliares
@@ -58,9 +63,17 @@ compare_data(data(Y,M,D), < ,data(Y,M,DD)) :-
         D < DD.
 
 
+% Take
+
+take(0, _, []) :- !.
+take(N, [H|TA], [H|TB]) :-
+	N > 0,
+	N2 is N - 1,
+	take(N2, TA, TB).
+
 %-------------------------------------------------------------------------------------------------------
 % Query 1 - identificar o estafeta que utilizou mais vezes um meio de transporte mais ecológico;
-% para testar:  encontraMaisEcologico(_, X).
+% para testar:  encontraMaisEcologico(X).
 
 
 
@@ -74,44 +87,59 @@ calculaEncomendasEstafeta(IdEstafeta,Res) :-
 
 
 
-maisEcologico([IdEstafeta|[]],IdEstafeta).
-
-maisEcologico([IdEstafeta1, IdEstafeta2 |Xs],Ecologico) :-
-        calculaEncomendasEstafeta(IdEstafeta1,Encomendas1),
-        calculaEncomendasEstafeta(IdEstafeta2,Encomendas2),
-        Encomendas1 > Encomendas2,
-        maisEcologico([IdEstafeta1|Xs],Ecologico).
-
-
-maisEcologico([IdEstafeta1, IdEstafeta2|Xs],Ecologico) :-
-        calculaEncomendasEstafeta(IdEstafeta1,Encomendas1),
-        calculaEncomendasEstafeta(IdEstafeta2,Encomendas2),
-        Encomendas1 =< Encomendas2,
-        maisEcologico([IdEstafeta2|Xs],Ecologico).
-
-      
+descending([], []).
+descending([A], [A]).
+descending(A,  [X,Y|C]) :-
+  select(X, A, B),
+  descending(B, [Y|C]),
+        calculaEncomendasEstafeta(X,W),
+        calculaEncomendasEstafeta(Y,Z),
+          W   >=    Z.
 
 
-encontraMaisEcologico(ListaEstafetasBicicleta,Res) :- 
+
+iguais([X|[]],1).
+
+iguais([X,Y|Xs], 1) :-  calculaEncomendasEstafeta(X,Z),
+                        calculaEncomendasEstafeta(Y,W),
+                        Z \= W.
+
+iguais([X,Y|Xs],Res) :- calculaEncomendasEstafeta(X,Z),
+                        calculaEncomendasEstafeta(Y,W),
+                        Z = W,
+                        iguais([Y|Xs],Res2),
+                        Res is 1 + Res2.
+
+
+maisEcologico(Lista,Res):-
+        iguais(Lista,Iguais),
+        take(Iguais,Lista,Res).
+
+
+
+encontraMaisEcologico(Res) :- 
         findEstafetasPorVeiculo(bicicleta,ListaEstafetasBicicleta),
         length(ListaEstafetasBicicleta,L),
         L > 0,
-        maisEcologico(ListaEstafetasBicicleta,Res),
+        descending(ListaEstafetasBicicleta,Lista),
+        maisEcologico(Lista,Res),
         !.
 
 
-encontraMaisEcologico(ListaEstafetasMota,Res) :- 
+encontraMaisEcologico(Res) :- 
         findEstafetasPorVeiculo(mota,ListaEstafetasMota),
         length(ListaEstafetasMota,L),
         L > 0,
-        maisEcologico(ListaEstafetasMota,Res),
+        descending(ListaEstafetasMota,Lista),
+        maisEcologico(Lista,Res),
         !.
 
-encontraMaisEcologico(ListaEstafetasCarro,Res) :- 
+encontraMaisEcologico(Res) :- 
         findEstafetasPorVeiculo(carro,ListaEstafetasCarro),
         length(ListaEstafetasCarro,L),
         L > 0,
-        maisEcologico(ListaEstafetasCarro,Res),
+        descending(ListaEstafetasCarro,Lista),
+        maisEcologico(Lista,Res),
         !.
 
 
