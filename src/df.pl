@@ -30,8 +30,6 @@ profundidadeprimeiro(Nodo, _, [], 0):-
 profundidadeprimeiro(Nodo, Historico, [ProxNodo|Caminho], C):-
 	adjacente(Nodo, ProxNodo, C1),
 	nao(member(ProxNodo, Historico)),
-    writeln(ProxNodo),
-    writeln(Historico),
 	profundidadeprimeiro(ProxNodo, [ProxNodo|Historico], Caminho, C2),
     C is C1 + C2.
 
