@@ -48,8 +48,8 @@ findEstafetasPorVeiculo(Veiculo, Res) :-
                         findall(IdEstafeta, estafeta(IdEstafeta, _,Veiculo), Res). % Coloca no res a todos os ids de estafeta que usaram determinado veiculo
 
 
-calculaEncomendasEstafeta(IdEstafeta,Res) :-
-        findall(IdEncomenda,encomenda(IdEncomenda, IdEstafeta, _, _, _, _, _, _),Lista),
+calculaEntregasEstafeta(IdEstafeta,Res) :-
+        findall(IdEntrega,entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _),Lista),
         length(Lista,Res).
 
 
@@ -59,19 +59,19 @@ descending([A], [A]).
 descending(A,  [X,Y|C]) :-
   select(X, A, B),
   descending(B, [Y|C]),
-        calculaEncomendasEstafeta(X,W),
-        calculaEncomendasEstafeta(Y,Z),
+        calculaEntregasEstafeta(X,W),
+        calculaEntregasEstafeta(Y,Z),
           W   >=    Z.
 
 
 
 iguais([X|[]],1).
 
-iguais([X,Y|Xs], 1) :-  calculaEncomendasEstafeta(X,Z),
-                        calculaEncomendasEstafeta(Y,W),
+iguais([X,Y|Xs], 1) :-  calculaEntregasEstafeta(X,Z),
+                        calculaEntregasEstafeta(Y,W),
                         Z \= W.
 
-iguais([X,Y|Xs],Res) :- calculaEncomendasEstafeta(X,Z),
+iguais([X,Y|Xs],Res) :- calculaEntregasEstafeta(X,Z),
                         calculaEncomendasEstafeta(Y,W),
                         Z = W,
                         iguais([Y|Xs],Res2),
@@ -113,15 +113,15 @@ encontraMaisEcologico(Res) :-
 %------------------------------------------------------------------------------------------
 
 
-%QUERY 2 - identificar  que  estafetas  entregaram  determinada(s)  encomenda(s)  a  um determinado cliente;
-% para testar:  encomendas_do_estafeta_PorCliente(bernardo, [portatil, forno], [], Res).
+%QUERY 2 - identificar  que  estafetas  entregaram  determinada(s)  entrega(s)  a  um determinado cliente;
+% para testar:  entregas_do_estafeta_PorCliente(bernardo, [portatil, forno], [], Res).
 
-encomendas_do_estafeta_PorCliente(_, [], Lista, Lista).
+entregas_do_estafeta_PorCliente(_, [], Lista, Lista).
 
-encomendas_do_estafeta_PorCliente(IdCliente, [IdEncomenda|Xs], Lista, Res) :- 
-        findall(IdEstafeta, encomenda(IdEncomenda, IdEstafeta, IdCliente, _, _ , _, _, _), S),
+entregas_do_estafeta_PorCliente(IdCliente, [IdEntrega|Xs], Lista, Res) :- 
+        findall(IdEstafeta, entrega(IdEntrega, IdEstafeta, IdCliente, _, _ , _, _, _), S),
         append(Lista, S, L),
-        encomendas_do_estafeta_PorCliente(IdCliente, Xs, L, Res),
+        entregas_do_estafeta_PorCliente(IdCliente, Xs, L, Res),
         !.
 
 
@@ -131,12 +131,12 @@ encomendas_do_estafeta_PorCliente(IdCliente, [IdEncomenda|Xs], Lista, Res) :-
 %para testar:   clientesPorEstafeta(ze-joao, X).
 
 clientesPorEstafeta(IdEstafeta, Res) :- 
-        findall(IdCliente, encomenda(_, IdEstafeta, IdCliente, _, _, _, _, _), Res).
+        findall(IdCliente, entrega(_, IdEstafeta, IdCliente, _, _, _, _, _), Res).
 
 
 %-----------------------------------------------------------------------------------------
 
-%QUERY 4 - calcular o valor faturado pela Green Distribution num determinado dia; (Considerando no dia em que a encomenda foi entregue)
+%QUERY 4 - calcular o valor faturado pela Green Distribution num determinado dia; (Considerando no dia em que a entrega foi entregue)
 %para testar: faturacaoDiaria(data(2021,1,29), Res).
 
 somaElementos([], 0).
@@ -144,7 +144,7 @@ somaElementos([H|Xs], Res) :- somaElementos(Xs, Sum), Res is Sum+H.
 
 
 faturacaoDiaria(DataEntrega, Res) :- 
-        findall(Preco, encomenda(_, _, _, _, _/DataEntrega , _, _, Preco), S),
+        findall(Preco, entrega(_, _, _, _, _/DataEntrega , _, _, Preco), S),
         somaElementos(S, Res).
 
 
@@ -155,12 +155,12 @@ faturacaoDiaria(DataEntrega, Res) :-
 
 
 listaDasZonas(Res) :- 
-        findall(Zona, encomenda(_, _, _, Zona, _, _, _, _), S), sort(S, Res).       %deve haver uma soluçao melhor que nao devolva repetidos sem ter que fazer o sort... TESTAR COM setof
+        findall(Zona, entrega(_, _, _, Zona, _, _, _, _), S), sort(S, Res).       %deve haver uma soluçao melhor que nao devolva repetidos sem ter que fazer o sort... TESTAR COM setof
 
 
 %para testar:   entregasPorZona(roriz/pidre, Res).
 entregasPorZona(Zona, Res) :- 
-        findall(Zona, encomenda(_, _, _, Zona, _, _, _, _), S),
+        findall(Zona, entrega(_, _, _, Zona, _, _, _, _), S),
         length(S, Res).
 
 %para testar:   entregasPorZonaLista([roriz/pidre], [], Res).
@@ -195,7 +195,7 @@ somaLista([H|T],S) :-
         S is H+G.
 
 classificacaoDoClienteParaEstafeta(IdEstafeta,Res) :- 
-        findall(Classificacao,encomenda(_, IdEstafeta, _, _, _, Classificacao, _, _), Lista),
+        findall(Classificacao,entrega(_, IdEstafeta, _, _, _, Classificacao, _, _), Lista),
         somaLista(Lista,S),
         length(Lista,T),
         Res is S / T.
@@ -206,7 +206,7 @@ classificacaoDoClienteParaEstafeta(IdEstafeta,Res) :-
 % para testar: numeroTotalEntregas(data(2020,1,1)/data(2022,12,30),EntregasBicicleta,EntregasCarro,EntregasMoto).
 
 listaEntregasDurante(DataI/DataF,CL) :-
-        findall(Data/IdEstafeta,encomenda(_ , IdEstafeta, _, _, _/Data, _, _, _), L),
+        findall(Data/IdEstafeta,entrega(_ , IdEstafeta, _, _, _/Data, _, _, _), L),
         removeListaEntregasForaDoIntervalo(DataI/DataF, L, CL).
 
 
@@ -266,7 +266,7 @@ numeroTotalEntregas(DataI/DataF,EntregasBicicleta,EntregasCarro,EntregasMoto) :-
 %para testar:   entregasDurante(data(2021,5,19)/data(2022,12,31), Res).
 
 entregasDurante(DataI/DataF,Res) :-
-        findall(Data,encomenda(_, _, _, _, _/Data, _, _, _), L),
+        findall(Data,entrega(_, _, _, _, _/Data, _, _, _), L),
         removeEntregasForaDoIntervalo(DataI/DataF, L, CL),
         length(CL,Res),
         !.
@@ -287,13 +287,13 @@ removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
 
 %---------------------------------------------------------------------------------------
 
-%QUERY 9: calcular  o  número  de  encomendas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
-%para testar:   calculaNEncomendasIntervalo(data(2021,1,1)/data(2021,12,19), Entregues, NaoEntregues).
-calculaNEncomendasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :- 
-        findall(IdEncomenda,encomenda(IdEncomenda, _, _, _, _, _, _, _), L),
-        length(L, TotalEncomendas),
+%QUERY 9: calcular  o  número  de  entregas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
+%para testar:   calculaNEntregasIntervalo(data(2021,1,1)/data(2021,12,19), Entregues, NaoEntregues).
+calculaNEntregasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :- 
+        findall(IdEntrega,entrega(IdEntrega, _, _, _, _, _, _, _), L),
+        length(L, TotalEntregas),
         entregasDurante(DataI/DataF, ResEntregues),
-        ResNaoEntregues is (TotalEncomendas - ResEntregues),
+        ResNaoEntregues is (TotalEntregas - ResEntregues),
         !.
 
 
@@ -306,7 +306,7 @@ calculaNEncomendasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :-
 
 % para testar: pesoTotalPorEstafeta(ze-joao,PT).
 pesoTotalPorEstafeta(IdEstafeta,PT) :-
-        findall(Peso, encomenda(_, IdEstafeta, _, _, _/DataEntrega , _, Peso/_ , _), S),
+        findall(Peso, entrega(_, IdEstafeta, _, _, _/DataEntrega , _, Peso/_ , _), S),
         somaElementos(S, PT).
 
 
