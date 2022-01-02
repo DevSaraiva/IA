@@ -3,7 +3,6 @@
 :-include('veiculo.pl').
 
 
-
 :-style_check(-singleton).
 
 
