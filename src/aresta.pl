@@ -1,16 +1,17 @@
 aresta(palmeira/rua-do-rio,palmeira/rua-da-poca,3.1).
 aresta(palmeira/rua-do-rio,palmeira/rua-do-monte,3).
 aresta(palmeira/rua-do-monte,palmeira/rua-da-poca,2.4).
-aresta(palmeira/rua-do-rio,real/rua-dos-palois,8.5).
+aresta(palmeira/rua-do-rio,real/rua-dos-paiois,8.5).
 aresta(palmeira/rua-da-poca,maximinos/rua-do-caires,4.8).
 aresta(palmeira/rua-do-monte,maximinos/rua-da-naia,5.2).
 aresta(maximinos/rua-da-naia,maximinos/rua-de-caires,2.2).
 aresta(maximinos/rua-da-naia,maximinos/rua-do-cruzeiro,0.75).
 aresta(maximinos/rua-do-cruzeiro,maximinos/rua-de-caires,2).
 aresta(maximinos/rua-do-cruzeiro,real/rua-do-tojal,1.8).
-aresta(real/rua-do-tojal,real/rua-dos-palois,0.4).
+aresta(real/rua-do-tojal,real/rua-dos-paiois,0.4).
 aresta(real/rua-do-tojal,real/rua-das-giestas,0.3).
-aresta(real/rua-dos-palois,real/rua-das-giestas,0.35).
+aresta(real/rua-dos-paiois,real/rua-das-giestas,0.35).
+aresta(sao-vitor/rua-do-taxa,real/rua-das-giestas,6.3).
 aresta(sao-vitor/rua-do-taxa,sao-vitor/rua-da-fabrica,1.1).
 aresta(sao-vitor/rua-da-fabrica,sao-vitor/rua-dom-pedro-v,1.2).
 aresta(sao-vitor/rua-do-taxa,sao-vitor/rua-dom-pedro-v,1.6).
@@ -29,6 +30,38 @@ aresta(lamacaes/rua-da-carreira,lamacaes/rua-da-torre,0.7).
 aresta(lamacaes/rua-da-torre,lamacaes/rua-do-passal,0.17).
 aresta(lamacaes/rua-do-passal,nogueiro/rua-da-rasa,1.6).
 
+%sentido inverso 
+aresta(palmeira/rua-da-poca,palmeira/rua-do-rio,3.1).
+aresta(palmeira/rua-do-monte,palmeira/rua-do-rio,3).
+aresta(palmeira/rua-da-poca,palmeira/rua-do-monte,2.4).
+aresta(real/rua-dos-paiois,palmeira/rua-do-rio,8.5).
+aresta(maximinos/rua-do-caires,palmeira/rua-da-poca,4.8).
+aresta(maximinos/rua-da-naia,palmeira/rua-do-monte,5.2).
+aresta(maximinos/rua-de-caires,maximinos/rua-da-naia,2.2).
+aresta(maximinos/rua-do-cruzeiro,maximinos/rua-da-naia,0.75).
+aresta(maximinos/rua-de-caires,maximinos/rua-do-cruzeiro,2).
+aresta(real/rua-do-tojal,maximinos/rua-do-cruzeiro,1.8).
+aresta(real/rua-dos-paiois,real/rua-do-tojal,0.4).
+aresta(real/rua-das-giestas,real/rua-do-tojal,0.3).
+aresta(real/rua-das-giestas,real/rua-dos-paiois,0.35).
+aresta(sao-vitor/rua-da-fabrica,sao-vitor/rua-do-taxa,1.1).
+aresta(sao-vitor/rua-dom-pedro-v,sao-vitor/rua-da-fabrica,1.2).
+aresta(sao-vitor/rua-dom-pedro-v,sao-vitor/rua-do-taxa,1.6).
+aresta(nogueiro/rua-da-capela,sao-vitor/rua-da-fabrica,5.9).
+aresta(gualtar/rua-do-fontelo,sao-vitor/rua-dom-pedro-v,2.8).
+aresta(lamacaes/rua-da-torre,sao-vitor/rua-do-taxa,3.4).
+aresta(gualtar/rua-do-fontao,gualtar/rua-do-fontelo,2.3).
+aresta(gualtar/green-distribution,gualtar/rua-do-fontao,2.4).
+aresta(gualtar/rua-breias,gualtar/green-distribution,1.8).
+aresta(nogueiro/rua-do-major,gualtar/rua-breias,5).
+aresta(nogueiro/rua-da-rasa,nogueiro/rua-do-major,0.4).
+aresta(nogueiro/rua-da-capela,nogueiro/rua-da-rasa,0.75).
+aresta(nogueiro/rua-do-major,nogueiro/rua-da-capela,0.65).
+aresta(lamacaes/rua-da-carreira,gualtar/rua-do-fontao,4.9).
+aresta(lamacaes/rua-da-torre,lamacaes/rua-da-carreira,0.7).
+aresta(lamacaes/rua-do-passal,lamacaes/rua-da-torre,0.17).
+aresta(nogueiro/rua-da-rasa,lamacaes/rua-do-passal,1.6).
+aresta(real/rua-das-giestas,sao-vitor/rua-do-taxa,6.3).
 
 
 estima(gualtar/green-distribution,0).
@@ -48,13 +81,9 @@ estima(real/rua-das-giestas,15.6).
 estima(real/rua-dos-paiois,16).
 estima(real/rua-do-tojal,16.1).
 estima(palmeira/rua-do-rio,24.6).
-estima(palmeira/palmeira/rua-da-poca,27.5).
+estima(palmeira/rua-da-poca,27.5).
 estima(palmeira/rua-do-monte,27.5).
 estima(maximinos/rua-do-cruzeiro,17.9).
 estima(maximinos/rua-de-caires,19.8).
 estima(maximinos/rua-da-naia,18.7).
-
-
-
-
-
+estima(gualtar/green-distribution,0).
