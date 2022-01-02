@@ -1,4 +1,4 @@
-aresta(palmeira/rua-do-rio,palmeira/rua-do-poca,3.1).
+aresta(palmeira/rua-do-rio,palmeira/rua-da-poca,3.1).
 aresta(palmeira/rua-do-rio,palmeira/rua-do-monte,3).
 aresta(palmeira/rua-do-monte,palmeira/rua-da-poca,2.4).
 aresta(palmeira/rua-do-rio,real/rua-dos-palois,8.5).
@@ -46,7 +46,7 @@ estima(real/rua-das-giestas,15.6).
 estima(real/rua-dos-paiois,16).
 estima(real/rua-do-tojal,16.1).
 estima(palmeira/rua-do-rio,24.6).
-estima(palmeira/rua-do-poca,27.5).
+estima(palmeira/palmeira/rua-da-poca,27.5).
 estima(palmeira/rua-do-monte,27.5).
 estima(maximinos/rua-do-cruzeiro,17.9).
 estima(maximinos/rua-de-caires,19.8).
