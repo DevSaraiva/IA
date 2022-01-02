@@ -4,21 +4,6 @@ inicio(gualtar/green-distribution).
 
 goal(maximinos/rua-do-cruzeiro).
 
-% goal(lamacaes/rua-da-carreira).
-
-
-% resolveDF(Res, Custo) :- 
-%     inicio(EstadoInicial), resolveDF_Aux(EstadoInicial, [EstadoInicial], Sol, Custo).
-
-% resolveDF_Aux(Nodo, HistoricoEstados, [Prox|Sol], Custo) :- 
-%     aresta(Nodo, Prox, Custo1),
-%     nao(member(Prox, HistoricoEstados)),
-%     resolveDF_Aux(Prox, [Prox,HistoricoEstados], Sol, NovoCusto),
-%     Custo is NovoCusto+1.
-
-
-
-
 
 
 dfs(Nodo, [Nodo|Caminho], C):-
