@@ -86,6 +86,3 @@ estima(maximinos/rua-do-cruzeiro,17.9).
 estima(maximinos/rua-de-caires,19.8).
 estima(maximinos/rua-da-naia,18.7).
 estima(gualtar/green-distribution,0).
-
-
-
