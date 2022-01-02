@@ -1,3 +1,9 @@
+:- op( 900,xfy,'::' ).
+
+
++entrega(Id, _, _, _, _, _, _, _) :: ((findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N < 2)).
+
+
 % entrega(identrega, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
 entrega(portatil, rui, bernardo, roriz/pidre, data(2021, 2, 12)/data(2021, 2, 11),4 , 12/30, 5).
