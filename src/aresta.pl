@@ -30,6 +30,8 @@ aresta(lamacaes/rua-da-torre,lamacaes/rua-do-passal,0.17).
 aresta(lamacaes/rua-do-passal,nogueiro/rua-da-rasa,1.6).
 
 
+
+estima(gualtar/green-distribution,0).
 estima(gualtar/rua-breias,2).
 estima(gualtar/rua-do-fontao,2.6).
 estima(gualtar/rua-do-fontelo,4.9).
