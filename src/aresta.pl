@@ -1,4 +1,4 @@
-aresta(palmeira/rua-do-rio,palmeira/rua-da-poca,3.1).
+aresta(palmeira/rua-do-rio,palmeira/rua-do-poca,3.1).
 aresta(palmeira/rua-do-rio,palmeira/rua-do-monte,3).
 aresta(palmeira/rua-do-monte,palmeira/rua-da-poca,2.4).
 aresta(palmeira/rua-do-rio,real/rua-dos-palois,8.5).
