@@ -5,6 +5,7 @@
 :- op(900,xfy,'::').
 
 :- dynamic encomenda/8.
+:- dynamic circuito/2.
 
 
 validar([]).
@@ -20,6 +21,10 @@ evolucao( Termo ):- (
     findall(Invariante,+Termo::Invariante,Lista),
     insercao(Termo),
     validar(Lista)).
+
+
+
+% Compara Circuitos de entrega
 
 
 
