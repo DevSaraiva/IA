@@ -5,6 +5,7 @@
 
 % Includes
 :- include('aresta.pl').
+:- include('auxiliares.pl').
 
 
 inicial(_).
@@ -13,13 +14,6 @@ final(gualtar/green-distribution).
 goal(gualtar/green-distribution).
 
 %--------------------------- estratégia de pesquisa não informada - Busca Iterativa Limitada em Profundidade ------------
-calculaCusto([X,Y|[]],C1):-
-    aresta(X,Y,C1).
-
-calculaCusto([X,Y|XS],Custo):-
-    aresta(X,Y,C1),
-    calculaCusto([Y|XS],C2),
-    Custo is C1 + C2.
 
 
 % resolva(Nodo,Solucao) Solucao é um caminho acíclico (na ordem % reversa) entre nó inicial No uma solução 

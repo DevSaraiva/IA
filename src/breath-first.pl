@@ -4,6 +4,7 @@
 
 
 :-include('aresta.pl').
+:-include('auxiliares.pl').
 
 
 goal(gualtar/green-distribution).
@@ -23,12 +24,3 @@ bfs1(Final,[Atuais|Outros],Caminho):-
     append(Outros,Novos,Todos),
     bfs1(Final,Todos,Caminho).
 
-
-
-calculaCusto([X,Y|[]],C1):-
-    aresta(X,Y,C1).
-
-calculaCusto([X,Y|XS],Custo):-
-    aresta(X,Y,C1),
-    calculaCusto([Y|XS],C2),
-    Custo is C1 + C2.
