@@ -102,9 +102,11 @@ indicadorDeProdutividade(Veiculo, Caminho, Tempo, Res) :-
     Res is (TotalDist+Tempo) * VertenteEco.
 
 
+
+
 escolheAlgoritmo(Alg, Nodo, Circuito/NovoCusto) :-
-    Alg == 1 -> resolve_aestrela(Nodo, Caminho/NovoCusto),write(Caminho);
-                % duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+    Alg == 1 -> resolve_aestrela(Nodo, Caminho/Custo),
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
     
     Alg == 2 -> resolve_gulosaD(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
