@@ -22,7 +22,7 @@ adjacente2([Nodo|Caminho]/Custo/_, [ProxNodo,Nodo|Caminho]/NovoCusto/Est) :-
     aresta(Nodo,ProxNodo,PassoCusto, _),
     not(member(ProxNodo,Caminho)),
     NovoCusto is Custo + PassoCusto,
-    estima(ProxNodo,Est).
+    estima(ProxNodo,Est,_).
 
 
 
@@ -53,7 +53,7 @@ aestrela(Caminhos, SolucaoCaminho) :-
 
 
 resolve_aestrela(Nodo, Caminho/Custo) :-
-        estima(Nodo, Estima),
+        estima(Nodo, Estima,_),
         aestrela([[Nodo]/0/Estima],InvCaminho/Custo/_),
         inverso(InvCaminho,Caminho).
 
