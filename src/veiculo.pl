@@ -21,5 +21,5 @@ decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
 
 
 
-calcularEcologicoPeloTempo(Distancia, Decrescimo, ValorEcologico) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
-    ValorEcologico is Distancia/Decrescimo.
+calcularTempo(Distancia, Decrescimo, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
+    Tempo is Distancia/Decrescimo.
