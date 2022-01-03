@@ -19,7 +19,7 @@ inverso([X|Xs],Ys, Zs):-
 
 
 adjacente2([Nodo|Caminho]/Custo/_, [ProxNodo,Nodo|Caminho]/NovoCusto/Est) :-
-    aresta(Nodo,ProxNodo,PassoCusto),
+    aresta(Nodo,ProxNodo,PassoCusto, _),
     not(member(ProxNodo,Caminho)),
     NovoCusto is Custo + PassoCusto,
     estima(ProxNodo,Est).

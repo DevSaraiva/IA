@@ -84,6 +84,8 @@ calcularEcologiaPorTempo(Distancia, Decrescimo, Tempo) :-    %o Decrescimo vem d
 
 
 
-indicadorDeProdutividade(Caminho, Tempo, Res) :-
-    TotalDist is calculaCusto(Caminho),
-    Res is (TotalDist+Tempo).
+indicadorDeProdutividade(Veiculo, Caminho, Tempo, Res) :-
+    TotalDist is calculaCusto(Caminho, TotalDist),
+    TotalCusto is calculaTempo(Caminho, TotalCusto),
+    VertenteEco is getVertente(Veiculo, VertenteEco),
+    Res is (TotalDist+Tempo) * VertenteEco.

@@ -25,7 +25,7 @@ resolva(Nodo,Solucao/Custo) :-
 path(Nodo,Nodo,[Nodo]). % caminho com um único nó 
 path(PrimeiroNodo,ProxNodo,[ProxNodo|Caminho]) :-
     path(PrimeiroNodo,Nodo,Caminho),                   % Há caminho até penúltimo 
-    aresta(Nodo,ProxNodo,Custo),                      % Há nó anterior ao último
+    aresta(Nodo,ProxNodo,Custo, _),                      % Há nó anterior ao último
     not(member(ProxNodo,Caminho)).                    % evita um ciclo
  
 % depthFirstIterativeDeepening(Nodo,Solução) iterativamente

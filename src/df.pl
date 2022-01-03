@@ -16,7 +16,7 @@ profundidadeprimeiro(Nodo, Historico, [ProxNodo|Caminho], C):-
 	profundidadeprimeiro(ProxNodo, [ProxNodo|Historico], Caminho, C2),
     C is C1 + C2.
 
-adjacente(Nodo, ProxNodo, C) :- aresta(Nodo, ProxNodo, C).
+adjacente(Nodo, ProxNodo, C) :- aresta(Nodo, ProxNodo, C, _).
 
 %------------------------------------Predicados Auxiliares-------------------------
 nao(Questao) :- Questao, !, fail.
