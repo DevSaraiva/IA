@@ -3,6 +3,11 @@
 :-include('veiculo.pl').
 :-include('auxiliares.pl').
 :-include('circuito.pl').
+:-include('agulosa.pl').
+:-include('a-estrela.pl').
+:-include('BILP.pl').
+:-include('df.pl').
+:-include('breath-first.pl').
 
 :- op(900,xfy,'::').
 
@@ -30,8 +35,6 @@ evolucao( Termo ):- (
 % recebe x para mostrar top x caminhos
 % recebe Solucao onde irá armazenar a lista
 
-
-findall(IdEstafeta, estafeta(IdEstafeta, _,Veiculo), Res).
 
 circuitosComMaisEntregas(N,Solucao) :-
     findall(Caminho, circuito(_,Caminho),Caminhos),
@@ -97,3 +100,30 @@ indicadorDeProdutividade(Veiculo, Caminho, Tempo, Res) :-
     calculaTempo(Caminho, TotalCusto),
     getVertente(Veiculo, VertenteEco),
     Res is (TotalDist+Tempo) * VertenteEco.
+
+
+escolheAlgoritmo(Alg, Nodo, Circuito/NovoCusto) :-
+    Alg == 1 -> resolve_aestrela(Nodo, Caminho/NovoCusto),write(Caminho);
+                % duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+    
+    Alg == 2 -> resolve_gulosa(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+
+    Alg == 3 -> dfs(Nodo, Caminho,Custo),
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+
+    Alg == 4 -> bfs(Nodo, Caminho,Custo),
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+
+    Alg == 5 -> resolve_limitada(Nodo, Caminho/Custo),
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+
+    
+
+    !,fail.
+
+duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
+    NovoCusto is Custo * 2,
+    reverse(IdaCaminhoAux, VoltaCaminho),
+    apagacabeca(IdaCaminhoAux,IdaCaminho),
+    append(VoltaCaminho,IdaCaminho,Caminho).

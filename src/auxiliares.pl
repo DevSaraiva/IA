@@ -32,3 +32,8 @@ calculaTempo([X,Y|XS],Tempo):-
 
 getVertente(TipoVeiculo, Res) :-
 	veiculo(TipoVeiculo, _, _, Res).
+
+
+apagacabeca([],[]).
+apagacabeca([X],[]).
+apagacabeca([H|T],T).

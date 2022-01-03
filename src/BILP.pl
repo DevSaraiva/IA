@@ -16,8 +16,8 @@ goal(gualtar/green-distribution).
 %--------------------------- estratégia de pesquisa não informada - Busca Iterativa Limitada em Profundidade ------------
 
 
-% resolva(Nodo,Solucao) Solucao é um caminho acíclico (na ordem % reversa) entre nó inicial No uma solução 
-resolva(Nodo,Solucao/Custo) :-
+% resolve_limitada(Nodo,Solucao) Solucao é um caminho acíclico (na ordem % reversa) entre nó inicial No uma solução 
+resolve_limitada(Nodo,Solucao/Custo) :-
     depthFirstIterativeDeepening(Nodo,Solucao),
     calculaCusto(Solucao,Custo).
 
