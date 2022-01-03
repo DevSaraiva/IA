@@ -37,3 +37,8 @@ getVertente(TipoVeiculo, Res) :-
 apagacabeca([],[]).
 apagacabeca([X],[]).
 apagacabeca([H|T],T).
+
+remove(X,[X|R],R ).
+remove(X,[Y|R],[Y|L]) :-
+    X \= Y,
+    remove(X, R, L).
