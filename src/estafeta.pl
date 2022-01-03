@@ -4,7 +4,7 @@ estafeta(yoda, palmeira, mota).
 estafeta(stormtrooper, palmeira, bicicleta).
 
 estafeta(jangoFett, maximinos, carro).
-estafeta(dathVader, maximinos, mota).
+estafeta(darthVader, maximinos, mota).
 estafeta(luke, maximinos, bicicleta).
 
 estafeta(r2d2, real, carro).
