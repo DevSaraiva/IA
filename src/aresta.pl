@@ -31,7 +31,7 @@ aresta(lamacaes/rua-da-torre,lamacaes/rua-do-passal,0.17,1).
 aresta(lamacaes/rua-do-passal,nogueiro/rua-da-rasa,1.6,4).
 
 %sentido inverso 
-aresta(palmeira/rua-da-poca,palmeira/rua-do-rio,3..4,6).
+aresta(palmeira/rua-da-poca,palmeira/rua-do-rio,3.4,6).
 aresta(palmeira/rua-do-monte,palmeira/rua-do-rio,3.1,5).
 aresta(palmeira/rua-da-poca,palmeira/rua-do-monte,2.4,4).
 aresta(real/rua-dos-paiois,palmeira/rua-do-rio,8.5,12).
