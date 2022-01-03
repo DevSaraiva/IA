@@ -7,11 +7,6 @@
 :- dynamic encomenda/8.
 
 
-
-
-
-
-
 validar([]).
 validar([A|T]):- A , validar(T).
 
@@ -25,3 +20,11 @@ evolucao( Termo ):- (
     findall(Invariante,+Termo::Invariante,Lista),
     insercao(Termo),
     validar(Lista)).
+
+
+
+
+
+
+
+
