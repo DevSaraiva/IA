@@ -4,7 +4,8 @@
 :- style_check(-singleton).
 
 % Includes
-:- include('aresta.pl').
+:-include('aresta.pl').
+:-include('auxiliares.pl').
 
 
 inicial(_).
@@ -13,60 +14,72 @@ final(gualtar/green-distribution).
 goal(gualtar/green-distribution).
 
 
-%--------------------------- estratégia de pesquisa informada gulosa ------------
-adjacente2([Nodo|Caminho]/Custo/_, [ProxNodo,Nodo|Caminho]/NovoCusto/Est):-
-    aresta(Nodo, ProxNodo, PassoCusto),
+%--------------------------- estratégia de pesquisa informada gulosa tendo em conta CustoDistância ------------
+adjacenteD([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCusto/EstD):-
+    aresta(Nodo, ProxNodo, PassoCustoD, _),
     \+ member(ProxNodo,Caminho),
-    NovoCusto is Custo + PassoCusto,
-    estima(ProxNodo,Est).
+    NovoCusto is CustoD + PassoCustoD,
+    estima(ProxNodo,EstD,_).
 
-resolve_gulosa(Nodo,Caminho/Custo) :- 
-        estima(Nodo, Estima),
-        agulosa([[Nodo]/0/Estima], InvCaminho/Custo/_),
+resolve_gulosaD(Nodo,Caminho/CustoD) :- 
+        estima(Nodo, EstimaD,_),
+        agulosaD([[Nodo]/0/EstimaD], InvCaminho/CustoD/_),
         reverse(InvCaminho, Caminho).
 
-agulosa(Caminhos, Caminho) :-
-    obtem_melhor_g(Caminhos,Caminho),
+agulosaD(Caminhos, Caminho) :-
+    obtem_melhor_g_D(Caminhos,Caminho),
     Caminho = [Nodo|_]/_/_,
     goal(Nodo).
 
-agulosa(Caminhos, SolucaoCaminho) :-
-    obtem_melhor_g(Caminhos,MelhorCaminho),
+agulosaD(Caminhos, SolucaoCaminho) :-
+    obtem_melhor_g_D(Caminhos,MelhorCaminho),
     remove(MehorCaminho,Caminhos,OutrosCaminhos),
-    expande_gulosa(MelhorCaminho,ExpCaminhos),
+    expande_gulosaD(MelhorCaminho,ExpCaminhos),
     append(OutrosCaminhos,ExpCaminhos,NovoCaminhos),
-    agulosa(NovoCaminhos,SolucaoCaminho).
+    agulosaD(NovoCaminhos,SolucaoCaminho).
 
 
-obtem_melhor_g([Caminho],Caminho) :- !.
-obtem_melhor_g([Caminho1/Custo1/Est1, _/Custo2/Est2|Caminhos], MelhorCaminho) :-
+obtem_melhor_g_D([Caminho],Caminho) :- !.
+obtem_melhor_g_D([Caminho1/CustoD1/Est1, _/CustoD2/Est2|Caminhos], MelhorCaminho) :-
     Est1 =< Est2, !,
-    obtem_melhor_g([Caminho1/Custo1/Est1|Caminhos], MelhorCaminho).
-obtem_melhor_g([_|Caminhos], MelhorCaminho) :- obtem_melhor_g(Caminhos, MelhorCaminho).
+    obtem_melhor_g_D([Caminho1/CustoD1/Est1|Caminhos], MelhorCaminho).
+obtem_melhor_g_D([_|Caminhos], MelhorCaminho) :- obtem_melhor_g_D(Caminhos, MelhorCaminho).
 
-expande_gulosa(Caminho,ExpCaminhos) :-
-    findall(NovoCaminho, adjacente2(Caminho,NovoCaminho),ExpCaminhos).
+expande_gulosaD(Caminho,ExpCaminhos) :-
+    findall(NovoCaminho, adjacenteD(Caminho,NovoCaminho),ExpCaminhos).
 
 
+%--------------------------- estratégia de pesquisa informada gulosa tendo em conta CustoTempo ------------
 
-%------------------ Funções auxiliares -----------------------------------------
+adjacenteT([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCusto/EstT):-
+    aresta(Nodo, ProxNodo, PassoCustoD, _),
+    \+ member(ProxNodo,Caminho),
+    NovoCusto is CustoD + PassoCustoD,
+    estima(ProxNodo,_,EstT).
 
-% Extensao do meta-predicado nao: Questao -> {V,F}
-nao(Questao):-
-    Questao, !, fail.
-nao(Questao).
+resolve_gulosaT(Nodo,Caminho/CustoD) :- 
+        estima(Nodo,_, EstimaT),
+        agulosaT([[Nodo]/0/EstimaT], InvCaminho/CustoD/_),
+        reverse(InvCaminho, Caminho).
 
-seleciona(E, [E|Xs],Xs).
-seleciona(E, [X|Xs], [X|Ys]) :- seleciona(E,Xs,Ys).
+agulosaT(Caminhos, Caminho) :-
+    obtem_melhor_g_T(Caminhos,Caminho),
+    Caminho = [Nodo|_]/_/_,
+    goal(Nodo).
 
-inverso(Xs, Ys) :-
-        inverso(Xss, [], Ys).
-inverso([],Xs,Xs).
-inverso([X|Xs],Ys,Zs) :- 
-        inverso(Xs, [X|Ys], Zs).
+agulosaT(Caminhos, SolucaoCaminho) :-
+    obtem_melhor_g_T(Caminhos,MelhorCaminho),
+    remove(MehorCaminho,Caminhos,OutrosCaminhos),
+    expande_gulosaT(MelhorCaminho,ExpCaminhos),
+    append(OutrosCaminhos,ExpCaminhos,NovoCaminhos),
+    agulosaT(NovoCaminhos,SolucaoCaminho).
 
-remove(X,[X|R],R ).
-remove(X,[Y|R],[Y|L]) :-
-    X \= Y,
-    remove(X, R, L).
 
+obtem_melhor_g_T([Caminho],Caminho) :- !.
+obtem_melhor_g_T([Caminho1/CustoD1/Est1, _/CustoD2/Est2|Caminhos], MelhorCaminho) :-
+    Est1 =< Est2, !,
+    obtem_melhor_g_T([Caminho1/CustoD1/Est1|Caminhos], MelhorCaminho).
+obtem_melhor_g_T([_|Caminhos], MelhorCaminho) :- obtem_melhor_g_T(Caminhos, MelhorCaminho).
+
+expande_gulosaT(Caminho,ExpCaminhos) :-
+    findall(NovoCaminho, adjacenteT(Caminho,NovoCaminho),ExpCaminhos).

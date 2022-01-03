@@ -2,6 +2,7 @@
 :-include('estafeta.pl').
 :-include('veiculo.pl').
 :-include('auxiliares.pl').
+:-include('entrega.pl').
 
 
 :-style_check(-singleton).
@@ -65,7 +66,7 @@ iguais([X,Y|Xs], 1) :-  calculaEntregasEstafeta(X,Z),
                         Z \= W.
 
 iguais([X,Y|Xs],Res) :- calculaEntregasEstafeta(X,Z),
-                        calculaEncomendasEstafeta(Y,W),
+                        calculaEntregasEstafeta(Y,W),
                         Z = W,
                         iguais([Y|Xs],Res2),
                         Res is 1 + Res2.
