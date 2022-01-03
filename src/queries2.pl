@@ -1,6 +1,8 @@
 :-include('entrega.pl').
 :-include('estafeta.pl').
 :-include('veiculo.pl').
+:-include('auxiliares.pl').
+:-include('caminho.pl').
 
 :- op(900,xfy,'::').
 
@@ -24,10 +26,38 @@ evolucao( Termo ):- (
 
 
 
-% Compara Circuitos de entrega
+% Circuitos com mais entregas
+% recebe x para mostrar top x caminhos
+% recebe Solucao onde irá armazenar a lista
+
+
+findall(IdEstafeta, estafeta(IdEstafeta, _,Veiculo), Res).
+
+circuitosComMaisEntregas(N,Solucao) :-
+    findall(Caminho, caminho(_,Caminho),Caminhos),
+
+    
+    
+    take(N,Res,Solucao).
+    
+
+
+circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Caminho/Counter|Res):-
+        not(member(Caminho,Visitados)),
+        calculaOcorrencias(Caminho,Caminhos,C),
+        Counter is C + 1,
+        circuitosComMaisEntregasAux(Caminhos,[Caminho|Visitados],Res).
 
 
 
+
+
+
+calculaOcorrencias(X,[],0).
+
+calculaOcorrencias(X, [X|XS], Res) :-
+    calculaOcorrencias(X,XS,Aux),
+    Res is 1 + Aux.
 
 
 

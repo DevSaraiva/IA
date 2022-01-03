@@ -1,6 +1,7 @@
 :-include('encomenda.pl').
 :-include('estafeta.pl').
 :-include('veiculo.pl').
+:-include('auxiliares.pl').
 
 
 :-style_check(-singleton).
@@ -29,14 +30,6 @@ compare_data(data(Y,M,D), < ,data(Y,MM,DD)) :-
 compare_data(data(Y,M,D), < ,data(Y,M,DD)) :-
         D < DD.
 
-
-% Take
-
-take(0, _, []) :- !.
-take(N, [H|TA], [H|TB]) :-
-	N > 0,
-	N2 is N - 1,
-	take(N2, TA, TB).
 
 %-------------------------------------------------------------------------------------------------------
 % Query 1 - identificar o estafeta que utilizou mais vezes um meio de transporte mais ecológico;
