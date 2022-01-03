@@ -1,4 +1,4 @@
-:-include('encomenda.pl').
+:-include('entrega.pl').
 :-include('estafeta.pl').
 :-include('veiculo.pl').
 
@@ -21,7 +21,7 @@ insercao(Termo):- retract(Termo), !, fail.
 remover(Termo):- assert(Termo), !, fail.
 remover(Termo):- retract(Termo).
 
-evolucao( Termo ):-
+evolucao( Termo ):- (
     findall(Invariante,+Termo::Invariante,Lista),
     insercao(Termo),
-    validar(Lista).
+    validar(Lista)).
