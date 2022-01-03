@@ -31,20 +31,29 @@ evolucao( Termo ):- (
 % recebe Solucao onde irá armazenar a lista
 
 
-findall(IdEstafeta, estafeta(IdEstafeta, _,Veiculo), Res).
 
-circuitosComMaisEntregas(N,Solucao) :-
+circuitosComMaisEntregas(Solucao) :-
     findall(Caminho, circuito(_,Caminho),Caminhos),
-    circuitosComMaisEntregasAux(Caminhos,[],Solucao).
-    
+    circuitosComMaisEntregasAux(Caminhos,[],Res),
+    descending(Res,ResOrder),
+    take(5,ResOrder,Solucao).
+   
+devolveCusto(Lista/Custo,Custo).
 
 
+descending([], []).
+descending([A], [A]).
+descending(A,  [X,Y|C]) :-
+  select(X, A, B),
+  descending(B, [Y|C]),
+        devolveCusto(X,W),
+        devolveCusto(Y,Z),
+          W   >=    Z.
 
 
+circuitosComMaisEntregasAux([],_,[]) :- !.
 
-circuitosComMaisEntregasAux([],_,[]).
-
-circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Caminho/Counter|Res):-
+circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,[Caminho/Counter|Res]):-
         not(member(Caminho,Visitados)),
         calculaOcorrencias(Caminho,Caminhos,C),
         Counter is C + 1,
@@ -53,8 +62,6 @@ circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Caminho/Counter|Res):-
 circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Res):-
         member(Caminho,Visitados),
         circuitosComMaisEntregasAux(Caminhos,Visitados,Res).
-
-
 
 
 calculaOcorrencias(X,[],0).
@@ -66,8 +73,6 @@ calculaOcorrencias(X, [X|XS], Res) :-
 calculaOcorrencias(X, [Y|XS], Res) :-
     calculaOcorrencias(X,XS,Aux),
     Res is Aux.
-
-
 
 
 
