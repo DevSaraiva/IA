@@ -16,3 +16,10 @@ decrescimo_motos(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
 decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
     Decrescimo is 0.7 * Kgs,
     NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
+
+
+
+
+
+calcularEcologicoPeloTempo(Distancia, Decrescimo, ValorEcologico) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
+    ValorEcologico is Distancia/Decrescimo.
