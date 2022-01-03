@@ -63,7 +63,7 @@ calculaOcorrencias(X, [X|XS], Res) :-
 
 
 
-%decrecimos
+%decrescimos
 
 decrescimo_bicicleta(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
     Decrescimo is 0.7 * Kgs,
@@ -84,5 +84,6 @@ calcularEcologiaPorTempo(Distancia, Decrescimo, Tempo) :-    %o Decrescimo vem d
 
 
 
-indicadorDeProdutividade(Distancia, Tempo, Res) :-
-    Res is (Distancia+Tempo). 
+indicadorDeProdutividade(Caminho, Tempo, Res) :-
+    TotalDist is calculaCusto(Caminho),
+    Res is (TotalDist+Tempo).

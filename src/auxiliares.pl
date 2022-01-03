@@ -8,3 +8,11 @@ take(N, [H|TA], [H|TB]) :-
 	take(N2, TA, TB).
 
 
+
+calculaCusto([X,Y|[]],C1):-
+    aresta(X,Y,C1).
+
+calculaCusto([X,Y|XS],Custo):-
+    aresta(X,Y,C1),
+    calculaCusto([Y|XS],C2),
+    Custo is C1 + C2.
