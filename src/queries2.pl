@@ -2,7 +2,7 @@
 :-include('estafeta.pl').
 :-include('veiculo.pl').
 :-include('auxiliares.pl').
-:-include('caminho.pl').
+:-include('circuito.pl').
 
 :- op(900,xfy,'::').
 
@@ -34,13 +34,15 @@ evolucao( Termo ):- (
 findall(IdEstafeta, estafeta(IdEstafeta, _,Veiculo), Res).
 
 circuitosComMaisEntregas(N,Solucao) :-
-    findall(Caminho, caminho(_,Caminho),Caminhos),
-
-    
-    
-    take(N,Res,Solucao).
+    findall(Caminho, circuito(_,Caminho),Caminhos),
+    circuitosComMaisEntregasAux(Caminhos,[],Solucao).
     
 
+
+
+
+
+circuitosComMaisEntregasAux([],_,[]).
 
 circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Caminho/Counter|Res):-
         not(member(Caminho,Visitados)),
@@ -48,7 +50,9 @@ circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Caminho/Counter|Res):-
         Counter is C + 1,
         circuitosComMaisEntregasAux(Caminhos,[Caminho|Visitados],Res).
 
-
+circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Res):-
+        member(Caminho,Visitados),
+        circuitosComMaisEntregasAux(Caminhos,Visitados,Res).
 
 
 
@@ -58,6 +62,10 @@ calculaOcorrencias(X,[],0).
 calculaOcorrencias(X, [X|XS], Res) :-
     calculaOcorrencias(X,XS,Aux),
     Res is 1 + Aux.
+
+calculaOcorrencias(X, [Y|XS], Res) :-
+    calculaOcorrencias(X,XS,Aux),
+    Res is Aux.
 
 
 
