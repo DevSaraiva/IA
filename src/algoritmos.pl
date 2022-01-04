@@ -1,8 +1,6 @@
 % Includes
 :-include('base-de-conhecimento.pl').
 
-inicial(_).
-final(gualtar/green-distribution).
 
 goal(gualtar/green-distribution).
 
@@ -158,8 +156,9 @@ aestrelaT(Caminhos, SolucaoCaminho) :-
 
 resolve_aestrelaT(Nodo, Caminho/Custo) :-
         estima(Nodo, Estima,_),
-        aestrelaT([[Nodo]/0/Estima],InvCaminho/Custo/_),
-        reverse(InvCaminho,Caminho).
+        aestrelaT([[Nodo]/0/Estima],InvCaminho/_/_),
+        reverse(InvCaminho,Caminho),
+        calculaCusto(Caminho,Custo).
 
 
 %--------------------------- estratégia de pesquisa não informada profundidade ------------

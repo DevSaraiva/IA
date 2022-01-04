@@ -95,18 +95,18 @@ estima(gualtar/green-distribution,0,0).
 %circuito
 
 
-circuito(bicicleta,[real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
-
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
 
 
 %encomenda
 
 
+<<<<<<< HEAD
 % encomenda(idEncomenda,idCliente, Freguesia/Rua,dataInicio, DataPrazo/TimePrazo, peso/volume, preco).
 
 encomenda(gorro,manuel,palmeira/rua-do-rio,data(0,0,0)/time(20,0,0),30/80,10).
@@ -114,9 +114,14 @@ encomenda(gorro,manuel,palmeira/rua-do-rio,data(0,0,0)/time(20,0,0),30/80,10).
 
 % isto falta modificar
 encomenda(palmeira/rua-do-rio, lataDaMonster, manuel, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
+=======
+% encomenda(destino, idEncomenda, idEstafeta dataMax, peso/volume, preco).
+
+encomenda(palmeira/rua-do-rio, lataDaMonster, idEstafeta, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
+>>>>>>> ed5b9a6252c78c7d534bd12aa6b542bc3e06f49f
 
 
-% entrega(identrega, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
+% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 
 
 :- op( 900,xfy,'::' ).
@@ -178,22 +183,4 @@ veiculo(bicicleta, 10, 5, 50).
 veiculo(mota, 35, 20, 30).
 veiculo(carro, 25, 100, 10). 
 
-
-
-decrescimo_bicicleta(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.7 * Kgs,
-    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
-
-decrescimo_motos(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.5 * Kgs,
-    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
-
-decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.7 * Kgs,
-    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
-
-
-
-calcularTempo(Distancia, Decrescimo, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
-    Tempo is Distancia/Decrescimo.
 
