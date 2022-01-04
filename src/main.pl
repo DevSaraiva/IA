@@ -54,7 +54,7 @@ runQuery(6) :-
 	write("5 - Breadth First Search"), nl,
 	write("6 - Busca Iterativa Limitada em Profundidade"), nl,
 	read(NumeroAlg),
-	write("Digite o nodo inicial: "),
+	write("Digite o nodo onde pretende levar a encomenda: "),
 	read(Nodo),
 	escolheAlgoritmo(NumeroAlg, Nodo, Circuito/NovoCusto),
 	write(Circuito/NovoCusto).
