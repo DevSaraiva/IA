@@ -107,8 +107,12 @@ circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breia
 %encomenda
 
 
-% transporte(destino, idEntrega, idCliente, dataMax, peso/volume, preco).
+% encomenda(idEncomenda,idCliente, Freguesia/Rua,dataInicio, DataPrazo/TimePrazo, peso/volume, preco).
 
+encomenda(gorro,manuel,palmeira/rua-do-rio,data(0,0,0)/time(20,0,0),30/80,10).
+
+
+% isto falta modificar
 encomenda(palmeira/rua-do-rio, lataDaMonster, manuel, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
 
 

@@ -110,3 +110,9 @@ duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
     reverse(IdaCaminhoAux, VoltaCaminho),
     apagacabeca(IdaCaminhoAux,IdaCaminho),
     append(VoltaCaminho,IdaCaminho,Caminho).
+
+
+% criaEncomenda(...)
+
+
+escolherCircuitoMaisEcologico(idEncomenda,) :- 
