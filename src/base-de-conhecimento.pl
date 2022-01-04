@@ -95,13 +95,12 @@ estima(gualtar/green-distribution,0,0).
 %circuito
 
 
-circuito(bicicleta,[real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
-
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(carro,[nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
 
 
 %encomenda
@@ -190,6 +189,11 @@ decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
 
 
 
-calcularTempo(Distancia, Decrescimo, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
-    Tempo is Distancia/Decrescimo.
-
+calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
+    Veiculo == carro -> decrescimo_carro(25, Peso, NovaVelocidadeMedia),
+                        Tempo is Distancia/NovaVelocidadeMedia;
+    Veiculo == mota -> decrescimo_motos(35, Peso, NovaVelocidadeMedia),
+                        Tempo is Distancia/NovaVelocidadeMedia;
+    Veiculo == bicicleta -> decrescimo_bicicleta(10, Peso, NovaVelocidadeMedia),
+                        Tempo is Distancia/NovaVelocidadeMedia;
+    !, fail.

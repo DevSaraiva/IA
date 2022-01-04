@@ -1,6 +1,5 @@
 % Includes
 :-include('base-de-conhecimento.pl').
-:-include('auxiliares.pl').
 
 inicial(_).
 final(gualtar/green-distribution).
