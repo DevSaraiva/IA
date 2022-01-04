@@ -45,10 +45,10 @@ expande_gulosaD(Caminho,ExpCaminhos) :-
 
 %--------------------------- estratégia de pesquisa informada gulosa tendo em conta CustoTempo ------------
 
-adjacenteT([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCusto/EstT):-
-    aresta(Nodo, ProxNodo, PassoCustoD, _),
+adjacenteT([Nodo|Caminho]/CustoD/CustoT/_, [ProxNodo,Nodo|Caminho]/NovoCustoD/NovoCustoT/EstT):-
+    aresta(Nodo, ProxNodo, PassoCustoD, PassoCustoT),
     \+ member(ProxNodo,Caminho),
-    NovoCusto is CustoD + PassoCustoD,
+    NovoCustoT is CustoT + PassoCustoT,
     estima(ProxNodo,_,EstT).
 
 resolve_gulosaT(Nodo,Caminho/CustoD) :- 
@@ -118,10 +118,49 @@ aestrela(Caminhos, SolucaoCaminho) :-
         aestrela(NovoCaminhos, SolucaoCaminho).
 
 
-resolve_aestrela(Nodo, Caminho/Custo) :-
+resolve_aestrelaD(Nodo, Caminho/Custo) :-
         estima(Nodo, Estima,_),
         aestrela([[Nodo]/0/Estima],InvCaminho/Custo/_),
         reverse(InvCaminho,Caminho).
+
+
+%--------------------------- estratégia de pesquisa não informada profundidade ------------
+
+
+%--------------------------- estratégia de pesquisa informada estrela tendo em conta CustoDist ------------
+
+
+
+adjacente2T([Nodo|Caminho]/Custo/_, [ProxNodo,Nodo|Caminho]/NovoCusto/Est) :-
+    aresta(Nodo,ProxNodo,_,PassoCusto),
+    not(member(ProxNodo,Caminho)),
+    NovoCusto is Custo + PassoCusto,
+    estima(ProxNodo,_,Est).
+
+
+
+expande_aestrelaT(Caminho,ExpCaminhos) :-
+        findall(NovoCaminho, adjacente2T(Caminho,NovoCaminho),ExpCaminhos).
+
+
+aestrelaT(Caminhos, Caminho) :-
+        obtem_melhor(Caminhos, Caminho),
+        Caminho = [Nodo|_]/_/_,
+        goal(Nodo).
+
+aestrelaT(Caminhos, SolucaoCaminho) :-
+        obtem_melhor(Caminhos, MelhorCaminho),
+        remove(MelhorCaminho, Caminhos, OutrosCaminhos),
+        expande_aestrelaT(MelhorCaminho, ExpCaminhos),
+        append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aestrelaT(NovoCaminhos, SolucaoCaminho).
+
+
+resolve_aestrelaT(Nodo, Caminho/Custo) :-
+        estima(Nodo, Estima,_),
+        aestrelaT([[Nodo]/0/Estima],InvCaminho/_/_),
+        reverse(InvCaminho,Caminho),
+        calculaCusto(Caminho,Custo).
 
 
 %--------------------------- estratégia de pesquisa não informada profundidade ------------
@@ -225,3 +264,31 @@ remove(X,[X|R],R ).
 remove(X,[Y|R],[Y|L]) :-
     X \= Y,
     remove(X, R, L).
+
+
+
+inverso(Xs,Ys):-
+	inverso(Xs,[],Ys).
+
+inverso([],Xs,Xs).
+inverso([X|Xs],Ys,Zs):-
+	inverso(Xs,[X|Ys],Zs).
+
+seleciona(E,[E|Xs],Xs).
+seleciona(E,[X|Xs],[X|Ys]) :- seleciona(E,Xs,Ys).
+
+nao(Questao) :-
+    Questao,
+	!,
+	fail.
+nao(Questao).
+
+membro(X,[X|_]).
+membro(X,[_|Xs]):-
+	membro(X,Xs).		
+
+escrever([]).
+escrever([X|L]):- 
+	write(X),
+	nl,
+	escrever(L).
