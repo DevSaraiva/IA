@@ -1,6 +1,5 @@
 % Includes
 :-include('base-de-conhecimento.pl').
-:-include('auxiliares.pl').
 
 inicial(_).
 final(gualtar/green-distribution).
@@ -46,10 +45,10 @@ expande_gulosaD(Caminho,ExpCaminhos) :-
 
 %--------------------------- estratégia de pesquisa informada gulosa tendo em conta CustoTempo ------------
 
-adjacenteT([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCusto/EstT):-
-    aresta(Nodo, ProxNodo, PassoCustoD, _),
+adjacenteT([Nodo|Caminho]/CustoD/CustoT/_, [ProxNodo,Nodo|Caminho]/NovoCustoD/NovoCustoT/EstT):-
+    aresta(Nodo, ProxNodo, PassoCustoD, PassoCustoT),
     \+ member(ProxNodo,Caminho),
-    NovoCusto is CustoD + PassoCustoD,
+    NovoCustoT is CustoT + PassoCustoT,
     estima(ProxNodo,_,EstT).
 
 resolve_gulosaT(Nodo,Caminho/CustoD) :- 
@@ -226,3 +225,31 @@ remove(X,[X|R],R ).
 remove(X,[Y|R],[Y|L]) :-
     X \= Y,
     remove(X, R, L).
+
+
+
+inverso(Xs,Ys):-
+	inverso(Xs,[],Ys).
+
+inverso([],Xs,Xs).
+inverso([X|Xs],Ys,Zs):-
+	inverso(Xs,[X|Ys],Zs).
+
+seleciona(E,[E|Xs],Xs).
+seleciona(E,[X|Xs],[X|Ys]) :- seleciona(E,Xs,Ys).
+
+nao(Questao) :-
+    Questao,
+	!,
+	fail.
+nao(Questao).
+
+membro(X,[X|_]).
+membro(X,[_|Xs]):-
+	membro(X,Xs).		
+
+escrever([]).
+escrever([X|L]):- 
+	write(X),
+	nl,
+	escrever(L).

@@ -8,7 +8,7 @@ aresta(palmeira/rua-da-poca,maximinos/rua-do-caires,6.5,9).
 aresta(palmeira/rua-do-monte,maximinos/rua-da-naia,7,10).
 aresta(maximinos/rua-da-naia,maximinos/rua-de-caires,2.2,5).
 aresta(maximinos/rua-da-naia,maximinos/rua-do-cruzeiro,0.65,2).
-aresta(maximinos/rua-do-cruzeiro,maximinos/rua-de-caires,2,4).
+aresta(maximinos/rua-do-cruzeiro,maximinos/rua-de-caires,2,4). %%%%%%%%%%
 aresta(maximinos/rua-do-cruzeiro,real/rua-do-tojal,1.8,4).
 aresta(real/rua-do-tojal,real/rua-dos-paiois,0.4,2).
 aresta(real/rua-do-tojal,real/rua-das-giestas,0.3,2).
@@ -41,7 +41,7 @@ aresta(maximinos/rua-do-caires,palmeira/rua-da-poca,6.5,9).
 aresta(maximinos/rua-da-naia,palmeira/rua-do-monte,7,10).
 aresta(maximinos/rua-de-caires,maximinos/rua-da-naia,2.2,5).
 aresta(maximinos/rua-do-cruzeiro,maximinos/rua-da-naia,0.65,2).
-aresta(maximinos/rua-de-caires,maximinos/rua-do-cruzeiro,2,4).
+aresta(maximinos/rua-de-caires,maximinos/rua-do-cruzeiro,2,4). %%%%%%
 aresta(real/rua-do-tojal,maximinos/rua-do-cruzeiro,1.8,4).
 aresta(real/rua-dos-paiois,real/rua-do-tojal,0.4,2).
 aresta(real/rua-das-giestas,real/rua-do-tojal,0.3,2).
@@ -80,8 +80,8 @@ estima(sao-vitor/rua-dom-pedro-v,7.9,14.8).
 estima(sao-vitor/rua-da-fabrica,6.6,18).
 estima(sao-vitor/rua-do-taxa,9.5,20).
 estima(real/rua-das-giestas,15.8,25).
-estima(real/rua-dos-paiois,16,1,29).
-estima(real/rua-do-tojal,16.1,28).
+estima(real/rua-dos-paiois,16.1,29).
+estima(real/rua-do-tojal,500,500).
 estima(palmeira/rua-do-rio,24.7,40).
 estima(palmeira/rua-da-poca,28.1,47).
 estima(palmeira/rua-do-monte,27.8,43).
