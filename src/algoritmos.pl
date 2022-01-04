@@ -1,8 +1,6 @@
 % Includes
 :-include('base-de-conhecimento.pl').
 
-inicial(_).
-final(gualtar/green-distribution).
 
 goal(gualtar/green-distribution).
 
