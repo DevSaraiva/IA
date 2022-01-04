@@ -74,7 +74,7 @@ calculaOcorrencias(X, [Y|XS], Res) :-
 
 
 escolheAlgoritmo(Alg, Nodo, Circuito/NovoCusto) :-
-    Alg == 1 -> resolve_aestrela(Nodo, Caminho/Custo),
+    Alg == 1 -> resolve_aestrelaD(Nodo, Caminho/Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
     
     Alg == 2 -> resolve_gulosaD(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
@@ -111,9 +111,9 @@ duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
 
 circuitosComMaiorProdutividade(NumCircuitos, Res) :-
     findall(circuito(Encomenda, Caminho), circuito(Encomenda,Caminho),Circuitos),
-    circuitosComMaiorProdutividadeAux(Circuitos, [], Veiculo, Res).
-    % descending(Res,ResOrder),
-    % take(NumCircuitos,ResOrder,Solucao).
+    circuitosComMaiorProdutividadeAux(Circuitos, [], Veiculo, Res),
+    descending(Res,ResOrder),
+    take(NumCircuitos,ResOrder,Solucao).
 
 
 
@@ -132,18 +132,6 @@ circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, Res
         getVeiculo(Encomenda, Veiculo),
         circuitosComMaiorProdutividadeAux(Circuitos,Visitados, Encomenda, Res).
 
-
-devolveCusto(Lista/Custo,Custo).
-
-
-descending([], []).
-descending([A], [A]).
-descending(A,  [X,Y|C]) :-
-  select(X, A, B),
-  descending(B, [Y|C]),
-        devolveCusto(X,W),
-        devolveCusto(Y,Z),
-          W   >=    Z.
 
 
 
@@ -165,3 +153,26 @@ getEncomenda(Circuito, ResEncomenda) :-
 
 
 
+
+decrescimo_bicicleta(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
+    Decrescimo is 0.7 * Kgs,
+    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
+
+decrescimo_motos(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
+    Decrescimo is 0.5 * Kgs,
+    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
+
+decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
+    Decrescimo is 0.7 * Kgs,
+    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
+
+
+
+calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
+    Veiculo == carro -> decrescimo_carro(25, Peso, NovaVelocidadeMedia),
+                        Tempo is Distancia/NovaVelocidadeMedia;
+    Veiculo == mota -> decrescimo_motos(35, Peso, NovaVelocidadeMedia),
+                        Tempo is Distancia/NovaVelocidadeMedia;
+    Veiculo == bicicleta -> decrescimo_bicicleta(10, Peso, NovaVelocidadeMedia),
+                        Tempo is Distancia/NovaVelocidadeMedia;
+    !, fail.

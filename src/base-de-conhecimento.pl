@@ -174,26 +174,3 @@ veiculo(mota, 35, 20, 30).
 veiculo(carro, 25, 100, 10). 
 
 
-
-decrescimo_bicicleta(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.7 * Kgs,
-    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
-
-decrescimo_motos(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.5 * Kgs,
-    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
-
-decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.7 * Kgs,
-    NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
-
-
-
-calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
-    Veiculo == carro -> decrescimo_carro(25, Peso, NovaVelocidadeMedia),
-                        Tempo is Distancia/NovaVelocidadeMedia;
-    Veiculo == mota -> decrescimo_motos(35, Peso, NovaVelocidadeMedia),
-                        Tempo is Distancia/NovaVelocidadeMedia;
-    Veiculo == bicicleta -> decrescimo_bicicleta(10, Peso, NovaVelocidadeMedia),
-                        Tempo is Distancia/NovaVelocidadeMedia;
-    !, fail.
