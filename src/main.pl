@@ -34,9 +34,12 @@ runQuery(2) :-
 	circuitosComMaisEntregas(NumeroCircuitos, Solucao),
 	write(Solucao).
 
-% FALTA FAZER
+
 runQuery(3) :- 
-	write("A comparar os circuitos relativamente ao indicador de produtividade...").
+	write("Digite o número de circuitos que prentende: "),
+	read(NumCircuitos),
+	circuitosComMaiorProdutividade(NumCircuitos, Sol),
+	write(Sol).
 
 % FALTA FAZER
 runQuery(4) :- 
