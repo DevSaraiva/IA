@@ -108,11 +108,8 @@ circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05),
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
-encomenda(palmeira/rua-do-rio,gorro,manuel,data(0,0,0),hora(20,0),30/80,10).
+encomenda(palmeira/rua-do-rio,gorro,manuel,data(2021,01,05),hora(20,0),30/80,10).
 
-
-% isto falta modificar
-encomenda(palmeira/rua-do-rio, lataDaMonster, manuel, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
 
 
 % entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)

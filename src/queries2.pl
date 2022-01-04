@@ -176,6 +176,36 @@ calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predic
     !, fail.
 
 
+
+
+
+
+getEstafetasVeiculoZona(Veiculo,Zona,Lista) :-    
+    findall(Id,estafeta(Id,Zona,Veiculo),Lista).
+
+
+
+
+verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
+    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _),Lista),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
+
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
+    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    compare_data(Data, =, DataMax),
+    compare_hora(Hora, <, TimePrazo),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomendas]).
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
+    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    not(compare_data(Data, =, DataMax)),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomendas]).
+
+
+
+
+
 % Comparar datas
 
 compare_data(data(YY,MM,DD), = ,data(YY,MM,DD)).

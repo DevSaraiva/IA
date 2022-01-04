@@ -1,7 +1,6 @@
 :-include('encomenda.pl').
 :-include('estafeta.pl').
 :-include('veiculo.pl').
-% :-include('auxiliares.pl').
 :-include('entrega.pl').
 
 
