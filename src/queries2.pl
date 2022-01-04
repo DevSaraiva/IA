@@ -1,13 +1,8 @@
 :-include('entrega.pl').
 :-include('estafeta.pl').
 :-include('veiculo.pl').
-:-include('auxiliares.pl').
+:-include('algoritmos.pl').
 :-include('circuito.pl').
-:-include('agulosa.pl').
-:-include('a-estrela.pl').
-:-include('BILP.pl').
-:-include('df.pl').
-:-include('breath-first.pl').
 
 :- op(900,xfy,'::').
 

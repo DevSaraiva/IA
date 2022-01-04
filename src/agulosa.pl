@@ -24,7 +24,8 @@ adjacenteD([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCusto/EstD):-
 resolve_gulosaD(Nodo,Caminho/CustoD) :- 
         estima(Nodo, EstimaD,_),
         agulosaD([[Nodo]/0/EstimaD], InvCaminho/CustoD/_),
-        reverse(InvCaminho, Caminho).
+        reverse(InvCaminho, Caminho),
+        !.
 
 agulosaD(Caminhos, Caminho) :-
     obtem_melhor_g_D(Caminhos,Caminho),
