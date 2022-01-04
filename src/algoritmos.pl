@@ -1,5 +1,5 @@
 % Includes
-:-include('aresta.pl').
+:-include('base-de-conhecimento.pl').
 :-include('auxiliares.pl').
 
 inicial(_).
@@ -55,7 +55,8 @@ adjacenteT([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCusto/EstT):-
 resolve_gulosaT(Nodo,Caminho/CustoD) :- 
         estima(Nodo,_, EstimaT),
         agulosaT([[Nodo]/0/EstimaT], InvCaminho/CustoD/_),
-        reverse(InvCaminho, Caminho).
+        reverse(InvCaminho, Caminho),
+        !.
 
 agulosaT(Caminhos, Caminho) :-
     obtem_melhor_g_T(Caminhos,Caminho),
@@ -121,7 +122,7 @@ aestrela(Caminhos, SolucaoCaminho) :-
 resolve_aestrela(Nodo, Caminho/Custo) :-
         estima(Nodo, Estima,_),
         aestrela([[Nodo]/0/Estima],InvCaminho/Custo/_),
-        inverso(InvCaminho,Caminho).
+        reverse(InvCaminho,Caminho).
 
 
 %--------------------------- estratégia de pesquisa não informada profundidade ------------
@@ -134,7 +135,7 @@ profundidadeprimeiro(Nodo, _, [], 0):-
 
 profundidadeprimeiro(Nodo, Historico, [ProxNodo|Caminho], C):-
 	adjacente(Nodo, ProxNodo, C1),
-	nao(member(ProxNodo, Historico)),
+	not(member(ProxNodo, Historico)),
 	profundidadeprimeiro(ProxNodo, [ProxNodo|Historico], Caminho, C2),
     C is C1 + C2.
 
@@ -176,3 +177,52 @@ depthFirstIterativeDeepening(Nodo,Solucao) :-
     path(Nodo,Final,InvSolucao), 
     reverse(InvSolucao,Solucao),
     goal(Final).
+
+
+
+% ----------------------------- funcoes auxiliares -----------------
+
+% retira n elementos de uma lista 
+
+take(0, _, []) :- !.
+
+take(_,[],[]).
+
+take(N, [H|TA], [H|TB]) :-
+	N > 0,
+	N2 is N - 1,
+	take(N2, TA, TB).
+
+
+%calcula custo de um caminho
+
+calculaCusto([X,Y|[]],C1):-
+    aresta(X,Y,C1,_).
+
+calculaCusto([X,Y|XS],Custo):-
+    aresta(X,Y,C1,_),
+    calculaCusto([Y|XS],C2),
+    Custo is C1 + C2.
+
+
+calculaTempo([X,Y|[]],T1):-
+	aresta(X,Y,_,T1).
+
+calculaTempo([X,Y|XS],Tempo):-
+    aresta(X,Y,_, T1),
+    calculaCusto([Y|XS],T2),
+    Tempo is T1 + T2.
+
+
+getVertente(TipoVeiculo, Res) :-
+	veiculo(TipoVeiculo, _, _, Res).
+
+
+apagacabeca([],[]).
+apagacabeca([X],[]).
+apagacabeca([H|T],T).
+
+remove(X,[X|R],R ).
+remove(X,[Y|R],[Y|L]) :-
+    X \= Y,
+    remove(X, R, L).
