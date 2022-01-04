@@ -28,11 +28,11 @@ evolucao( Termo ):- (
 
 
 
-circuitosComMaisEntregas(Solucao) :-
+circuitosComMaisEntregas(N,Solucao) :-
     findall(Caminho, circuito(_,Caminho),Caminhos),
     circuitosComMaisEntregasAux(Caminhos,[],Res),
     descending(Res,ResOrder),
-    take(5,ResOrder,Solucao).
+    take(N,ResOrder,Solucao).
    
 devolveCusto(Lista/Custo,Custo).
 
