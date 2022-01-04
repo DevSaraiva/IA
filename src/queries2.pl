@@ -105,8 +105,6 @@ duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
 
 
 
-
-
 % CIRCUITOS COM MAIOR INDICADOR DE PRODUTIVIDADE
 
 circuitosComMaiorProdutividade(NumCircuitos, Res) :-
@@ -176,3 +174,41 @@ calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predic
     Veiculo == bicicleta -> decrescimo_bicicleta(10, Peso, NovaVelocidadeMedia),
                         Tempo is Distancia/NovaVelocidadeMedia;
     !, fail.
+
+
+% Comparar datas
+
+compare_data(data(YY,MM,DD), = ,data(YY,MM,DD)).
+
+compare_data(data(Y,M,D), > ,data(YY,MM,DD)) :-
+        Y > YY.
+compare_data(data(Y,M,D), > ,data(Y,MM,DD)) :-
+        M > MM.
+compare_data(data(Y,M,D), > ,data(Y,M,DD)) :-
+        D > DD.
+
+compare_data(data(Y,M,D), < ,data(YY,MM,DD)) :-
+        Y < YY.
+
+compare_data(data(Y,M,D), < ,data(Y,MM,DD)) :-
+        M < MM.
+
+compare_data(data(Y,M,D), < ,data(Y,M,DD)) :-
+        D < DD.
+
+%Comparar Horas
+
+compare_hora(hora(H,M), =, hora(H,M)).
+
+compare_hora(hora(H,M), > , hora(Hh,Mm)) :-
+    H > Hh.
+compare_hora(hora(Hh,M), > , hora(Hh,Mm)) :-
+   M > Mm.
+
+compare_hora(hora(H,M), <, hora(Hh,Mm)) :-
+    H < Hh.
+compare_hora(hora(Hh,M), < , hora(Hh,Mm)) :-
+   M < Mm.
+
+
+

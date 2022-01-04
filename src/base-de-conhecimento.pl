@@ -106,12 +106,12 @@ circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05),
 %encomenda
 
 
-% transporte(destino, idEntrega, idCliente, dataMax, peso/volume, preco).
+% encomenda(destino, idEncomenda, idEstafeta dataMax, peso/volume, preco).
 
-encomenda(palmeira/rua-do-rio, lataDaMonster, manuel, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
+encomenda(palmeira/rua-do-rio, lataDaMonster, idEstafeta, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
 
 
-% entrega(identrega, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
+% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 
 
 :- op( 900,xfy,'::' ).
