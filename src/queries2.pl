@@ -1,8 +1,4 @@
-:-include('entrega.pl').
-:-include('estafeta.pl').
-:-include('veiculo.pl').
 :-include('algoritmos.pl').
-:-include('circuito.pl').
 
 :- op(900,xfy,'::').
 
@@ -93,13 +89,16 @@ escolheAlgoritmo(Alg, Nodo, Circuito/NovoCusto) :-
     Alg == 2 -> resolve_gulosaD(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 3 -> dfs(Nodo, Caminho,Custo),
+    Alg == 3 -> resolve_gulosaT(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 4 -> bfs(Nodo, Caminho,Custo),
+    Alg == 4 -> dfs(Nodo, Caminho,Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 5 -> resolve_limitada(Nodo, Caminho/Custo),
+    Alg == 5 -> bfs(Nodo, Caminho,Custo),
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+
+    Alg == 6 -> resolve_limitada(Nodo, Caminho/Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
     
