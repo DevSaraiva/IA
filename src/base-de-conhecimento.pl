@@ -95,12 +95,12 @@ estima(gualtar/green-distribution,0,0).
 %circuito
 
 
-circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
-circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50), [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(televisao, [real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
+circuito(portatil, [nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(telemovel, [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(forno, [nogueiro/rua-do-major, gualtar/rua-breias, nogueiro/rua-da-capela, gualtar/green-distribution]).
+circuito(rato, [sao-vitor/rua-do-taxa, nogueiro/rua-da-capela, real/rua-dos-paiois, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(pizza, [sao-vitor/rua-dom-pedro-v, nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
 
 
 %encomenda
@@ -108,7 +108,13 @@ circuito(encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05),
 
 % transporte(destino, idEntrega, idCliente, dataMax, peso/volume, preco).
 
-encomenda(palmeira/rua-do-rio, lataDaMonster, manuel, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
+encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
+encomenda(real/rua-das-giestas, francesinha, darthMaul, data(2022, 01, 05), hora(10,30), 5/8, 10).
+encomenda(nogueiro/rua-da-capela, casaco, darthVader, data(2021, 04, 19), hora(22,21), 20/1, 60).
+encomenda(gualtar/rua-breias, mala, jangoFett, data(2021, 10, 11), hora(12,30), 10/4, 5).
+encomenda(sao-vitor/rua-dom-pedro-v, bicicleta, mandalorian, data(2020, 11, 03), hora(20,10), 9/2, 2000).
+encomenda(maximinos/rua-do-cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
+
 
 
 % entrega(identrega, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
@@ -120,19 +126,19 @@ encomenda(palmeira/rua-do-rio, lataDaMonster, manuel, data(2021, 01, 05), hora(1
 +entrega(Id, _, _, _, _, _, _, _) :: ((findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N < 2)).
 
 
-entrega(televisao, joaquim, manuel, vila-caiz/aldeia-nova, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
-entrega(portatil, rui, bernardo, roriz/pidre, data(2021, 2, 12)/data(2021, 2, 11),4 , 12/30, 5).
-entrega(telemovel, ze-joao, miguel, barcelos/pedreira, data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
+entrega(televisao, darthMaul, manuel, palmeira/rua-do-rio, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
+entrega(portatil, rui, bernardo, real/rua-das-giestas, data(2021, 2, 12)/data(2021, 2, 11),4 , 12/30, 5).
+entrega(telemovel, ze-joao, miguel, nogueiro/rua-da-capela, data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
 
-entrega(forno, painatal, bernardo, roriz/pidre, data(2021, 2, 12)/data(2021, 3, 29), 1, 12/30, 5).
-entrega(telemovel, margarida, pedro, vila-caiz/aldeia-nova, data(2021, 3, 10)/data(2021, 3, 9), 2, 3/10, 3).
-entrega(teclado, rui, alberto, esposende/margem, data(2021, 6, 19)/data(2021, 5, 22), 5, 21/30, 4).
-entrega(rato, miguel, joao, esposende/margem, data(2021, 6, 22)/data(2021, 6, 22), 5, 2/30, 50).
-entrega(headset, margarida, ana, esposende/margem, data(2021, 12, 30)/data(2021, 12, 29), 3, 9/30, 24).
+entrega(forno, darthVader, bernardo, gualtar/rua-breias, data(2021, 2, 12)/data(2021, 3, 29), 1, 12/30, 5).
+entrega(telemovel, yoda, pedro, sao-vitor/rua-dom-pedro-v, data(2021, 3, 10)/data(2021, 3, 9), 2, 3/10, 3).
+entrega(teclado, jangoFett, alberto, maximinos/rua-do-cruzeiro, data(2021, 6, 19)/data(2021, 5, 22), 5, 21/30, 4).
+entrega(rato, r2d2, joao, real/rua-dos-paiois, data(2021, 6, 22)/data(2021, 6, 22), 5, 2/30, 50).
+entrega(headset, c3po, ana, lamacaes/rua-do-passal, data(2021, 12, 30)/data(2021, 12, 29), 3, 9/30, 24).
 
-entrega(pao, gigachad, ana, braga/vila-verde,data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
-entrega(pizza, gigachad, bernardo, braga/vila-verde,data(2021, 3, 11)/data(2021, 1, 30), 3, 3/10, 3).
-entrega(hamburger, gigachad, antonio, braga/real, data(2021, 3, 30)/data(2021,3,15), 5 , 4/11 , 5).
+entrega(pao, gigachad, ana, maximinos/rua-da-naia,data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
+entrega(pizza, leia, bernardo, maximinos/rua-de-caires,data(2021, 3, 11)/data(2021, 1, 30), 3, 3/10, 3).
+entrega(hamburger, luke, antonio, sao-vitor/rua-da-fabrica, data(2021, 3, 30)/data(2021,3,15), 5 , 4/11 , 5).
 
 
 
@@ -143,7 +149,7 @@ estafeta(yoda, palmeira, mota).
 estafeta(stormtrooper, palmeira, bicicleta).
 
 estafeta(jangoFett, maximinos, carro).
-estafeta(dathVader, maximinos, mota).
+estafeta(darthVader, maximinos, mota).
 estafeta(luke, maximinos, bicicleta).
 
 estafeta(r2d2, real, carro).

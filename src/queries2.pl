@@ -109,9 +109,9 @@ duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
 
 % CIRCUITOS COM MAIOR INDICADOR DE PRODUTIVIDADE
 
-circuitosComMaiorProdutividade(NumCircuitos, Res) :-
-    findall(circuito(Encomenda, Caminho), circuito(Encomenda,Caminho),Circuitos),
-    circuitosComMaiorProdutividadeAux(Circuitos, [], Veiculo, Res),
+circuitosComMaiorProdutividade(NumCircuitos, Solucao) :-
+    findall(circuito(IdEntrega, Caminho), circuito(IdEntrega,Caminho),Circuitos),
+    circuitosComMaiorProdutividadeAux(Circuitos, [], IdEntrega, Res),
     descending(Res,ResOrder),
     take(NumCircuitos,ResOrder,Solucao).
 
@@ -119,37 +119,36 @@ circuitosComMaiorProdutividade(NumCircuitos, Res) :-
 
 circuitosComMaiorProdutividadeAux([],_, _,[]) :- !.
 
-circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, [Caminho/Produtividade|Res]):-
+circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, [Caminho/Produtividade|Res]):-
         getCaminho(Circuito, Caminho),
         not(member(Caminho,Visitados)),
-        getVeiculo(Encomenda, Veiculo),
+        getVeiculo(IdEntrega, Veiculo),
         indicadorDeProdutividade(Circuito, Produtividade),
-        circuitosComMaiorProdutividadeAux(Circuitos,[Caminho|Visitados], Encomenda, Res).
+        circuitosComMaiorProdutividadeAux(Circuitos,[Caminho|Visitados], IdEntrega, Res).
 
-circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, Res):-
+circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, Res):-
         getCaminho(Circuito, Caminho),
         member(Caminho,Visitados),
-        getVeiculo(Encomenda, Veiculo),
-        circuitosComMaiorProdutividadeAux(Circuitos,Visitados, Encomenda, Res).
+        getVeiculo(IdEntrega, Veiculo),
+        circuitosComMaiorProdutividadeAux(Circuitos,Visitados, IdEntrega, Res).
 
 
 
 
-indicadorDeProdutividade(circuito(Encomenda, Caminho), Res) :-
+indicadorDeProdutividade(circuito(IdEntrega, Caminho), Res) :-    % alterar para identrega
     calculaCusto(Caminho, TotalDist),
     calculaTempo(Caminho, TotalTempo),
-    getVeiculo(Encomenda, Veiculo),
+    getVeiculo(IdEntrega, Veiculo),
     veiculo(Veiculo, _, _, VertenteEco),
     Res is (TotalDist+TotalTempo) * VertenteEco.
 
 
 getCaminho(Circuito, ResCaminho) :- circuito(_, ResCaminho).
 
-getVeiculo(encomenda(_, _, IdEstafeta, _, _, _, _), ResVeiculo) :-
+getVeiculo(IdEntrega, ResVeiculo) :-
+    entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _),
     estafeta(IdEstafeta, _, ResVeiculo).
 
-getEncomenda(Circuito, ResEncomenda) :-
-    circuito(ResEncomenda, _).
 
 
 
