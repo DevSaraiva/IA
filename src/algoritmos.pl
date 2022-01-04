@@ -118,9 +118,47 @@ aestrela(Caminhos, SolucaoCaminho) :-
         aestrela(NovoCaminhos, SolucaoCaminho).
 
 
-resolve_aestrela(Nodo, Caminho/Custo) :-
+resolve_aestrelaD(Nodo, Caminho/Custo) :-
         estima(Nodo, Estima,_),
         aestrela([[Nodo]/0/Estima],InvCaminho/Custo/_),
+        reverse(InvCaminho,Caminho).
+
+
+%--------------------------- estratégia de pesquisa não informada profundidade ------------
+
+
+%--------------------------- estratégia de pesquisa informada estrela tendo em conta CustoDist ------------
+
+
+
+adjacente2T([Nodo|Caminho]/Custo/_, [ProxNodo,Nodo|Caminho]/NovoCusto/Est) :-
+    aresta(Nodo,ProxNodo,_,PassoCusto),
+    not(member(ProxNodo,Caminho)),
+    NovoCusto is Custo + PassoCusto,
+    estima(ProxNodo,_,Est).
+
+
+
+expande_aestrelaT(Caminho,ExpCaminhos) :-
+        findall(NovoCaminho, adjacente2T(Caminho,NovoCaminho),ExpCaminhos).
+
+
+aestrelaT(Caminhos, Caminho) :-
+        obtem_melhor(Caminhos, Caminho),
+        Caminho = [Nodo|_]/_/_,
+        goal(Nodo).
+
+aestrelaT(Caminhos, SolucaoCaminho) :-
+        obtem_melhor(Caminhos, MelhorCaminho),
+        remove(MelhorCaminho, Caminhos, OutrosCaminhos),
+        expande_aestrelaT(MelhorCaminho, ExpCaminhos),
+        append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aestrelaT(NovoCaminhos, SolucaoCaminho).
+
+
+resolve_aestrelaT(Nodo, Caminho/Custo) :-
+        estima(Nodo, Estima,_),
+        aestrelaT([[Nodo]/0/Estima],InvCaminho/Custo/_),
         reverse(InvCaminho,Caminho).
 
 
