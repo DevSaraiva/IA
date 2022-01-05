@@ -108,7 +108,7 @@ encontraMaisEcologico(Res) :-
 entregas_do_estafeta_PorCliente(_, [], Lista, Lista).
 
 entregas_do_estafeta_PorCliente(IdCliente, [IdEntrega|Xs], Lista, Res) :- 
-        findall(IdEstafeta, entrega(IdEntrega, IdEstafeta, IdCliente, _, _ , _, _, _), S),
+        findall(IdEstafeta, entrega(IdEntrega, IdEstafeta, IdCliente, _, _ , _, _, _, _), S),
         append(Lista, S, L),
         entregas_do_estafeta_PorCliente(IdCliente, Xs, L, Res),
         !.
@@ -117,10 +117,10 @@ entregas_do_estafeta_PorCliente(IdCliente, [IdEntrega|Xs], Lista, Res) :-
 %------------------------------------------------------------------------------------------
 
 %QUERY 3 - identificar os clientes servidos por um determinado estafeta; 
-%para testar:   clientesPorEstafeta(ze-joao, X).
+%para testar:   clientesPorEstafeta(ze_joao, X).
 
 clientesPorEstafeta(IdEstafeta, Res) :- 
-        findall(IdCliente, entrega(_, IdEstafeta, IdCliente, _, _, _, _, _), Res).
+        findall(IdCliente, entrega(_, IdEstafeta, IdCliente, _, _, _, _, _, _), Res).
 
 
 %-----------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ somaElementos([H|Xs], Res) :- somaElementos(Xs, Sum), Res is Sum+H.
 
 
 faturacaoDiaria(DataEntrega, Res) :- 
-        findall(Preco, entrega(_, _, _, _, _/DataEntrega , _, _, Preco), S),
+        findall(Preco, entrega(_, _, _, _, _ , DataEntrega/_, _, _, Preco), S),
         somaElementos(S, Res).
 
 
@@ -144,12 +144,12 @@ faturacaoDiaria(DataEntrega, Res) :-
 
 
 listaDasZonas(Res) :- 
-        findall(Zona, entrega(_, _, _, Zona, _, _, _, _), S), sort(S, Res).       %deve haver uma soluçao melhor que nao devolva repetidos sem ter que fazer o sort... TESTAR COM setof
+        findall(Zona, entrega(_, _, _, Zona, _, _, _, _, _), S), sort(S, Res).       %deve haver uma soluçao melhor que nao devolva repetidos sem ter que fazer o sort... TESTAR COM setof
 
 
 %para testar:   entregasPorZona(roriz/pidre, Res).
 entregasPorZona(Zona, Res) :- 
-        findall(Zona, entrega(_, _, _, Zona, _, _, _, _), S),
+        findall(Zona, entrega(_, _, _, Zona, _, _, _, _, _), S),
         length(S, Res).
 
 %para testar:   entregasPorZonaLista([roriz/pidre], [], Res).
@@ -175,7 +175,7 @@ pair_sort(L,Sorted):-
 %-----------------------------------------------------------------------------------------
 
 %QUERY 6 - calcular a classificação média de satisfação de cliente para um determinado estafeta;
-%para testar: classificacaoDoClienteParaEstafeta(ze-joao,Res).
+%para testar: classificacaoDoClienteParaEstafeta(ze_joao,Res).
 
 
 somaLista([],0).
@@ -184,7 +184,7 @@ somaLista([H|T],S) :-
         S is H+G.
 
 classificacaoDoClienteParaEstafeta(IdEstafeta,Res) :- 
-        findall(Classificacao,entrega(_, IdEstafeta, _, _, _, Classificacao, _, _), Lista),
+        findall(Classificacao,entrega(_, IdEstafeta, _, _, _, _, Classificacao, _, _), Lista),
         somaLista(Lista,S),
         length(Lista,T),
         Res is S / T.
@@ -195,7 +195,7 @@ classificacaoDoClienteParaEstafeta(IdEstafeta,Res) :-
 % para testar: numeroTotalEntregas(data(2020,1,1)/data(2022,12,30),EntregasBicicleta,EntregasCarro,EntregasMoto).
 
 listaEntregasDurante(DataI/DataF,CL) :-
-        findall(Data/IdEstafeta,entrega(_ , IdEstafeta, _, _, _/Data, _, _, _), L),
+        findall(Data/IdEstafeta,entrega(_ , IdEstafeta, _, _, _, Data/_, _, _, _), L),
         removeListaEntregasForaDoIntervalo(DataI/DataF, L, CL).
 
 
@@ -255,7 +255,7 @@ numeroTotalEntregas(DataI/DataF,EntregasBicicleta,EntregasCarro,EntregasMoto) :-
 %para testar:   entregasDurante(data(2021,5,19)/data(2022,12,31), Res).
 
 entregasDurante(DataI/DataF,Res) :-
-        findall(Data,entrega(_, _, _, _, _/Data, _, _, _), L),
+        findall(Data,entrega(_, _, _, _, _, Data/_, _, _, _), L),
         removeEntregasForaDoIntervalo(DataI/DataF, L, CL),
         length(CL,Res),
         !.
@@ -279,7 +279,7 @@ removeEntregasForaDoIntervalo(DataI/DataF, [X|XS], Res) :-
 %QUERY 9: calcular  o  número  de  entregas  entregues  e  não  entregues  pela  Green Distribution, num determinado período de tempo;
 %para testar:   calculaNEntregasIntervalo(data(2021,1,1)/data(2021,12,19), Entregues, NaoEntregues).
 calculaNEntregasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :- 
-        findall(IdEntrega,entrega(IdEntrega, _, _, _, _, _, _, _), L),
+        findall(IdEntrega,entrega(IdEntrega, _, _, _, _, _, _, _, _), L),
         length(L, TotalEntregas),
         entregasDurante(DataI/DataF, ResEntregues),
         ResNaoEntregues is (TotalEntregas - ResEntregues),
@@ -290,26 +290,26 @@ calculaNEntregasIntervalo(DataI/DataF, ResEntregues, ResNaoEntregues) :-
 %---------------------------------------------------------------------------------------
 
 %QUERY 10 - calcular o peso total transportado por estafeta num determinado dia.
-%para testar: pesoTotalPorEstafetas(Lista).
+%para testar: pesoTotalPorEstafetas(data(2021, 1, 29), Lista).
 
 
-% para testar: pesoTotalPorEstafeta(ze-joao,PT).
-pesoTotalPorEstafeta(IdEstafeta,PT) :-
-        findall(Peso, entrega(_, IdEstafeta, _, _, _/DataEntrega , _, Peso/_ , _), S),
+% para testar: pesoTotalPorEstafeta(ze_joao,PT).
+pesoTotalPorEstafeta(IdEstafeta, Data, PT) :-
+        findall(Peso, entrega(_, IdEstafeta, _, _, _, Data/_, _, Peso/_ , _), S),
         somaElementos(S, PT).
 
 
-% para testar: pesoTotalPorEstafetasLista([ze-joao,rui],[],Lista).
-pesoTotalPorEstafetasLista([], Lista, Lista).
-pesoTotalPorEstafetasLista([Estafeta|Estafetas],Lista,Res) :-
-        pesoTotalPorEstafeta(Estafeta,PT),
+% para testar: pesoTotalPorEstafetasLista([ze_joao,rui],[],Lista).
+pesoTotalPorEstafetasLista([], Data, Lista, Lista).
+pesoTotalPorEstafetasLista([Estafeta|Estafetas], Data, Lista, Res) :-
+        pesoTotalPorEstafeta(Estafeta, Data, PT),
         append(Lista, [Estafeta/PT], L10),
-        pesoTotalPorEstafetasLista(Estafetas,L10,Res). 
+        pesoTotalPorEstafetasLista(Estafetas, Data, L10, Res). 
          
 
-pesoTotalPorEstafetas(Res) :-
+pesoTotalPorEstafetas(Data, Res) :-
         findall(IdEstafeta, estafeta(IdEstafeta, _, _),ListaEstafetas),
-        pesoTotalPorEstafetasLista(ListaEstafetas,[],Res).
+        pesoTotalPorEstafetasLista(ListaEstafetas, Data, [], Res), writeln(Res).
 
         
 
