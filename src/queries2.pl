@@ -29,10 +29,6 @@ contaEstafetas(Res) :- findall(IdEstafeta, estafeta(IdEstafeta, _, _), Sol), len
 contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol), length(Sol, Res).
 
 
-mostraEntregas(Res) :-
-    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol),
-    length(Sol,Res).
-
 
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos

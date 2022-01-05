@@ -7,8 +7,7 @@
 
 
 %grafo
-
-+aresta(Inicio, Fim, _, _) :: (findall((Inicio,Fim),(aresta(Inicio,Fim, _, _)),Sol), length(Sol,N), N == 1).
+% aresta(FreguesiaPartida/RuaPartida,FreguesiaDestino/RuaDestino,CustoDistancia,CustoTempo)
 
 aresta(palmeira/rua_do_rio,palmeira/rua_da_poca,3.4,6).
 aresta(palmeira/rua_do_rio,palmeira/rua_do_monte,3.1,5).
@@ -76,7 +75,12 @@ aresta(nogueiro/rua_da_rasa,lamacaes/rua_do_passal,1.6,4).
 aresta(real/rua_das_giestas,sao_vitor/rua_do_taxa,6.3,9).
 
 
-+estima(Inicio, _, _) :: (findall(Inicio,(estima(Inicio, _, _)),Sol), length(Sol,N), N == 1).
+% invariante
++aresta(Inicio, Fim, _, _) :: (findall((Inicio,Fim),(aresta(Inicio,Fim, _, _)),Sol), length(Sol,N), N == 1).
+
+
+
+% estima(Freguesia/Rua,EstimaDistancia,EstimaTempo)
 
 estima(gualtar/green_distribution,0,0).
 estima(gualtar/rua_breias,2,4.5).
@@ -103,18 +107,23 @@ estima(maximinos/rua_da_naia,18.6,30).
 estima(gualtar/green_distribution,0,0).
 
 
++estima(Inicio, _, _) :: (findall(Inicio,(estima(Inicio, _, _)),Sol), length(Sol,N), N == 1).
+
 
 %circuito(IdEntrega,Caminho)
 
 +circuito(Id, _) :: (findall(Id,(circuito(Id,_)),Sol), length(Sol,N), N == 1).
 
-
+circuito(telemovel, [nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
+circuito(forno, [nogueiro/rua_do_major, nogueiro/rua_da_rasa, lamacaes/rua_do_passal, lamacaes/rua_da_torre, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v,gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
+circuito(pizza, [palmeira/rua_do_rio, real/rua_dos_paiois, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_da_fabrica, nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
+circuito(lataDaMonster, [real/rua_dos_paiois, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v, gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
+circuito(cogumelos, [nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
 
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
 
-+encomenda( _, Id, _, _, _, Peso/_, _) :: (Peso=<100, findall(Id,(encomenda( _, Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 
 %encomendas entregues
@@ -143,9 +152,11 @@ encomenda(sao_vitor/rua_dom_pedro_v, bicicleta, mandalorian, data(2020, 11, 03),
 encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
 
 
++encomenda( _, Id, _, _, _, Peso/_, _) :: (Peso=<100, findall(Id,(encomenda( _, Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
+
+
 % entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua, dataPrazo/horaPrazo, dataEntrega/horaEntrega, classificação, peso/volume, preço)
 
-+entrega(Id, _, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 entrega(lataDaMonster, yoda, manuel, palmeira/rua_do_rio, data(2021, 01, 06)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
 entrega(pizza, leia, bernardo, maximinos/rua_de_caires,data(2021, 3, 11)/hora(12,00),data(2021, 1, 30)/hora(12,00), 3, 3/10, 3).
@@ -153,6 +164,7 @@ entrega(telemovel, ze_joao, miguel, nogueiro/rua_da_capela, data(2021, 3, 10)/ho
 entrega(forno, darthVader, bernardo, gualtar/rua_breias, data(2021, 2, 12)/hora(12,00),data(2021, 3, 29)/hora(12,00), 1, 12/30, 5).
 entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 04, 18)/hora(22,00),5, 10/2, 50).
 
++entrega(Id, _, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 
 
@@ -160,7 +172,6 @@ entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora
 
 % estafeta(idEstafeta, freguesia, veiculo)
 
-+estafeta(Id, _, _) :: (findall(Id,(estafeta(Id, _, _)),Sol), length(Sol,N), N == 1).
 
 estafeta(bobbaFett, palmeira, carro).
 estafeta(yoda, palmeira, mota).
@@ -190,6 +201,7 @@ estafeta(maceWindu, lamacaes, carro).
 estafeta(darthMaul, lamacaes, mota).
 estafeta(gigachad, lamacaes, bicicleta).
 
++estafeta(Id, _, _) :: (findall(Id,(estafeta(Id, _, _)),Sol), length(Sol,N), N == 1).
 
 
 % veiculo (tipo de veiculo, velocidade_media, cargaMax, vertente_ecologica)
