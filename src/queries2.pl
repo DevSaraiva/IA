@@ -473,3 +473,9 @@ mostraEntregas(Res) :-
     findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol),
     writeln(Sol),
     length(Sol,Res).
+
+
+chronometrise(X) :-
+    write('Executing: '), write(X), nl, nl,
+    statistics(walltime, _), call(X), statistics(walltime, [_,E]),
+    nl, write('Time: '), write(E), write(' ms.'), nl.
