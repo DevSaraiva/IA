@@ -5,7 +5,7 @@
 :- dynamic encomenda/7.
 :- dynamic circuito/2.
 :- dynamic estafeta/3.
-:- dynamic entrega/8.
+:- dynamic entrega/9.
 
 validar([]).
 validar([A|T]):- A , validar(T).
@@ -26,13 +26,16 @@ evolucao( Termo ):- (
 contaEncomendas(Res) :- findall(IdEncomenda, encomenda(_, IdEncomenda, _, _, _, _, _), Sol), length(Sol, Res).
 contaCircuitos(Res) :- findall(IdCircuito, circuito(IdCircuito, _), Sol), length(Sol, Res).
 contaEstafetas(Res) :- findall(IdEstafeta, estafeta(IdEstafeta, _, _), Sol), length(Sol, Res).
-contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol), length(Sol, Res).
+contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol), length(Sol, Res).
 
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos
 % recebe Solucao onde irá armazenar a lista
 
 devolveCusto(Lista/Custo,Custo).
+
+
+
 
 
 descending([], []).
@@ -149,7 +152,7 @@ indicadorDeProdutividade(circuito(IdEntrega, Caminho), Res) :-
 getCaminho(Circuito, ResCaminho) :- circuito(_, ResCaminho).
 
 getVeiculo(IdEntrega, ResVeiculo) :-
-    entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _),
+    entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _,_),
     estafeta(IdEstafeta, _, ResVeiculo).
 
 
@@ -200,13 +203,13 @@ encomendasPorEntregar(Todas) :-
 retiraEntregues([],[]).
 
 retiraEntregues([IdEncomenda|Encomendas],Res):-
-    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _),Entregas),
+    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _, _),Entregas),
     length(Entregas,Len),
     Len >= 1,
     retiraEntregues(Encomendas,Res).
 
 retiraEntregues([IdEncomenda|Encomendas],[IdEncomenda|Res]):-
-    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _),Entregas),
+    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _, _),Entregas),
     length(Entregas,Len),
     Len <  1,
     retiraEntregues(Encomendas,Res).
@@ -282,10 +285,10 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     estafeta(IdEstafeta, _, Veiculo),
     calcularTempo(Distancia,Veiculo,Peso,Tempo),
     write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln(""),writeln(""),
-    somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/_),
+    somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/HoraEntrega),
     writeln("Introduza a classificacao da entrega"),
     read(Classificacao),
-    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
+    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/HoraPrazo,DataEntrega/HoraEntrega,Classificacao,Peso/Volume,Preco)),
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
@@ -304,7 +307,7 @@ escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :-
         somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/HoraEntrega),
         writeln("Introduza a classificacao da entrega"),
         read(Classificacao),
-        evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Freguesia/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
+        evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Freguesia/Rua,DataPrazo/HoraPrazo,DataEntrega/HoraEntrega,Classificacao,Peso/Volume,Preco)),
         evolucao(circuito(IdEncomenda,Caminho)).
 
     
@@ -451,6 +454,6 @@ pertence( X,[Y|L]) :-
 
 
 mostraEntregas(Res) :-
-    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol),
+    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol),
     writeln(Sol),
     length(Sol,Res).
