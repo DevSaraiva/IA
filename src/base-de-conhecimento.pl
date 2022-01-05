@@ -153,8 +153,7 @@ entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/ho
 
 entrega(lataDaMonster, yoda, manuel, palmeira/rua_do_rio, data(2021, 01, 06)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
 entrega(lata, yoda, ze, palmeira/rua_do_rio, data(2021, 01, 07)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50).  
-
-entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 01, 05)/hora(12,00),5, 10/2, 50).
+entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 04, 18)/hora(22,00),5, 10/2, 50).
 
 
 

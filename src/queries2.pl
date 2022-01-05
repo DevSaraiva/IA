@@ -236,11 +236,12 @@ verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], Res):-
 
 
 verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
-    findall(IdEncomenda,entrega(IdEncomenda, _, _, _ , _, _, _, _),Lista),
+    findall(IdEncomenda,entrega(IdEncomenda, Id, _, _ , _, _, _, _,_),Lista),
     verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
 
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
+
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     entrega(IdEncomenda, _, _, _, _,DataEntrega/HoraEntrega , _, _, _),
