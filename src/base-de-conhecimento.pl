@@ -4,6 +4,7 @@
 :- dynamic circuito/2.
 :- dynamic estafeta/3.
 :- dynamic entrega/8.
+:- dynamic tranporte/3.
 
 %grafo
 
@@ -132,14 +133,6 @@ encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), 
 encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 
-encomenda(palmeira/rua_do_rio, cogumelos, antonio, data(2021, 01, 05), hora(15,40), 10/2, 50).
-
-
-
-
-
-
-
 % entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataEntrega/dataEntrega , classificação, peso/volume, preço)
 
 +entrega(Id, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
@@ -206,3 +199,6 @@ veiculo(mota, 35, 20, 30).
 veiculo(carro, 25, 100, 10). 
 
 
+%transporte (idEncomenda, DataInicio/HoraInicio, DataFim/HoraFim)
+
+transporte(IdEncomenda, DataInicio/HoraInicio, DataFim/HoraFim).
