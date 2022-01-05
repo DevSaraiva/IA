@@ -284,7 +284,7 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     writeln(Caminho),writeln(""),writeln(""),
     estafeta(IdEstafeta, _, Veiculo),
     calcularTempo(Distancia,Veiculo,Peso,Tempo),
-    write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln(""),writeln(""),
+    write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln("""),writeln("),
     somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/_),
     writeln("Introduza a classificacao da entrega"),
     read(Classificacao),
@@ -424,7 +424,7 @@ somaDataHora(data(YY,MMM,DD),hora(HH,MM),Tempo,data(Ano,Mes,Dias)/hora(Horas,Min
     Dias is (DiasSobra + DT + DD) mod 30,
     MesSobra is (DiasSobra + DT + DD) // 30,
     Mes is (MesSobra + MMM + MMT) mod 12,
-    AnoSobra is (MesSobra + MMM + MT) // 12,
+    AnoSobra is (MesSobra + MMM + MMT) // 12,
     Ano is (AnoSobra + YT + YY).
 
    
