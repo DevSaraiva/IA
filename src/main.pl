@@ -16,9 +16,7 @@ menu :- repeat, nl, nl, nl,
 	write(' 6 - Gerar um circuito de entrega com algoritmo à escolha'), nl,
 	write(' 7 - Adicionar uma encomenda'), nl,
 	write(' 8 - Mostrar encomendas não entregues'), nl,
-	write(' 9 - Escrever aqui a pergunta...'), nl,
-	write(' 10- Escrever aqui a pergunta...'), nl,
-	write(' 11- Sair.'), nl, nl,
+	write(' 9- Sair.'), nl, nl,
     write('Digite a opção:'), nl,
 	read(Choice), runQuery(Choice), menu.
 
@@ -47,6 +45,7 @@ runQuery(4) :-
 	write("Insira a hora referente à data de inicio"), read(HoraPrazo), nl,
 	write("Insira os minutos referentes à data de inicio"), read(MinPrazo), nl,
 	write("Digite o ID da encomenda: "),
+	read(IdEncomenda),nl,
 	escolherCircuitoMaisRapido(data(AnoPrazo, MesPrazo, DiaPrazo)/hora(HoraPrazo, MinPrazo), IdEncomenda).
 
 runQuery(5) :- 
@@ -56,6 +55,7 @@ runQuery(5) :-
 	write("Insira a hora referente à data de inicio"), read(HoraPrazo), nl,
 	write("Insira os minutos referentes à data de inicio"), read(MinPrazo), nl,
 	write("Digite o ID da encomenda: "),
+	read(IdEncomenda),nl,
 	escolherCircuitoMaisEcologico(data(AnoPrazo, MesPrazo, DiaPrazo)/hora(HoraPrazo, MinPrazo), IdEncomenda).
 
 runQuery(6) :- 

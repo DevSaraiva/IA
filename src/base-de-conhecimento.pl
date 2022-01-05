@@ -126,6 +126,9 @@ circuito(pizza, [palmeira/rua_do_rio, real/rua_dos_paiois, real/rua_das_giestas,
 
 
 
+
+%encomendas entregues
+
 encomenda(palmeira/rua_do_rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
 encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 encomenda(nogueiro/rua_da_capela,telemovel, miguel,  data(2021, 3, 10),hora(12,00), 3/10, 3).
@@ -134,6 +137,7 @@ encomenda(palmeira/rua_do_rio,cogumelos,joao,   data(2021, 01, 05),hora(15,40), 
 
 
 %encomendas por entregar
+
 encomenda(palmeira/rua_do_rio,televisao, manuel,  data(2021, 1, 30),hora(12,00), 30/80, 10).
 encomenda(real/rua_das_giestas,portatil, bernardo,  data(2021, 2, 12),hora(12,00), 12/30, 5).
 encomenda(maximinos/rua_do_cruzeiro,teclado, alberto,  data(2021, 6, 19),hora(12,00), 21/30, 4).
