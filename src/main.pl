@@ -16,9 +16,7 @@ menu :- repeat, nl, nl, nl,
 	write(' 6 - Gerar um circuito de entrega com algoritmo à escolha'), nl,
 	write(' 7 - Adicionar uma encomenda'), nl,
 	write(' 8 - Mostrar encomendas não entregues'), nl,
-	write(' 9 - Escrever aqui a pergunta...'), nl,
-	write(' 10- Escrever aqui a pergunta...'), nl,
-	write(' 11- Sair.'), nl, nl,
+	write(' 9- Sair.'), nl, nl,
     write('Digite a opção:'), nl,
 	read(Choice), runQuery(Choice), menu.
 
