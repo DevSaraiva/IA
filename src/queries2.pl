@@ -136,13 +136,9 @@ circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, Res
         circuitosComMaiorProdutividadeAux(Circuitos,Visitados, IdEntrega, Res).
 
 
-<<<<<<< HEAD
-indicadorDeProdutividade(circuito(Encomenda, Caminho), Res) :-
-=======
 
 
 indicadorDeProdutividade(circuito(IdEntrega, Caminho), Res) :-
->>>>>>> bb53e4776ac4e84ffb89b3c7f5a920d8e3171f15
     calculaCusto(Caminho, TotalDist),
     calculaTempo(Caminho, TotalTempo),
     getVeiculo(IdEntrega, Veiculo),
@@ -286,6 +282,7 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     write("O estafeta selecionado foi "),writeln(IdEstafeta),
     escolheAlgoritmo(1,Zona/Rua,Caminho/Distancia),
     writeln(Caminho),
+    estafeta(IdEstafeta,)
     calcularTempo(Distancia,Veiculo,Peso,Tempo),
     writeln(Tempo),
     writeln("Introduza a classificacao da entrega"),
@@ -294,7 +291,6 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
-    
     
     
     
