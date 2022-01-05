@@ -154,8 +154,6 @@ getVeiculo(IdEntrega, ResVeiculo) :-
 
 
 
-
-
 decrescimo_bicicleta(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
     Decrescimo is 0.7 * Kgs,
     NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
@@ -284,11 +282,11 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     writeln(Caminho),writeln(""),writeln(""),
     estafeta(IdEstafeta, _, Veiculo),
     calcularTempo(Distancia,Veiculo,Peso,Tempo),
-    write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln("""),writeln("),
+    write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln(""),writeln(""),
     somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/_),
     writeln("Introduza a classificacao da entrega"),
-    read(Classificacao),
-    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
+    read(Classificacao).
+    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)).
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
