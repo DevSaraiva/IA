@@ -3,7 +3,7 @@
 :- dynamic encomenda/7.
 :- dynamic circuito/2.
 :- dynamic estafeta/3.
-:- dynamic entrega/8.
+:- dynamic entrega/9.
 
 
 %grafo
@@ -120,9 +120,9 @@ circuito(pizza, [palmeira/rua_do_rio, real/rua_dos_paiois, real/rua_das_giestas,
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
-+encomenda(_, Id, _, _, _, _, _) :: (findall(Id,(encomenda(_,Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
-%encomendas entregues
++encomenda( _, Id, _, _, _, Peso/_, _) :: (Peso=<100, findall(Id,(encomenda( _, Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
+
 encomenda(palmeira/rua_do_rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
 encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 encomenda(nogueiro/rua_da_capela,telemovel, miguel,  data(2021, 3, 10),hora(12,00), 3/10, 3).
@@ -146,16 +146,16 @@ encomenda(sao_vitor/rua_dom_pedro_v, bicicleta, mandalorian, data(2020, 11, 03),
 encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
 
 
+% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua, dataPrazo/horaPrazo, dataEntrega/horaEntrega, classificação, peso/volume, preço)
 
-% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataPrazo/horaPrazo,dataEntrega/horaEntrega , classificação, peso/volume, preço)
-
-+entrega(Id, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
++entrega(Id, _, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 entrega(lataDaMonster, yoda, manuel, palmeira/rua_do_rio, data(2021, 01, 06)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
 entrega(pizza, leia, bernardo, maximinos/rua_de_caires,data(2021, 3, 11)/hora(12,00),data(2021, 1, 30)/hora(12,00), 3, 3/10, 3).
 entrega(telemovel, ze_joao, miguel, nogueiro/rua_da_capela, data(2021, 3, 10)/hora(12,00),data(2021, 1, 29)/hora(12,00), 3, 3/10, 3).
 entrega(forno, darthVader, bernardo, gualtar/rua_breias, data(2021, 2, 12)/hora(12,00),data(2021, 3, 29)/hora(12,00), 1, 12/30, 5).
 entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 04, 18)/hora(22,00),5, 10/2, 50).
+
 
 
 
@@ -201,6 +201,3 @@ veiculo(mota, 35, 20, 30).
 veiculo(carro, 25, 100, 10). 
 
 
-%transporte (idEncomenda, DataInicio/HoraInicio, DataFim/HoraFim)
-
-transporte(IdEncomenda, DataInicio/HoraInicio, DataFim/HoraFim).

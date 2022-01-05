@@ -15,7 +15,7 @@ menu :- repeat, nl, nl, nl,
 	write(' 5 - Escolher o circuito mais ecológico (usando um critério de tempo)'), nl,
 	write(' 6 - Gerar um circuito de entrega com algoritmo à escolha'), nl,
 	write(' 7 - Adicionar uma encomenda'), nl,
-	write(' 8 - Escrever aqui a pergunta...'), nl,
+	write(' 8 - Mostrar encomendas não entregues'), nl,
 	write(' 9 - Escrever aqui a pergunta...'), nl,
 	write(' 10- Escrever aqui a pergunta...'), nl,
 	write(' 11- Sair.'), nl, nl,
@@ -34,20 +34,29 @@ runQuery(2) :-
 	circuitosComMaisEntregas(NumeroCircuitos, Solucao),
 	write(Solucao).
 
-
 runQuery(3) :- 
 	write("Digite o número de circuitos que prentende: "),
 	read(NumCircuitos),
 	circuitosComMaiorProdutividade(NumCircuitos, Sol),
 	write(Sol).
 
-% FALTA FAZER
 runQuery(4) :- 
-	write("A gerar o circuito mais rápido...").
+	write("Insira o ano referente à data de inicio: "), read(AnoPrazo), nl,
+	write("Insira o mes referente à data de inicio"), read(MesPrazo), nl,
+	write("Insira o dia referente à data de inicio"), read(DiaPrazo), nl,
+	write("Insira a hora referente à data de inicio"), read(HoraPrazo), nl,
+	write("Insira os minutos referentes à data de inicio"), read(MinPrazo), nl,
+	write("Digite o ID da encomenda: "),
+	escolherCircuitoMaisRapido(data(AnoPrazo, MesPrazo, DiaPrazo)/hora(HoraPrazo, MinPrazo), IdEncomenda).
 
-% FALTA FAZER
 runQuery(5) :- 
-	write("A gerar o circuito mais ecológico...").
+	write("Insira o ano referente à data de inicio: "), read(AnoPrazo), nl,
+	write("Insira o mes referente à data de inicio"), read(MesPrazo), nl,
+	write("Insira o dia referente à data de inicio"), read(DiaPrazo), nl,
+	write("Insira a hora referente à data de inicio"), read(HoraPrazo), nl,
+	write("Insira os minutos referentes à data de inicio"), read(MinPrazo), nl,
+	write("Digite o ID da encomenda: "),
+	escolherCircuitoMaisEcologico(data(AnoPrazo, MesPrazo, DiaPrazo)/hora(HoraPrazo, MinPrazo), IdEncomenda).
 
 runQuery(6) :- 
 	write("1 - A Estrela com criterio distancia."), nl,
@@ -78,19 +87,15 @@ runQuery(7) :-
 	write("Encomenda com o ID "), write(IdEncomenda), write(" adicionada com sucesso! Existem agora "),
 	contaEncomendas(NEncomendas), write(NEncomendas), write(" encomendas.").
 
-
-runQuery(10) :- 
-    write('Indique qual/quais a(s) Encomenda(s) que pretende analisar'),
-    read(IdEncomenda), 
-    write("Recebido o input: "), writeln(IdEncomenda).
-    % query_123(IdEncomenda).
-
-
+runQuery(8) :- 
+	write("A calcular as encomendas que ainda não foram entregues..."), nl,
+	encomendasPorEntregar(EncomendasPorEntregar),
+	write(EncomendasPorEntregar). 
 
 %predicado que termina o programa
 runQuery(11) :- 
 	writeln("Até breve!"), nl, halt.
 
-%opcao final que so ocorre se nao entrar em nenhum dos casos anteriores
+%opcao final que só ocorre se nao entrar em nenhum dos casos anteriores
 runQuery(_) :- 
 	writeln("A opção não é válida!").
