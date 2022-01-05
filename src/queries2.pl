@@ -30,7 +30,7 @@ contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _,
 
 
 mostraEntregas(Res) :-
-    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol),
+    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol),
     length(Sol,Res).
 
 
