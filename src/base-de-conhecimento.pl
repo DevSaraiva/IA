@@ -154,13 +154,9 @@ entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/ho
 entrega(lataDaMonster, yoda, palmeira/rua_do_rio, data(2021, 01, 05)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
 entrega(lata, yoda, palmeira/rua_do_rio, data(2021, 01, 05)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50).  
 
-<<<<<<< HEAD
-entrega(casaco,margarida,darthVader,nogeuiro/rua_da_capela,data(2022,01,05),data(2021,4,18), 5, 20/2, 50).
-=======
 entrega(cogumelos, margarida, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 01, 05)/hora(12,00),5, 10/2, 50).
 
 
->>>>>>> c054bb33748225b523b4989b3fa8939ab65cd65c
 
 
 % estafeta(idEstafeta, freguesia, veiculo)
