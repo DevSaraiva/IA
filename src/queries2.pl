@@ -258,17 +258,20 @@ verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
 devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,carro),Carro),
     verificaListaEstafeta(Data/Hora,Carro,IdEstafeta),
-    IdEstafeta \= nop.
+    IdEstafeta \= nop,
+    !.
 
 devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,mota),Mota),
     verificaListaEstafeta(Data/Hora,Mota,IdEstafeta),
-    IdEstafeta \= nop.
+    IdEstafeta \= nop,
+    !.
 
 
 devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,bicicleta),Bicicleta),
-    verificaListaEstafeta(Data/Hora,Bicicleta,IdEstafeta).
+    verificaListaEstafeta(Data/Hora,Bicicleta,IdEstafeta),
+    !.
     
     
 
