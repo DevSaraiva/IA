@@ -4,7 +4,7 @@
 :- dynamic circuito/2.
 :- dynamic estafeta/3.
 :- dynamic entrega/8.
-:- dynamic tranporte/3.
+
 
 %grafo
 
@@ -154,9 +154,7 @@ entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/da
 entrega(lataDaMonster, yoda, palmeira/rua_do_rio, data(2021, 01, 05),data(2021, 01, 05) , 5, 10/2, 50). 
 entrega(lata, yoda, palmeira/rua_do_rio, data(2021, 01, 05),data(2021, 01, 05) , 5, 10/2, 50).  
 
-entrega(cogumelos, margarida, palmeira/rua_do_rio,  data(2021, 01, 05), hora(15,40),5, 10/2, 50).
-
-
+entrega(casaco,margarida,darthVader,nogeuiro/rua_da_capela,data(2022,01,05),data(2021,4,18), 5, 20/2, 50).
 
 
 % estafeta(idEstafeta, freguesia, veiculo)
