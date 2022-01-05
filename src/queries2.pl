@@ -224,7 +224,7 @@ verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], IdEstafeta):-
 % AQUI NAO FALTA DATA/HORA ???????   --------------------
 verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], Res):-
     not(verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta)),
-    verificaDisponiblidadeEstafeta(Ids,Res),!.
+    verificaListaEstafeta(Data/Hora,Ids,Res),!.
 
 
 verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
@@ -241,7 +241,7 @@ verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
-    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    entrega(IdEncomenda, Id, _, DataMax, TimePrazo, _, _, _),
     not(compare_data(Data, =, DataMax)),
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
