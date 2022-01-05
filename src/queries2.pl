@@ -252,12 +252,7 @@ verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     not(compare_data(Data, =, DataEntrega)),
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
-
-
-
-veiculo(bicicleta, 10, 5, 50).
-veiculo(mota, 35, 20, 30).
-veiculo(carro, 25, 100, 10). 
+ 
 
 
 
