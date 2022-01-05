@@ -107,9 +107,9 @@ duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
 
 % CIRCUITOS COM MAIOR INDICADOR DE PRODUTIVIDADE
 
-circuitosComMaiorProdutividade(NumCircuitos, Res) :-
-    findall(circuito(Encomenda, Caminho), circuito(Encomenda,Caminho),Circuitos),
-    circuitosComMaiorProdutividadeAux(Circuitos, [], Veiculo, Res),
+circuitosComMaiorProdutividade(NumCircuitos, Solucao) :-
+    findall(circuito(IdEntrega, Caminho), circuito(IdEntrega,Caminho),Circuitos),
+    circuitosComMaiorProdutividadeAux(Circuitos, [], IdEntrega, Res),
     descending(Res,ResOrder),
     take(NumCircuitos,ResOrder,Solucao).
 
@@ -117,37 +117,36 @@ circuitosComMaiorProdutividade(NumCircuitos, Res) :-
 
 circuitosComMaiorProdutividadeAux([],_, _,[]) :- !.
 
-circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, [Caminho/Produtividade|Res]):-
+circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, [Caminho/Produtividade|Res]):-
         getCaminho(Circuito, Caminho),
         not(member(Caminho,Visitados)),
-        getVeiculo(Encomenda, Veiculo),
+        getVeiculo(IdEntrega, Veiculo),
         indicadorDeProdutividade(Circuito, Produtividade),
-        circuitosComMaiorProdutividadeAux(Circuitos,[Caminho|Visitados], Encomenda, Res).
+        circuitosComMaiorProdutividadeAux(Circuitos,[Caminho|Visitados], IdEntrega, Res).
 
-circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, Res):-
+circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, Res):-
         getCaminho(Circuito, Caminho),
         member(Caminho,Visitados),
-        getVeiculo(Encomenda, Veiculo),
-        circuitosComMaiorProdutividadeAux(Circuitos,Visitados, Encomenda, Res).
+        getVeiculo(IdEntrega, Veiculo),
+        circuitosComMaiorProdutividadeAux(Circuitos,Visitados, IdEntrega, Res).
 
 
 
 
-indicadorDeProdutividade(circuito(Encomenda, Caminho), Res) :-
+indicadorDeProdutividade(circuito(IdEntrega, Caminho), Res) :-    % alterar para identrega
     calculaCusto(Caminho, TotalDist),
     calculaTempo(Caminho, TotalTempo),
-    getVeiculo(Encomenda, Veiculo),
+    getVeiculo(IdEntrega, Veiculo),
     veiculo(Veiculo, _, _, VertenteEco),
     Res is (TotalDist+TotalTempo) * VertenteEco.
 
 
 getCaminho(Circuito, ResCaminho) :- circuito(_, ResCaminho).
 
-getVeiculo(encomenda(_, _, IdEstafeta, _, _, _, _), ResVeiculo) :-
+getVeiculo(IdEntrega, ResVeiculo) :-
+    entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _),
     estafeta(IdEstafeta, _, ResVeiculo).
 
-getEncomenda(Circuito, ResEncomenda) :-
-    circuito(ResEncomenda, _).
 
 
 
@@ -187,26 +186,29 @@ getEstafetasVeiculoZona(Veiculo,Zona,Lista) :-
 
 
 verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
-    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _),Lista),
+    findall(IdEncomenda,entrega(IdEncomenda, Id, _, _, _, _, _, _),Lista),
     verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
 
+
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
     compare_data(Data, =, DataMax),
-    compare_hora(Hora, <, TimePrazo),
-    verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomendas]).
+    compare_hora(Hora, >, TimePrazo),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
     not(compare_data(Data, =, DataMax)),
-    verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomendas]).
+    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 
 
 
 
-% Comparar datas
+% Funções data e hora
 
 compare_data(data(YY,MM,DD), = ,data(YY,MM,DD)).
 
@@ -239,6 +241,34 @@ compare_hora(hora(H,M), <, hora(Hh,Mm)) :-
     H < Hh.
 compare_hora(hora(Hh,M), < , hora(Hh,Mm)) :-
    M < Mm.
+
+
+
+
+minutosToDate(Tempo,data(0,0,DD)/hora(HH,MM)):-
+        H is Tempo//60,
+        MM is Tempo mod 60,
+        DD is H // 24,
+        HH is H mod 24. 
+
+
+somaDataHora(data(YY,MMM,DD),hora(HH,MM),Tempo,data(Ano,Mes,Dias)/hora(Horas,Minutos)) :-
+    minutosToDate(Tempo,data(YT,MMT,DT)/hora(HT,MT)),
+    M is MT + MM,
+    Minutos is M mod 60,
+    HorasSobra is M // 60,
+    Horas is (HorasSobra + HH + HT) mod 24,
+    DiasSobra is (HorasSobra + HH) // 24,
+    writeln(DiasSobra),
+    Dias is (DiasSobra + DT + DD) mod 30,
+    MesSobra is (DiasSobra + DT + DD) // 30,
+    Mes is (MesSobra + MMM + MMT) mod 12,
+    AnoSobra is (MesSobra + MMM + MT) // 12,
+    Ano is (AnoSobra + YT + YY).
+
+   
+      
+
 
 
 
