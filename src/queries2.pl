@@ -201,7 +201,7 @@ descendingEco(A,  [X,Y|C]) :-
 
 %----- Devolve Encomendas que ainda não foram entregues ----------------------------------------------------------------------
 
-encomendasPorEntregar(Todas) :-
+encomendasPorEntregar(Encomendas) :-
         findall(IdEncomenda,encomenda(_,IdEncomenda, _, _, _, _, _),Todas),
         retiraEntregues(Todas,Encomendas).
 
@@ -209,15 +209,13 @@ encomendasPorEntregar(Todas) :-
 retiraEntregues([],[]).
 
 retiraEntregues([IdEncomenda|Encomendas],Res):-
-    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _, _),Entregas),
-    length(Entregas,Len),
-    Len >= 1,
+    findall(Id,entrega(Id, _, _, _, _, _, _, _, _),Entregas),
+    member(IdEncomenda,Entregas),
     retiraEntregues(Encomendas,Res).
 
 retiraEntregues([IdEncomenda|Encomendas],[IdEncomenda|Res]):-
-    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _, _),Entregas),
-    length(Entregas,Len),
-    Len <  1,
+    findall(Id,entrega(Id, _, _, _, _, _, _, _, _),Entregas),
+    not(member(IdEncomenda,Entregas)),
     retiraEntregues(Encomendas,Res).
 
 
@@ -255,22 +253,37 @@ verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 
+
+
+veiculo(bicicleta, 10, 5, 50).
+veiculo(mota, 35, 20, 30).
+veiculo(carro, 25, 100, 10). 
+
+
+
+
+
+
 %-----------------------------------Devolve Estafeta mais Rapido disponivel-----------------------------------------------------
 
-devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
+devolveMelhorEstafetaRapidez(Data/Hora,Zona,Peso,IdEstafeta):-
+    Peso =< 100,
+    writeln(Peso),
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,carro),Carro),
     verificaListaEstafeta(Data/Hora,Carro,IdEstafeta),
     IdEstafeta \= nop,
     !.
 
-devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
+devolveMelhorEstafetaRapidez(Data/Hora,Zona,Peso,IdEstafeta):-
+    Peso =< 20,
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,mota),Mota),
     verificaListaEstafeta(Data/Hora,Mota,IdEstafeta),
     IdEstafeta \= nop,
     !.
 
 
-devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
+devolveMelhorEstafetaRapidez(Data/Hora,Zona, Peso,IdEstafeta):-
+    Peso =< 10,
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,bicicleta),Bicicleta),
     verificaListaEstafeta(Data/Hora,Bicicleta,IdEstafeta),
     !.
@@ -283,7 +296,7 @@ devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
 
 escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     encomenda(Zona/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
-    devolveMelhorEstafetaRapidez(DataInicio/HoraInicio,Zona,IdEstafeta),
+    devolveMelhorEstafetaRapidez(DataInicio/HoraInicio,Zona,Peso,IdEstafeta),
     IdEstafeta \= nop,
     write("O estafeta selecionado foi "),writeln(IdEstafeta),writeln(""),writeln(""),
     escolheAlgoritmo(1,Zona/Rua,Caminho/Distancia),
