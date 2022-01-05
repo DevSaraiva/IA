@@ -279,15 +279,16 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     encomenda(Zona/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
     devolveMelhorEstafetaRapidez(DataInicio/HoraInicio,Zona,IdEstafeta),
     IdEstafeta \= nop,
-    write("O estafeta selecionado foi "),writeln(IdEstafeta),
+    write("O estafeta selecionado foi "),writeln(IdEstafeta),writeln(""),writeln(""),
     escolheAlgoritmo(1,Zona/Rua,Caminho/Distancia),
-    writeln(Caminho),
-    estafeta(IdEstafeta,)
+    writeln(Caminho),writeln(""),writeln(""),
+    estafeta(IdEstafeta, _, Veiculo),
     calcularTempo(Distancia,Veiculo,Peso,Tempo),
-    writeln(Tempo),
+    write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln(""),writeln(""),
+    somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/_),
     writeln("Introduza a classificacao da entrega"),
     read(Classificacao),
-    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Destino,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
+    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
