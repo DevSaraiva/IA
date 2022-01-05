@@ -47,6 +47,7 @@ runQuery(4) :-
 	write("Insira a hora referente à data de inicio"), read(HoraPrazo), nl,
 	write("Insira os minutos referentes à data de inicio"), read(MinPrazo), nl,
 	write("Digite o ID da encomenda: "),
+	read(IdEncomenda),nl,
 	escolherCircuitoMaisRapido(data(AnoPrazo, MesPrazo, DiaPrazo)/hora(HoraPrazo, MinPrazo), IdEncomenda).
 
 runQuery(5) :- 
@@ -56,6 +57,7 @@ runQuery(5) :-
 	write("Insira a hora referente à data de inicio"), read(HoraPrazo), nl,
 	write("Insira os minutos referentes à data de inicio"), read(MinPrazo), nl,
 	write("Digite o ID da encomenda: "),
+	read(IdEncomenda),nl,
 	escolherCircuitoMaisEcologico(data(AnoPrazo, MesPrazo, DiaPrazo)/hora(HoraPrazo, MinPrazo), IdEncomenda).
 
 runQuery(6) :- 
