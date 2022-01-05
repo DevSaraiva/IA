@@ -108,9 +108,9 @@ estima(gualtar/green-distribution,0,0).
 circuito(televisao, [real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
 circuito(portatil, [nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
 circuito(telemovel, [nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(forno, [nogueiro/rua-do-major, gualtar/rua-breias, nogueiro/rua-da-capela, gualtar/green-distribution]).
-circuito(rato, [sao-vitor/rua-do-taxa, nogueiro/rua-da-capela, real/rua-dos-paiois, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
-circuito(pizza, [sao-vitor/rua-dom-pedro-v, nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
+circuito(forno, [nogueiro/rua-do-major, nogueiro/rua-da-rasa, lamacaes/rua-do-passal, lamacaes/rua-da-torre, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v,gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
+circuito(rato, [maximinos/rua-do-cruzeiro, real/rua-do-tojal, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
+circuito(pizza, [palmeira/rua-do-rio, real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-da-fabrica, nogueiro/rua-da-capela, nogueiro/rua-do-major, gualtar/rua-breias, gualtar/green-distribution]).
 
 
 
@@ -126,7 +126,7 @@ encomenda(gualtar/rua-breias, mala, jangoFett, data(2021, 10, 11), hora(12,30), 
 encomenda(sao-vitor/rua-dom-pedro-v, bicicleta, mandalorian, data(2020, 11, 03), hora(20,10), 9/2, 2000).
 encomenda(maximinos/rua-do-cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
 
-encomenda(palmeira/rua-do-rio, lata, yoda,data(2021, 02, 05), hora(15,40), 10/2, 50).
+encomenda(palmeira/rua-do-rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 
 
