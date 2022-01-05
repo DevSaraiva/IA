@@ -120,8 +120,8 @@ circuito(pizza, [palmeira/rua_do_rio, real/rua_dos_paiois, real/rua_das_giestas,
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
-+encomenda(_, Id, _, _, _, _, _) :: (findall(Id,(encomenda(_,Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
-
++encomenda( _, Id, _, _, _, _, _) :: (findall(Id,(encomenda( _, Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
++encomenda( _, _, _, _, _, P, _) :: (solucao(P,(encomenda( _, _, _, _, _, P, _)),Sol), N <= 100).
 
 encomenda(palmeira/rua_do_rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
 encomenda(real/rua_das_giestas, francesinha, darthMaul, data(2022, 01, 05), hora(10,30), 5/8, 10).
