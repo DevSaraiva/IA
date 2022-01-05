@@ -122,10 +122,7 @@ resolve_aestrelaD(Nodo, Caminho/Custo) :-
         reverse(InvCaminho,Caminho).
 
 
-%--------------------------- estratégia de pesquisa não informada profundidade ------------
-
-
-%--------------------------- estratégia de pesquisa informada estrela tendo em conta CustoDist ------------
+%--------------------------- estratégia de pesquisa informada estrela tendo em conta CustoTempo ------------
 
 
 
