@@ -128,7 +128,6 @@ encomenda(nogueiro/rua_da_capela, casaco, darthVader, data(2021, 04, 19), hora(2
 encomenda(gualtar/rua_breias, mala, jangoFett, data(2021, 10, 11), hora(12,30), 10/4, 5).
 encomenda(sao_vitor/rua_dom_pedro_v, bicicleta, mandalorian, data(2020, 11, 03), hora(20,10), 9/2, 2000).
 encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
-
 encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 
@@ -146,13 +145,11 @@ entrega(teclado, jangoFett, alberto, maximinos/rua_do_cruzeiro, data(2021, 6, 19
 entrega(rato, r2d2, joao, real/rua_dos_paiois, data(2021, 6, 22)/hora(12,00),data(2021, 6, 22)/hora(12,00), 5, 2/30, 50).
 entrega(headset, c3po, ana, lamacaes/rua_do_passal, data(2021, 12, 30)/hora(12,00),data(2021, 12, 29)/hora(12,00), 3, 9/30, 24).
 
-entrega(pao, gigachad, ana, maximinos/rua_da_naia,data(2021, 3, 10)/hora(12,00),data(2021, 1, 29)/hora(12,00), 3, 3/10, 3).
+entrega(lataDaMonster, gigachad, ana, maximinos/rua_da_naia,data(2021, 3, 10)/hora(12,00),data(2021, 1, 29)/hora(12,00), 3, 3/10, 3).
 entrega(pizza, leia, bernardo, maximinos/rua_de_caires,data(2021, 3, 11)/hora(12,00),data(2021, 1, 30)/hora(12,00), 3, 3/10, 3).
 entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/hora(12,00),data(2021,3,15)/hora(12,00), 5 , 4/11 , 5).
 
-entrega(lataDaMonster, yoda, manuel, palmeira/rua_do_rio, data(2021, 01, 06)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
-entrega(lata, yoda, ze, palmeira/rua_do_rio, data(2021, 01, 07)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50).  
-entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 04, 18)/hora(22,00),5, 10/2, 50).
+
 
 
 
@@ -197,6 +194,3 @@ veiculo(mota, 35, 20, 30).
 veiculo(carro, 25, 100, 10). 
 
 
-%transporte (idEncomenda, DataInicio/HoraInicio, DataFim/HoraFim)
-
-transporte(IdEncomenda, DataInicio/HoraInicio, DataFim/HoraFim).
