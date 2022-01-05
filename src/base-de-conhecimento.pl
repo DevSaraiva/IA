@@ -108,9 +108,9 @@ estima(gualtar/green_distribution,0,0).
 circuito(televisao, [real/rua_dos_paiois, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v, gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
 circuito(portatil, [nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
 circuito(telemovel, [nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
-circuito(forno, [nogueiro/rua_do_major, gualtar/rua_breias, nogueiro/rua_da_capela, gualtar/green_distribution]).
-circuito(rato, [sao_vitor/rua_do_taxa, nogueiro/rua_da_capela, real/rua_dos_paiois, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
-circuito(pizza, [sao_vitor/rua_dom_pedro_v, nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
+circuito(forno, [nogueiro/rua_do_major, nogueiro/rua_da_rasa, lamacaes/rua_do_passal, lamacaes/rua_da_torre, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v,gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
+circuito(rato, [maximinos/rua_do_cruzeiro, real/rua_do_tojal, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v, gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
+circuito(pizza, [palmeira/rua_do_rio, real/rua_dos_paiois, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_da_fabrica, nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
 
 
 
@@ -125,7 +125,8 @@ encomenda(nogueiro/rua_da_capela, casaco, darthVader, data(2021, 04, 19), hora(2
 encomenda(gualtar/rua_breias, mala, jangoFett, data(2021, 10, 11), hora(12,30), 10/4, 5).
 encomenda(sao_vitor/rua_dom_pedro_v, bicicleta, mandalorian, data(2020, 11, 03), hora(20,10), 9/2, 2000).
 encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
-encomenda(palmeira/rua_do_rio, lata, yoda,data(2021, 02, 05), hora(15,40), 10/2, 50).
+
+encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 
 
