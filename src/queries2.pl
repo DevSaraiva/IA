@@ -79,23 +79,24 @@ calculaOcorrencias(X, [Y|XS], Res) :-
 escolheAlgoritmo(Alg, Nodo, Circuito/NovoCusto) :-
     Alg == 1 -> resolve_aestrelaD(Nodo, Caminho/Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
-    
-    Alg == 2 -> resolve_gulosaD(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
+
+    Alg == 2 -> resolve_aestrelaT(Nodo, Caminho/Custo),
+                duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
+            
+    Alg == 3 -> resolve_gulosaD(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 3 -> resolve_gulosaT(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
+    Alg == 4 -> resolve_gulosaT(Nodo, Caminho/Custo), % adicionei cut a esta pq da sempre a mesma solucao
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 4 -> dfs(Nodo, Caminho,Custo),
+    Alg == 5 -> dfs(Nodo, Caminho,Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 5 -> bfs(Nodo, Caminho,Custo),
+    Alg == 6 -> bfs(Nodo, Caminho,Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
 
-    Alg == 6 -> resolve_limitada(Nodo, Caminho/Custo),
+    Alg == 7 -> resolve_limitada(Nodo, Caminho/Custo),
                 duplicaCaminho(Caminho/Custo,Circuito/NovoCusto);
-
-    
 
     !,fail.
 
@@ -110,9 +111,9 @@ duplicaCaminho(IdaCaminhoAux/Custo,Caminho/NovoCusto) :-
 
 % CIRCUITOS COM MAIOR INDICADOR DE PRODUTIVIDADE
 
-circuitosComMaiorProdutividade(NumCircuitos, Solucao) :-
-    findall(circuito(IdEntrega, Caminho), circuito(IdEntrega,Caminho),Circuitos),
-    circuitosComMaiorProdutividadeAux(Circuitos, [], IdEntrega, Res),
+circuitosComMaiorProdutividade(NumCircuitos, Res) :-
+    findall(circuito(Encomenda, Caminho), circuito(Encomenda,Caminho),Circuitos),
+    circuitosComMaiorProdutividadeAux(Circuitos, [], Veiculo, Res),
     descending(Res,ResOrder),
     take(NumCircuitos,ResOrder,Solucao).
 
@@ -120,36 +121,37 @@ circuitosComMaiorProdutividade(NumCircuitos, Solucao) :-
 
 circuitosComMaiorProdutividadeAux([],_, _,[]) :- !.
 
-circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, [Caminho/Produtividade|Res]):-
+circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, [Caminho/Produtividade|Res]):-
         getCaminho(Circuito, Caminho),
         not(member(Caminho,Visitados)),
-        getVeiculo(IdEntrega, Veiculo),
+        getVeiculo(Encomenda, Veiculo),
         indicadorDeProdutividade(Circuito, Produtividade),
-        circuitosComMaiorProdutividadeAux(Circuitos,[Caminho|Visitados], IdEntrega, Res).
+        circuitosComMaiorProdutividadeAux(Circuitos,[Caminho|Visitados], Encomenda, Res).
 
-circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, IdEntrega, Res):-
+circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, Res):-
         getCaminho(Circuito, Caminho),
         member(Caminho,Visitados),
-        getVeiculo(IdEntrega, Veiculo),
-        circuitosComMaiorProdutividadeAux(Circuitos,Visitados, IdEntrega, Res).
+        getVeiculo(Encomenda, Veiculo),
+        circuitosComMaiorProdutividadeAux(Circuitos,Visitados, Encomenda, Res).
 
 
 
 
-indicadorDeProdutividade(circuito(IdEntrega, Caminho), Res) :-    % alterar para identrega
+indicadorDeProdutividade(circuito(Encomenda, Caminho), Res) :-
     calculaCusto(Caminho, TotalDist),
     calculaTempo(Caminho, TotalTempo),
-    getVeiculo(IdEntrega, Veiculo),
+    getVeiculo(Encomenda, Veiculo),
     veiculo(Veiculo, _, _, VertenteEco),
     Res is (TotalDist+TotalTempo) * VertenteEco.
 
 
 getCaminho(Circuito, ResCaminho) :- circuito(_, ResCaminho).
 
-getVeiculo(IdEntrega, ResVeiculo) :-
-    entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _),
+getVeiculo(encomenda(_, _, IdEstafeta, _, _, _, _), ResVeiculo) :-
     estafeta(IdEstafeta, _, ResVeiculo).
 
+getEncomenda(Circuito, ResEncomenda) :-
+    circuito(ResEncomenda, _).
 
 
 
@@ -163,20 +165,79 @@ decrescimo_motos(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
     NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
 
 decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
-    Decrescimo is 0.7 * Kgs,
+    Decrescimo is 0.1 * Kgs,
     NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
 
 
-
+% da tempo em minutos
 calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
     Veiculo == carro -> decrescimo_carro(25, Peso, NovaVelocidadeMedia),
-                        Tempo is Distancia/NovaVelocidadeMedia;
+                        Tempo is (Distancia/NovaVelocidadeMedia) * 60;
     Veiculo == mota -> decrescimo_motos(35, Peso, NovaVelocidadeMedia),
-                        Tempo is Distancia/NovaVelocidadeMedia;
+                        Tempo is (Distancia/NovaVelocidadeMedia) * 60;
     Veiculo == bicicleta -> decrescimo_bicicleta(10, Peso, NovaVelocidadeMedia),
-                        Tempo is Distancia/NovaVelocidadeMedia;
+                        Tempo is (Distancia/NovaVelocidadeMedia) * 60;
     !, fail.
 
+
+
+
+
+
+
+
+% encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
+
+escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda,) :- 
+        encomenda(Destino,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
+        escolheAlgoritmo(1,Destino,Caminho/Distancia), % algoritmo aestrela tendo em conta distancia
+        atribuiEstafetaEco(Destino,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
+        calcularTempo(Distancia,Veiculo,Peso,Tempo),
+        somaDataHora(DataInicio/HoraInicio,Tempo,DataEntrega/HoraEntrega),
+        % FALTA VER A CLASSIFICACAO
+        evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Destino,DataPrazo/DataEntrega,       ,Peso/Volume,Preco)),
+        evolucao(circuito(IdEncomenda,Caminho)).
+    % QUESTOES : temos que fazer uma funcao que devolve todas as encomendas que ainda nao tem entrega(ou seja
+    % que ainda nao foram entregues) para mostrar antes disto pq o estafeta nao vai saber de cor que encomendas 
+    % ainda estao por entregar
+    
+
+
+atribuiEstafetaEco(Freguesia/Rua,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo) :- 
+            veiculosPossiveisPeso(Peso,VeiculosPossiveisPeso),
+            veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,VeiculosPossiveisPrazo),
+            conjuncaoListas(VeiculosPossiveisPeso,VeiculosPossiveisPrazo,Veiculos),
+            findall(IdEstafeta,estafeta(IdEstafeta,Freguesia,Veiculo),member(Veiculo,Veiculos),Estafetas),
+            ordenaEstafeta(...),
+
+
+
+veiculosPossiveisPeso(Peso,Veiculos) :-
+    ((Peso>0,Peso=<5)     -> Veiculos=[bicicleta,mota,carro];
+     (Peso>5,Peso=<20)    -> Veiculos=[mota,carro];
+     (Peso>20,Peso=<100)  -> Veiculos=[carro];
+     ).
+
+veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,Veiculos) :-
+    calcularTempo(Distancia,bicicleta,Peso,TempoBicicleta),
+    somaDataHora(DataInicio/HoraInicio,TempoBicicleta,DataentregaB/HoraEntregaB),
+    checkPrazo(DataEntregaB/HoraEntregaB,DataPrazo/HoraPrazo,AnsB),
+    ((AnsB == 1) -> Veiculos == [bicicleta,mota,carro];
+      (AnsB == 0) -> (calcularTempo(Distancia,mota,Peso,TempoMota),
+                    somaDataHora(DataInicio/HoraInicio,TempoMota,DataentregaM/HoraEntregaM),
+                    checkPrazo(DataEntregaM/HoraEntregaM,DataPrazo/HoraPrazo,AnsM),
+                    ((AnsM == 1) -> Veiculos = [mota,carro];
+                     (AnsM == 0) -> Veiculo = [carro]).
+                    );
+    ).
+
+somaDataHora(DataInicio/HoraInicio,Tempo,DataEntrega/HoraEntrega) :-
+    % fazer depois
+
+checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,Ans) :- % se for certo Ans = 1 senao = 0
+            (  (compare_data(DataFim,<,DataPrazo)) -> Ans = 1;
+               (compare_data(DataFim,=,DataPrazo),compare_hora(HoraFim,<,HoraPrazo)) -> Ans = 1;
+               !,Ans = 0. ).
 
 % Comparar datas
 
