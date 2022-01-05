@@ -453,3 +453,9 @@ pertence( X,[X|L]).
 pertence( X,[Y|L]) :-
     X \= Y,
     pertence( X,L ).
+
+
+mostraEntregas(Res) :-
+    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol),
+    writeln(Sol),
+    length(Sol,Res).
