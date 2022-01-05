@@ -112,14 +112,14 @@ estima(gualtar/green_distribution,0,0).
 
 %circuito(IdEntrega,Caminho)
 
-+circuito(Id, _) :: (findall(Id,(circuito(Id,_)),Sol), length(Sol,N), N == 1).
-
 circuito(telemovel, [nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
 circuito(forno, [nogueiro/rua_do_major, nogueiro/rua_da_rasa, lamacaes/rua_do_passal, lamacaes/rua_da_torre, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v,gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
 circuito(pizza, [palmeira/rua_do_rio, real/rua_dos_paiois, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_da_fabrica, nogueiro/rua_da_capela, nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
 circuito(lataDaMonster, [real/rua_dos_paiois, real/rua_das_giestas, sao_vitor/rua_do_taxa, sao_vitor/rua_dom_pedro_v, gualtar/rua_do_fontelo, gualtar/rua_do_fontao, gualtar/green_distribution]).
 circuito(cogumelos, [nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_distribution]).
 
+
++circuito(Id, _) :: (findall(Id,(circuito(Id,_)),Sol), length(Sol,N), N == 1).
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
