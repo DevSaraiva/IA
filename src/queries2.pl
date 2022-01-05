@@ -4,7 +4,8 @@
 
 :- dynamic encomenda/7.
 :- dynamic circuito/2.
-
+:- dynamic estafeta/3.
+:- dynamic entrega/8.
 
 validar([]).
 validar([A|T]):- A , validar(T).
