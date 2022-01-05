@@ -29,10 +29,6 @@ contaEstafetas(Res) :- findall(IdEstafeta, estafeta(IdEstafeta, _, _), Sol), len
 contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol), length(Sol, Res).
 
 
-mostraEntregas(Res) :-
-    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol),
-    length(Sol,Res).
-
 
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos
@@ -311,8 +307,8 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
 
 escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :- 
         encomenda(Freguesia/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
-        resolve_aestrelaD(Freguesia/Rua,CaminhoAux/DistanciaAux),
-        duplicaCaminho(CaminhoAux/DistanciaAux,Caminho/Distancia), % algoritmo aestrela tendo em conta distancia
+        resolve_aestrelaT(Freguesia/Rua,CaminhoAux/DistanciaAux), % algoritmo aestrela tendo em conta o tempo mas devolve o custo distancia
+        duplicaCaminho(CaminhoAux/DistanciaAux,Caminho/Distancia),
         write("Caminho a estrela: "),writeln(Caminho),
         atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
         calcularTempo(Distancia,Veiculo,Peso,Tempo),
@@ -376,10 +372,12 @@ veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,
     calcularTempo(Distancia,bicicleta,Peso,TempoBicicleta),
     somaDataHora(DataInicio,HoraInicio,TempoBicicleta,DataEntregaB/HoraEntregaB),
     checkPrazo(DataEntregaB/HoraEntregaB,DataPrazo/HoraPrazo,AnsB),
+    
     calcularTempo(Distancia,mota,Peso,TempoMota),
     somaDataHora(DataInicio,HoraInicio,TempoMota,DataEntregaM/HoraEntregaM),
     checkPrazo(DataEntregaM/HoraEntregaM,DataPrazo/HoraPrazo,AnsM), 
-    veiculosauxiliar(AnsB,AnsM,Veiculos).
+    
+    veiculosauxiliar(AnsB,AnsM,Veiculos),!.
 
 veiculosauxiliar(AnsB,AnsM,Veiculos) :-
     (AnsB == 1) -> Veiculos = [bicicleta,mota,carro];
