@@ -271,7 +271,14 @@ somaDataHora(data(YY,MMM,DD),hora(HH,MM),Tempo,data(Ano,Mes,Dias)/hora(Horas,Min
 
    
       
+conjuncaoListas([],L,[]).
+conjuncaoListas(L, [], []).
 
+conjuncaoListas([X|Xs], Lista, [X|Res]) :-
+    member(X,Lista),
+    conjuncaoListas(Xs,Lista,Res).
 
+conjuncaoListas([X|Xs], Lista, Res) :-
+    conjuncaoListas(Xs,Lista,Res).
 
 
