@@ -285,8 +285,8 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln(""),writeln(""),
     somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/_),
     writeln("Introduza a classificacao da entrega"),
-    read(Classificacao).
-    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)).
+    read(Classificacao),
+    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
