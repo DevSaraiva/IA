@@ -23,7 +23,10 @@ evolucao( Termo ):- (
 
 
 
-contaEncomendas(Res) :- findall(Encomenda, encomenda(_, _, _, _, _, _, _), Sol), length(Sol, Res).
+contaEncomendas(Res) :- findall(IdEncomenda, encomenda(_, IdEncomenda, _, _, _, _, _), Sol), length(Sol, Res).
+contaCircuitos(Res) :- findall(IdCircuito, circuito(IdCircuito, _), Sol), length(Sol, Res).
+contaEstafetas(Res) :- findall(IdEstafeta, estafeta(IdEstafeta, _, _), Sol), length(Sol, Res).
+contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol), length(Sol, Res).
 
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos
@@ -183,9 +186,6 @@ calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predic
 
 
 
-
-
-
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
 escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda,) :- 
@@ -239,8 +239,38 @@ checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,Ans) :- % se for certo Ans = 1 se
                (compare_data(DataFim,=,DataPrazo),compare_hora(HoraFim,<,HoraPrazo)) -> Ans = 1;
                !,Ans = 0. ).
 
-% Comparar datas
 
+getEstafetasVeiculoZona(Veiculo,Zona,Lista) :-    
+    findall(Id,estafeta(Id,Zona,Veiculo),Lista).
+
+
+
+
+verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
+    findall(IdEncomenda,entrega(IdEncomenda, Id, _, _, _, _, _, _),Lista),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
+
+
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
+    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    compare_data(Data, =, DataMax),
+    compare_hora(Hora, >, TimePrazo),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
+    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    not(compare_data(Data, =, DataMax)),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
+
+
+
+
+
+% Funções data e hora
+% Comparar datas
 compare_data(data(YY,MM,DD), = ,data(YY,MM,DD)).
 
 compare_data(data(Y,M,D), > ,data(YY,MM,DD)) :-
@@ -273,5 +303,40 @@ compare_hora(hora(H,M), <, hora(Hh,Mm)) :-
 compare_hora(hora(Hh,M), < , hora(Hh,Mm)) :-
    M < Mm.
 
+
+
+
+minutosToDate(Tempo,data(0,0,DD)/hora(HH,MM)):-
+        H is Tempo//60,
+        MM is Tempo mod 60,
+        DD is H // 24,
+        HH is H mod 24. 
+
+
+somaDataHora(data(YY,MMM,DD),hora(HH,MM),Tempo,data(Ano,Mes,Dias)/hora(Horas,Minutos)) :-
+    minutosToDate(Tempo,data(YT,MMT,DT)/hora(HT,MT)),
+    M is MT + MM,
+    Minutos is M mod 60,
+    HorasSobra is M // 60,
+    Horas is (HorasSobra + HH + HT) mod 24,
+    DiasSobra is (HorasSobra + HH) // 24,
+    writeln(DiasSobra),
+    Dias is (DiasSobra + DT + DD) mod 30,
+    MesSobra is (DiasSobra + DT + DD) // 30,
+    Mes is (MesSobra + MMM + MMT) mod 12,
+    AnoSobra is (MesSobra + MMM + MT) // 12,
+    Ano is (AnoSobra + YT + YY).
+
+   
+      
+conjuncaoListas([],L,[]).
+conjuncaoListas(L, [], []).
+
+conjuncaoListas([X|Xs], Lista, [X|Res]) :-
+    member(X,Lista),
+    conjuncaoListas(Xs,Lista,Res).
+
+conjuncaoListas([X|Xs], Lista, Res) :-
+    conjuncaoListas(Xs,Lista,Res).
 
 
