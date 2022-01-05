@@ -32,14 +32,6 @@ contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _)
 % recebe x para mostrar top x caminhos
 % recebe Solucao onde irá armazenar a lista
 
-
-
-circuitosComMaisEntregas(NumCircuitos, Solucao) :-
-    findall(Caminho, circuito(_,Caminho),Caminhos),
-    circuitosComMaisEntregasAux(Caminhos,[],Res),
-    descending(Res,ResOrder),
-    take(NumCircuitos,ResOrder,Solucao).
-   
 devolveCusto(Lista/Custo,Custo).
 
 
@@ -52,6 +44,13 @@ descending(A,  [X,Y|C]) :-
         devolveCusto(Y,Z),
           W   >=    Z.
 
+
+circuitosComMaisEntregas(NumCircuitos, Solucao) :-
+    findall(Caminho, circuito(_,Caminho),Caminhos),
+    circuitosComMaisEntregasAux(Caminhos,[],Res),
+    descending(Res,ResOrder),
+    take(NumCircuitos,ResOrder,Solucao).
+   
 
 circuitosComMaisEntregasAux([],_,[]) :- !.
 
@@ -121,7 +120,6 @@ circuitosComMaiorProdutividade(NumCircuitos, Res) :-
     take(NumCircuitos,ResOrder,Solucao).
 
 
-
 circuitosComMaiorProdutividadeAux([],_, _,[]) :- !.
 
 circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, [Caminho/Produtividade|Res]):-
@@ -136,8 +134,6 @@ circuitosComMaiorProdutividadeAux([Circuito|Circuitos],Visitados, Encomenda, Res
         member(Caminho,Visitados),
         getVeiculo(Encomenda, Veiculo),
         circuitosComMaiorProdutividadeAux(Circuitos,Visitados, Encomenda, Res).
-
-
 
 
 indicadorDeProdutividade(circuito(Encomenda, Caminho), Res) :-
@@ -195,10 +191,7 @@ descendingEco(A,  [X,Y|C]) :-
           W   >=    Z.
 
 
-%Devolve Encomendas que ainda não foram entregues
-
-encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).
-entrega(televisao, darthMaul, manuel, palmeira/rua-do-rio, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
+%----- Devolve Encomendas que ainda não foram entregues ----------------------------------------------------------------------
 
 encomendasPorEntregar(Todas) :-
         findall(IdEncomenda,encomenda(_,IdEncomenda, _, _, _, _, _),Todas),
@@ -220,24 +213,87 @@ retiraEntregues([IdEncomenda|Encomendas],[IdEncomenda|Res]):-
     retiraEntregues(Encomendas,Res).
 
 
+%------------------------------------ Circuito mais rápido ---------------------------------------------------------------------
+
+%-----------------------------------Devolve Estafeta mais Rapido disponivel-----------------------------------------------------
+
+verificaListaEstafeta(_,[], nop).
+
+verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], IdEstafeta):-
+    verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta).
+
+
+verificaListaEstafeta([IdEstafeta|Ids], Res):-
+    not(verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta)),
+    verificaDisponiblidadeEstafeta(Ids,Res).
+
+
+
+verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
+    findall(IdEncomenda,entrega(IdEncomenda, Id, _, _, _, _, _, _),Lista),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
+
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
+    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    compare_data(Data, =, DataMax),
+    compare_hora(Hora, >, TimePrazo),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
+
+verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
+    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    not(compare_data(Data, =, DataMax)),
+    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 
 
 
+devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
+    findall(IdEstafeta,estafeta(IdEstafeta,Zona,carro),Carro),
+    verificaListaEstafeta(Data/Hora,Carro,IdEstafeta),
+    IdEstafeta \= nop.
+
+devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
+    findall(IdEstafeta,estafeta(IdEstafeta,Zona,mota),Mota),
+    verificaListaEstafeta(Data/Hora,Mota,IdEstafeta),
+    IdEstafeta \= nop.
+
+
+devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
+    findall(IdEstafeta,estafeta(IdEstafeta,Zona,bicicleta),Bicicleta),
+    verificaListaEstafeta(Data/Hora,Bicicleta,IdEstafeta).
+    
+    
+
+%-------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-
-
-
-
-
-
-
+escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
+    encomenda(Zona/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
+    devolveMelhorEstafetaRapidez(DataInicio/HoraInicio,Zona,IdEstafeta),
+    IdEstafeta \= nop,
+    write("O estafeta selecionado foi "),writeln(IdEstafeta),
+    escolheAlgoritmo(1,Zona/Rua,Caminho/Distancia),
+    writeln(Caminho),
+    calcularTempo(Distancia,Veiculo,Peso,Tempo),
+    writeln(Tempo),
+    writeln("Introduza a classificacao da entrega"),
+    read(Classificacao),
+    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Destino,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
+    evolucao(circuito(IdEncomenda,Caminho)).
+    
+   
+    
+    
+    
+    
 
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
-%
+
 escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :- 
         encomenda(Destino,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
         resolve_aestrelaD(Destino,CaminhoAux/DistanciaAux),
@@ -308,35 +364,6 @@ veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,
          
                
     
-
-getEstafetasVeiculoZona(Veiculo,Zona,Lista) :-    
-    findall(Id,estafeta(Id,Zona,Veiculo),Lista).
-
-
-
-
-verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
-    findall(IdEncomenda,entrega(IdEncomenda, Id, _, _, _, _, _, _),Lista),
-    verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
-
-
-
-verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
-
-verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
-    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
-    compare_data(Data, =, DataMax),
-    compare_hora(Hora, >, TimePrazo),
-    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
-
-verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
-    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
-    not(compare_data(Data, =, DataMax)),
-    verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
-
-
-
-
 
 % Funções data e hora
 % Comparar datas
