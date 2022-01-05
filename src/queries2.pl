@@ -219,12 +219,12 @@ retiraEntregues([IdEncomenda|Encomendas],[IdEncomenda|Res]):-
 verificaListaEstafeta(_,[], nop).
 
 verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], IdEstafeta):-
-    verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta).
+    verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta),!.
 
 % AQUI NAO FALTA DATA/HORA ???????   --------------------
-verificaListaEstafeta([IdEstafeta|Ids], Res):-
+verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], Res):-
     not(verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta)),
-    verificaDisponiblidadeEstafeta(Ids,Res).
+    verificaDisponiblidadeEstafeta(Ids,Res),!.
 
 
 
@@ -293,9 +293,7 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     
     
     
-
-
-% encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
+%------------------------------------ Circuito mais Ecologico ---------------------------------------------------------------------
 
 escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :- 
         encomenda(Freguesia/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
@@ -304,24 +302,20 @@ escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :-
         write("Caminho a estrela: "),writeln(Caminho),
         atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
         calcularTempo(Distancia,Veiculo,Peso,Tempo),
+        write("Distancia"),writeln(Distancia),
         write("Tempo:"),writeln(Tempo),
         somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/HoraEntrega),
         writeln("Introduza a classificacao da entrega"),
         read(Classificacao),
         evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Freguesia/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
         evolucao(circuito(IdEncomenda,Caminho)).
-    % QUESTOES : temos que fazer uma funcao que devolve todas as encomendas que ainda nao tem entrega(ou seja
-    % que ainda nao foram entregues) para mostrar antes disto pq o estafeta nao vai saber de cor que encomendas 
-    % ainda estao por entregar
+
     
 
 
 atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo) :- 
-            % writeln("ola1"),
             veiculosPossiveisPeso(Peso,VeiculosPossiveisPeso),
-            % writeln("ola"),
             veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,VeiculosPossiveisPrazo),
-            % writeln("conjuncao comeca"),
             write("Peso: "),writeln(Peso),
             write("Vei possiveis peso"),writeln(VeiculosPossiveisPeso),
             write("Vei possiveis prazo"),writeln(VeiculosPossiveisPrazo),
@@ -354,7 +348,7 @@ veiculosPossiveisPeso(Peso,Veiculos) :-
      (Peso>20,Peso=<100)  -> Veiculos=[carro];
      Veiculos = []).
 
-% se for certo Ans = 1 senao = 0
+% se DataFim(Data prevista para entrega) for antes da Dataprazo -> Ans = 1 senao = 0
 checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,1) :- 
     compare_data(DataFim,<,DataPrazo).
 
@@ -364,20 +358,13 @@ checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,1) :-
 
 checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,0) .
 
-%%% CORRIGIR ERROOSOOSOSOOSOSOOSOS
 veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,Veiculos) :-
     calcularTempo(Distancia,bicicleta,Peso,TempoBicicleta),
-    % writeln(TempoBicicleta),
-    % writeln(DataInicio/HoraInicio),
     somaDataHora(DataInicio,HoraInicio,TempoBicicleta,DataEntregaB/HoraEntregaB),
-    % writeln(DataEntregaB/HoraEntregaB),
     checkPrazo(DataEntregaB/HoraEntregaB,DataPrazo/HoraPrazo,AnsB),
-    % writeln(AnsB),
     calcularTempo(Distancia,mota,Peso,TempoMota),
-    % writeln(TempoMota),
     somaDataHora(DataInicio,HoraInicio,TempoMota,DataEntregaM/HoraEntregaM),
     checkPrazo(DataEntregaM/HoraEntregaM,DataPrazo/HoraPrazo,AnsM), 
-    % writeln("comeca veicuilo auxiliar"),
     veiculosauxiliar(AnsB,AnsM,Veiculos).
 
 veiculosauxiliar(AnsB,AnsM,Veiculos) :-
