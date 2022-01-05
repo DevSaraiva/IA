@@ -154,8 +154,6 @@ getVeiculo(IdEntrega, ResVeiculo) :-
 
 
 
-
-
 decrescimo_bicicleta(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
     Decrescimo is 0.7 * Kgs,
     NovaVelocidadeMedia is VelocidadeMedia - Decrescimo.
@@ -279,15 +277,16 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     encomenda(Zona/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
     devolveMelhorEstafetaRapidez(DataInicio/HoraInicio,Zona,IdEstafeta),
     IdEstafeta \= nop,
-    write("O estafeta selecionado foi "),writeln(IdEstafeta),
+    write("O estafeta selecionado foi "),writeln(IdEstafeta),writeln(""),writeln(""),
     escolheAlgoritmo(1,Zona/Rua,Caminho/Distancia),
-    writeln(Caminho),
-    estafeta(IdEstafeta,)
+    writeln(Caminho),writeln(""),writeln(""),
+    estafeta(IdEstafeta, _, Veiculo),
     calcularTempo(Distancia,Veiculo,Peso,Tempo),
-    writeln(Tempo),
+    write("O Tempo para a entrega foi de "),write(Tempo),write(" minutos"),writeln(""),writeln(""),
+    somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/_),
     writeln("Introduza a classificacao da entrega"),
     read(Classificacao),
-    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Destino,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
+    evolucao(entrega(IdEncomenda,IdEstafeta,IdCliente,Zona/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
@@ -445,7 +444,7 @@ somaDataHora(data(YY,MMM,DD),hora(HH,MM),Tempo,data(Ano,Mes,Dias)/hora(Horas,Min
     Dias is (DiasSobra + DT + DD) mod 30,
     MesSobra is (DiasSobra + DT + DD) // 30,
     Mes is (MesSobra + MMM + MMT) mod 12,
-    AnoSobra is (MesSobra + MMM + MT) // 12,
+    AnoSobra is (MesSobra + MMM + MMT) // 12,
     Ano is (AnoSobra + YT + YY).
 
    

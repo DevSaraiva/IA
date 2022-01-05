@@ -14,7 +14,7 @@ menu :- repeat, nl, nl, nl,
 	write(' 4 - Escolher o circuito mais rápido (usando o critério da distância)'), nl,
 	write(' 5 - Escolher o circuito mais ecológico (usando um critério de tempo)'), nl,
 	write(' 6 - Gerar um circuito de entrega com algoritmo à escolha'), nl,
-	write(' 7 - Escrever aqui a pergunta...'), nl,
+	write(' 7 - Adicionar uma encomenda'), nl,
 	write(' 8 - Escrever aqui a pergunta...'), nl,
 	write(' 9 - Escrever aqui a pergunta...'), nl,
 	write(' 10- Escrever aqui a pergunta...'), nl,
@@ -63,6 +63,20 @@ runQuery(6) :-
 	escolheAlgoritmo(NumeroAlg, Nodo, Circuito/NovoCusto),
 	write(Circuito/NovoCusto).
 
+runQuery(7) :- 
+	write("Insira a morada no formato Freguesia/Rua: "), read(Freguesia/Rua), nl,
+	write("Insira o ID (único) da encomenda: "), read(IdEncomenda), nl,
+	write("Insira o ID do cliente: "), read(IdCliente), nl,
+	write("Insira o ano do prazo para a entrega: "), read(AnoPrazo), nl,
+	write("Insira o mes do prazo para a entrega: "), read(MesPrazo), nl,
+	write("Insira o dia do prazo para a entrega: "), read(DiaPrazo), nl,
+	write("Insira a hora do prazo para a entrega: "), read(HoraPrazo), nl,
+	write("Insira os minutos do prazo para a entrega: "), read(MinPrazo), nl,
+	write("Insira o peso e o volume no formato Peso/Volume: "), read(Peso/Volume), nl,
+	write("Insira o preço: "), read(Preco), nl,
+	evolucao(encomenda(Freguesia/Rua, IdEncomenda, IdCliente, data(AnoPrazo, MesPrazo, DiaPrazo), hora(HoraPrazo, MinPrazo), Peso/Volume, Preco)), nl,
+	write("Encomenda com o ID "), write(IdEncomenda), write(" adicionada com sucesso! Existem agora "),
+	contaEncomendas(NEncomendas), write(NEncomendas), write(" encomendas.").
 
 
 runQuery(10) :- 
