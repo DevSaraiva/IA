@@ -249,7 +249,7 @@ checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,1) :-
 
 checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,0) .
 
-
+%%% CORRIGIR ERROOSOOSOSOOSOSOOSOS
 veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,Veiculos) :-
     calcularTempo(Distancia,bicicleta,Peso,TempoBicicleta),
     writeln(TempoBicicleta),
