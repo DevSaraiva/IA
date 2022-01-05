@@ -4,7 +4,7 @@
 :- dynamic circuito/2.
 :- dynamic estafeta/3.
 :- dynamic entrega/8.
-:- dynamic tranporte/3.
+
 
 %grafo
 

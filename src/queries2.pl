@@ -28,6 +28,12 @@ contaCircuitos(Res) :- findall(IdCircuito, circuito(IdCircuito, _), Sol), length
 contaEstafetas(Res) :- findall(IdEstafeta, estafeta(IdEstafeta, _, _), Sol), length(Sol, Res).
 contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _, _), Sol), length(Sol, Res).
 
+
+mostraEntregas(Res) :-
+    findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol),
+    length(Sol,Res).
+
+
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos
 % recebe Solucao onde irá armazenar a lista
@@ -224,7 +230,6 @@ verificaListaEstafeta(_,[], nop).
 verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], IdEstafeta):-
     verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta),!.
 
-% AQUI NAO FALTA DATA/HORA ???????   --------------------
 verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], Res):-
     not(verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta)),
     verificaListaEstafeta(Data/Hora,Ids,Res),!.

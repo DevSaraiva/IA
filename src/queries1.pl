@@ -1,8 +1,4 @@
-:-include('encomenda.pl').
-:-include('estafeta.pl').
-:-include('veiculo.pl').
-:-include('entrega.pl').
-
+:-include('base-de-conhecimento.pl').
 
 :-style_check(-singleton).
 
@@ -317,3 +313,15 @@ pesoTotalPorEstafetas(Res) :-
 
         
 
+%------------------------------------------------------------------------------------------
+
+% retira n elementos de uma lista 
+
+take(0, _, []) :- !.
+
+take(_,[],[]).
+
+take(N, [H|TA], [H|TB]) :-
+	N > 0,
+	N2 is N - 1,
+	take(N2, TA, TB).
