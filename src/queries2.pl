@@ -233,21 +233,21 @@ verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], Res):-
 
 
 verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
-    findall(IdEncomenda,entrega(IdEncomenda, Id, _, _, _, _, _, _),Lista),
+    findall(IdEncomenda,entrega(IdEncomenda, _, _, _ , _, _, _, _),Lista),
     verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
 
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
-    entrega(IdEncomenda, Id, _, DataMax, TimePrazo, _, _, _),
-    compare_data(Data, =, DataMax),
-    compare_hora(Hora, >, TimePrazo),
+    entrega(IdEncomenda, _, _, _, _,DataEntrega/HoraEntrega , _, _, _),
+    compare_data(Data, =, DataEntrega),
+    compare_hora(Hora, >, HoraEntrega),
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
-    entrega(IdEncomenda, Id, _, DataMax, TimePrazo, _, _, _),
-    not(compare_data(Data, =, DataMax)),
+    entrega(IdEncomenda, _, _, _, _,DataEntrega/HoraEntrega , _, _, _),
+    not(compare_data(Data, =, DataEntrega)),
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 

@@ -139,7 +139,7 @@ encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/
 
 
 entrega(televisao, darthMaul, manuel, palmeira/rua_do_rio, data(2021, 1, 30)/hora(12,00),data(2021, 1, 29)/hora(12,00),5, 30/80, 10).
-entrega(portatil, rui, bernardo, real/rua_das_giestas, data(2021, 2, 12)/hora(12,00),data(2021, 2, 11)//hora(12,00),4 , 12/30, 5).
+entrega(portatil, rui, bernardo, real/rua_das_giestas, data(2021, 2, 12)/hora(12,00),data(2021, 2, 11)/hora(12,00),4 , 12/30, 5).
 entrega(telemovel, ze_joao, miguel, nogueiro/rua_da_capela, data(2021, 3, 10)/hora(12,00),data(2021, 1, 29)/hora(12,00), 3, 3/10, 3).
 
 entrega(forno, darthVader, bernardo, gualtar/rua_breias, data(2021, 2, 12)/hora(12,00),data(2021, 3, 29)/hora(12,00), 1, 12/30, 5).
