@@ -223,7 +223,7 @@ verificaListaEstafeta(_,[], nop).
 verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], IdEstafeta):-
     verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta).
 
-
+% AQUI NAO FALTA DATA/HORA ???????   --------------------
 verificaListaEstafeta([IdEstafeta|Ids], Res):-
     not(verificaDisponiblidadeEstafeta(Data/Hora,IdEstafeta)),
     verificaDisponiblidadeEstafeta(Ids,Res).
@@ -299,17 +299,14 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
 escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :- 
-        write("ola...."),
         encomenda(Freguesia/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
-        write("2ola"),
         resolve_aestrelaD(Freguesia/Rua,CaminhoAux/DistanciaAux),
         duplicaCaminho(CaminhoAux/DistanciaAux,Caminho/Distancia), % algoritmo aestrela tendo em conta distancia
-        writeln(Caminho),
-        atribuiEstafetaEco(Freguesia/Rua,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
+        write("Caminho a estrela: "),writeln(Caminho),
+        atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
         calcularTempo(Distancia,Veiculo,Peso,Tempo),
-        writeln(Tempo),
+        write("Tempo:"),writeln(Tempo),
         somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/HoraEntrega),
-        writeln(Caminho),
         writeln("Introduza a classificacao da entrega"),
         read(Classificacao),
         evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Freguesia/Rua,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
@@ -321,18 +318,22 @@ escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :-
 
 
 atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo) :- 
-            writeln("ola1"),
+            % writeln("ola1"),
             veiculosPossiveisPeso(Peso,VeiculosPossiveisPeso),
-            writeln("ola"),
+            % writeln("ola"),
             veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,VeiculosPossiveisPrazo),
-            writeln("conjuncao comeca"),
+            % writeln("conjuncao comeca"),
+            write("Peso: "),writeln(Peso),
+            write("Vei possiveis peso"),writeln(VeiculosPossiveisPeso),
+            write("Vei possiveis prazo"),writeln(VeiculosPossiveisPrazo),
             conjuncaoListas(VeiculosPossiveisPeso,VeiculosPossiveisPrazo,Veiculos),
             writeln(Veiculos),
+            write("Freguesia"),writeln(Freguesia),
             listaEstafetaVeiculos(Freguesia,Veiculos,[],Estafetas),
-            writeln(Estafetas),
-            descendingEco(Estafetas,[IdEstafetaAtri|EstafetasOrd]),
-            %take(1,EstafetasOrd,[IdEstafetaAtri]),
-            writeln(IdEstafetaAtri),
+            write("Estafetas"),writeln(Estafetas),
+            descendingEco(Estafetas,EstafetasOrd),
+            verificaListaEstafeta(DataInicio/HoraInicio,EstafetasOrd,IdEstafetaAtri),
+            write("Estafeta atribuido:"),writeln(IdEstafetaAtri),
             estafeta(IdEstafetaAtri,_,Veiculo).
 
 listaEstafetaVeiculos(Freguesia,[],Estafetas,Estafetas).
@@ -349,8 +350,8 @@ listaEstafetaVeiculos(Freguesia,[V|Vs],Estafetas,Res) :-
 
 
 veiculosPossiveisPeso(Peso,Veiculos) :-
-     ((Peso>0,Peso=<5)     -> Veiculos=[bicicleta,mota,carro];
-     (Peso>5,Peso=<20)    -> Veiculos=[mota,carro];
+     ((Peso>0,Peso=<10)     -> Veiculos=[bicicleta,mota,carro];
+     (Peso>10,Peso=<20)    -> Veiculos=[mota,carro];
      (Peso>20,Peso=<100)  -> Veiculos=[carro];
      Veiculos = []).
 
@@ -367,17 +368,17 @@ checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,0) .
 %%% CORRIGIR ERROOSOOSOSOOSOSOOSOS
 veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,Veiculos) :-
     calcularTempo(Distancia,bicicleta,Peso,TempoBicicleta),
-    writeln(TempoBicicleta),
-    writeln(DataInicio/HoraInicio),
+    % writeln(TempoBicicleta),
+    % writeln(DataInicio/HoraInicio),
     somaDataHora(DataInicio,HoraInicio,TempoBicicleta,DataEntregaB/HoraEntregaB),
-    writeln(DataEntregaB/HoraEntregaB),
+    % writeln(DataEntregaB/HoraEntregaB),
     checkPrazo(DataEntregaB/HoraEntregaB,DataPrazo/HoraPrazo,AnsB),
-    writeln(AnsB),
+    % writeln(AnsB),
     calcularTempo(Distancia,mota,Peso,TempoMota),
-    writeln(TempoMota),
+    % writeln(TempoMota),
     somaDataHora(DataInicio,HoraInicio,TempoMota,DataEntregaM/HoraEntregaM),
     checkPrazo(DataEntregaM/HoraEntregaM,DataPrazo/HoraPrazo,AnsM), 
-    writeln("comeca veicuilo auxiliar"),
+    % writeln("comeca veicuilo auxiliar"),
     veiculosauxiliar(AnsB,AnsM,Veiculos).
 
 veiculosauxiliar(AnsB,AnsM,Veiculos) :-
