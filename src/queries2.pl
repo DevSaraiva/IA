@@ -2,9 +2,10 @@
 
 :- op(900,xfy,'::').
 
-:- dynamic encomenda/8.
+:- dynamic encomenda/7.
 :- dynamic circuito/2.
-
+:- dynamic estafeta/3.
+:- dynamic entrega/8.
 
 validar([]).
 validar([A|T]):- A , validar(T).
@@ -21,6 +22,8 @@ evolucao( Termo ):- (
     validar(Lista)).
 
 
+
+contaEncomendas(Res) :- findall(Encomenda, encomenda(_, _, _, _, _, _, _), Sol), length(Sol, Res).
 
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos

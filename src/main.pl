@@ -50,12 +50,13 @@ runQuery(5) :-
 	write("A gerar o circuito mais ecológico...").
 
 runQuery(6) :- 
-	write("1 - A Estrela."), nl,
-	write("2 - Gulosa com estima pela distancia."), nl,
-	write("3 - Gulosa com estima pelo tempo."), nl,
-	write("4 - Depth First Search."), nl,
-	write("5 - Breadth First Search"), nl,
-	write("6 - Busca Iterativa Limitada em Profundidade"), nl,
+	write("1 - A Estrela com criterio distancia."), nl,
+	write("2 - A Estrela com criterio tempo."), nl,
+	write("3 - Gulosa com estima pela distancia."), nl,
+	write("4 - Gulosa com estima pelo tempo."), nl,
+	write("5 - Depth First Search."), nl,
+	write("6 - Breadth First Search"), nl,
+	write("7 - Busca Iterativa Limitada em Profundidade"), nl,
 	read(NumeroAlg),
 	write("Digite o nodo onde pretende levar a encomenda: "),
 	read(Nodo),
