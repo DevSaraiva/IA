@@ -175,27 +175,43 @@ decrescimo_carro(VelocidadeMedia, Kgs, NovaVelocidadeMedia) :-
 % da tempo em minutos
 calcularTempo(Distancia, Veiculo, Peso, Tempo) :-    %o Decrescimo vem do predicado decrescimo_motos / bicicleta / carro
     Veiculo == carro -> decrescimo_carro(25, Peso, NovaVelocidadeMedia),
-                        Tempo is (Distancia/NovaVelocidadeMedia) * 60;
+                         round((Distancia/NovaVelocidadeMedia) * 60,Tempo);
     Veiculo == mota -> decrescimo_motos(35, Peso, NovaVelocidadeMedia),
-                        Tempo is (Distancia/NovaVelocidadeMedia) * 60;
+                          round((Distancia/NovaVelocidadeMedia) * 60,Tempo);
     Veiculo == bicicleta -> decrescimo_bicicleta(10, Peso, NovaVelocidadeMedia),
-                        Tempo is (Distancia/NovaVelocidadeMedia) * 60;
+                         round((Distancia/NovaVelocidadeMedia) * 60,Tempo);
     !, fail.
 
+
+descendingEco([], []).
+descendingEco([A], [A]).
+descendingEco(A,  [X,Y|C]) :-
+  select(X, A, B),
+  descendingEco(B, [Y|C]),
+        estafeta(X,_,Veiculo1),
+        veiculo(Veiculo1,_,_,W),
+        estafeta(Y,_,Veiculo2),
+        veiculo(Veiculo2,_,_,Z),
+          W   >=    Z.
 
 
 
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
-
-escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda,) :- 
+%
+escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :- 
         encomenda(Destino,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
-        escolheAlgoritmo(1,Destino,Caminho/Distancia), % algoritmo aestrela tendo em conta distancia
+        resolve_aestrelaD(Destino,CaminhoAux/DistanciaAux),
+        duplicaCaminho(CaminhoAux/DistanciaAux,Caminho/Distancia), % algoritmo aestrela tendo em conta distancia
+        writeln(Caminho),
         atribuiEstafetaEco(Destino,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
         calcularTempo(Distancia,Veiculo,Peso,Tempo),
-        somaDataHora(DataInicio/HoraInicio,Tempo,DataEntrega/HoraEntrega),
-        % FALTA VER A CLASSIFICACAO
-        evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Destino,DataPrazo/DataEntrega,       ,Peso/Volume,Preco)),
+        writeln(Tempo),
+        somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/HoraEntrega),
+        writeln(Caminho),
+        writeln("Introduza a classificacao da entrega"),
+        read(Classificacao),
+        evolucao(entrega(IdEncomenda,IdEstafetaAtri,IdCliente,Destino,DataPrazo/DataEntrega,Classificacao,Peso/Volume,Preco)),
         evolucao(circuito(IdEncomenda,Caminho)).
     % QUESTOES : temos que fazer uma funcao que devolve todas as encomendas que ainda nao tem entrega(ou seja
     % que ainda nao foram entregues) para mostrar antes disto pq o estafeta nao vai saber de cor que encomendas 
@@ -203,42 +219,56 @@ escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda,) :-
     
 
 
-atribuiEstafetaEco(Freguesia/Rua,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo) :- 
+atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo) :- 
+            writeln("ola1"),
             veiculosPossiveisPeso(Peso,VeiculosPossiveisPeso),
+            writeln("ola"),
             veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,VeiculosPossiveisPrazo),
+            writeln("conjuncao comeca"),
             conjuncaoListas(VeiculosPossiveisPeso,VeiculosPossiveisPrazo,Veiculos),
             findall(IdEstafeta,estafeta(IdEstafeta,Freguesia,Veiculo),member(Veiculo,Veiculos),Estafetas),
-            ordenaEstafeta(...),
-
+            descendingEco(Estafetas,EstafetasOrd),
+            take(1,EstafetasOrd,[IdEstafetaAtri]),
+            writeln(IdEstafetaAtri),
+            estafeta(IdEstafetaAtri,_,Veiculo).
 
 
 veiculosPossiveisPeso(Peso,Veiculos) :-
-    ((Peso>0,Peso=<5)     -> Veiculos=[bicicleta,mota,carro];
+     ((Peso>0,Peso=<5)     -> Veiculos=[bicicleta,mota,carro];
      (Peso>5,Peso=<20)    -> Veiculos=[mota,carro];
      (Peso>20,Peso=<100)  -> Veiculos=[carro];
-     ).
+     Veiculos = []).
+
+% se for certo Ans = 1 senao = 0
+checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,1) :- 
+    compare_data(DataFim,<,DataPrazo).
+
+checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,1) :- 
+     compare_data(DataFim,=,DataPrazo),
+     compare_hora(HoraFim,<,HoraPrazo).              
+
+checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,0) .
+
 
 veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,Veiculos) :-
     calcularTempo(Distancia,bicicleta,Peso,TempoBicicleta),
-    somaDataHora(DataInicio/HoraInicio,TempoBicicleta,DataentregaB/HoraEntregaB),
+    writeln(TempoBicicleta),
+    somaDataHora(DataInicio,HoraInicio,TempoBicicleta,DataEntregaB/HoraEntregaB),
+    writeln(DataEntregaB/HoraEntregaB),
     checkPrazo(DataEntregaB/HoraEntregaB,DataPrazo/HoraPrazo,AnsB),
-    ((AnsB == 1) -> Veiculos == [bicicleta,mota,carro];
-      (AnsB == 0) -> (calcularTempo(Distancia,mota,Peso,TempoMota),
-                    somaDataHora(DataInicio/HoraInicio,TempoMota,DataentregaM/HoraEntregaM),
+    writeln(AnsB),
+    (AnsB == 1) -> Veiculos == [bicicleta,mota,carro];
+    (AnsB == 0) -> calcularTempo(Distancia,mota,Peso,TempoMota),
+                    somaDataHora(DataInicio,HoraInicio,TempoMota,DataentregaM/HoraEntregaM),
                     checkPrazo(DataEntregaM/HoraEntregaM,DataPrazo/HoraPrazo,AnsM),
                     ((AnsM == 1) -> Veiculos = [mota,carro];
-                     (AnsM == 0) -> Veiculo = [carro]).
-                    );
-    ).
+                    (AnsM == 0) -> Veiculo = [carro];
+                    Veiculos = []);
+    !.
 
-somaDataHora(DataInicio/HoraInicio,Tempo,DataEntrega/HoraEntrega) :-
-    % fazer depois
-
-checkPrazo(DataFim/HoraFim,DataPrazo/HoraPrazo,Ans) :- % se for certo Ans = 1 senao = 0
-            (  (compare_data(DataFim,<,DataPrazo)) -> Ans = 1;
-               (compare_data(DataFim,=,DataPrazo),compare_hora(HoraFim,<,HoraPrazo)) -> Ans = 1;
-               !,Ans = 0. ).
-
+         
+               
+    
 
 getEstafetasVeiculoZona(Veiculo,Zona,Lista) :-    
     findall(Id,estafeta(Id,Zona,Veiculo),Lista).
@@ -319,8 +349,7 @@ somaDataHora(data(YY,MMM,DD),hora(HH,MM),Tempo,data(Ano,Mes,Dias)/hora(Horas,Min
     Minutos is M mod 60,
     HorasSobra is M // 60,
     Horas is (HorasSobra + HH + HT) mod 24,
-    DiasSobra is (HorasSobra + HH) // 24,
-    writeln(DiasSobra),
+    DiasSobra is (HorasSobra + HH + HT) // 24,
     Dias is (DiasSobra + DT + DD) mod 30,
     MesSobra is (DiasSobra + DT + DD) // 30,
     Mes is (MesSobra + MMM + MMT) mod 12,

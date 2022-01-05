@@ -119,7 +119,7 @@ aestrela(Caminhos, SolucaoCaminho) :-
 resolve_aestrelaD(Nodo, Caminho/Custo) :-
         estima(Nodo, Estima,_),
         aestrela([[Nodo]/0/Estima],InvCaminho/Custo/_),
-        reverse(InvCaminho,Caminho).
+        reverse(InvCaminho,Caminho),!.
 
 
 %--------------------------- estratégia de pesquisa informada estrela tendo em conta CustoTempo ------------
