@@ -2,7 +2,7 @@
 :-include('base-de-conhecimento.pl').
 
 
-goal(gualtar/green-distribution).
+goal(gualtar/green_distribution).
 
 
 %--------------------------- estratégia de pesquisa informada gulosa tendo em conta CustoDistância ------------
