@@ -214,7 +214,7 @@ retiraEntregues([IdEncomenda|Encomendas],[IdEncomenda|Res]):-
 
 %------------------------------------ Circuito mais rápido ---------------------------------------------------------------------
 
-%-----------------------------------Devolve Estafeta mais Rapido disponivel-----------------------------------------------------
+
 
 verificaListaEstafeta(_,[], nop).
 
@@ -227,7 +227,6 @@ verificaListaEstafeta(Data/Hora,[IdEstafeta|Ids], Res):-
     verificaDisponiblidadeEstafeta(Ids,Res),!.
 
 
-
 verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
     findall(IdEncomenda,entrega(IdEncomenda, Id, _, _, _, _, _, _),Lista),
     verificaDisponiblidadeEstafetaAux(Data/Hora,Lista).
@@ -236,7 +235,7 @@ verificaDisponiblidadeEstafeta(Data/Hora,Id) :-
 verificaDisponiblidadeEstafetaAux(Data/Hora,[]).
 
 verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
-    encomenda(_,IdEncomenda,_, DataPrazo,TimePrazo, _, _),
+    entrega(IdEncomenda, Id, _, DataMax, TimePrazo, _, _, _),
     compare_data(Data, =, DataMax),
     compare_hora(Hora, >, TimePrazo),
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
@@ -247,7 +246,7 @@ verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
     verificaDisponiblidadeEstafetaAux(Data/Hora,IdEncomendas).
 
 
-
+%-----------------------------------Devolve Estafeta mais Rapido disponivel-----------------------------------------------------
 
 devolveMelhorEstafetaRapidez(Data/Hora,Zona,IdEstafeta):-
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,carro),Carro),
@@ -290,8 +289,6 @@ escolherCircuitoMaisRapido(DataInicio/HoraInicio,IdEncomenda) :-
     evolucao(circuito(IdEncomenda,Caminho)).
     
    
-    
-    
     
 %------------------------------------ Circuito mais Ecologico ---------------------------------------------------------------------
 

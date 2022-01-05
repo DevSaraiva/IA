@@ -132,9 +132,15 @@ encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), 
 encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 
+encomenda(palmeira/rua_do_rio, cogumelos, antonio, data(2021, 01, 05), hora(15,40), 10/2, 50).
 
 
-% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
+
+
+
+
+
+% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataEntrega/dataEntrega , classificação, peso/volume, preço)
 
 +entrega(Id, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
@@ -154,6 +160,8 @@ entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/da
 
 entrega(lataDaMonster, yoda, palmeira/rua_do_rio, data(2021, 01, 05),data(2021, 01, 05) , 5, 10/2, 50). 
 entrega(lata, yoda, palmeira/rua_do_rio, data(2021, 01, 05),data(2021, 01, 05) , 5, 10/2, 50).  
+
+entrega(cogumelos, margarida, palmeira/rua_do_rio,  data(2021, 01, 05), hora(15,40),5, 10/2, 50).
 
 
 
