@@ -125,7 +125,6 @@ encomenda(nogueiro/rua-da-capela, casaco, darthVader, data(2021, 04, 19), hora(2
 encomenda(gualtar/rua-breias, mala, jangoFett, data(2021, 10, 11), hora(12,30), 10/4, 5).
 encomenda(sao-vitor/rua-dom-pedro-v, bicicleta, mandalorian, data(2020, 11, 03), hora(20,10), 9/2, 2000).
 encomenda(maximinos/rua-do-cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), hora(22,05), 1/1, 99).
-
 encomenda(palmeira/rua-do-rio, lata, yoda,data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 

@@ -195,6 +195,45 @@ descendingEco(A,  [X,Y|C]) :-
           W   >=    Z.
 
 
+%Devolve Encomendas que ainda não foram entregues
+
+encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).
+entrega(televisao, darthMaul, manuel, palmeira/rua-do-rio, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
+
+encomendasPorEntregar(Todas) :-
+        findall(IdEncomenda,encomenda(_,IdEncomenda, _, _, _, _, _),Todas),
+        retiraEntregues(Todas,Encomendas).
+
+
+retiraEntregues([],[]).
+
+retiraEntregues([IdEncomenda|Encomendas],Res):-
+    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _),Entregas),
+    length(Entregas,Len),
+    Len >= 1,
+    retiraEntregues(Encomendas,Res).
+
+retiraEntregues([IdEncomenda|Encomendas],[IdEncomenda|Res]):-
+    findall(IdEncomenda,entrega(IdEncomenda, _, _, _, _, _, _, _),Entregas),
+    length(Entregas,Len),
+    Len <  1,
+    retiraEntregues(Encomendas,Res).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
