@@ -4,7 +4,7 @@
 
 %grafo
 
-+aresta(Inicio, Fim, _, _) :: (findall((Inicio,Fim),(aresta(Inicio,Fim, _, _)),Sol), length(Sol,N), N < 1).
++aresta(Inicio, Fim, _, _) :: (findall((Inicio,Fim),(aresta(Inicio,Fim, _, _)),Sol), length(Sol,N), N == 1).
 
 aresta(palmeira/rua-do-rio,palmeira/rua-da-poca,3.4,6).
 aresta(palmeira/rua-do-rio,palmeira/rua-do-monte,3.1,5).
@@ -72,7 +72,7 @@ aresta(nogueiro/rua-da-rasa,lamacaes/rua-do-passal,1.6,4).
 aresta(real/rua-das-giestas,sao-vitor/rua-do-taxa,6.3,9).
 
 
-+estima(Inicio, _, _) :: (findall(Inicio,(estima(Inicio, _, _)),Sol), length(Sol,N), N < 1).
++estima(Inicio, _, _) :: (findall(Inicio,(estima(Inicio, _, _)),Sol), length(Sol,N), N == 1).
 
 estima(gualtar/green-distribution,0,0).
 estima(gualtar/rua-breias,2,4.5).
@@ -102,7 +102,7 @@ estima(gualtar/green-distribution,0,0).
 
 %circuito
 
-+circuito(Id, _) :: (findall(Id,(circuito(Id,_)),Sol), length(Sol,N), N < 1).
++circuito(Id, _) :: (findall(Id,(circuito(Id,_)),Sol), length(Sol,N), N == 1).
 
 
 circuito(televisao, [real/rua-dos-paiois, real/rua-das-giestas, sao-vitor/rua-do-taxa, sao-vitor/rua-dom-pedro-v, gualtar/rua-do-fontelo, gualtar/rua-do-fontao, gualtar/green-distribution]).
@@ -116,7 +116,7 @@ circuito(pizza, [sao-vitor/rua-dom-pedro-v, nogueiro/rua-da-capela, nogueiro/rua
 
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
 
-+encomenda(Id, _, _, _, _, _, _) :: (findall(Id,(encomenda(_,Id,_, _, _, _, _)),Sol), length(Sol,N), N < 1).
++encomenda(Id, _, _, _, _, _, _) :: (findall(Id,(encomenda(_,Id,_, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 
 encomenda(palmeira/rua-do-rio, lataDaMonster, yoda, data(2021, 01, 05), hora(15,40), 10/2, 50).   %deixei a hora em separado pq na entrega as datas estao como um tuplo
@@ -130,7 +130,7 @@ encomenda(maximinos/rua-do-cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), 
 
 % entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataMax/dataEntrega , classificação, peso/volume, preço)
 
-+entrega(_, Id, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N < 1).
++entrega(Id, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 
 entrega(televisao, darthMaul, manuel, palmeira/rua-do-rio, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
@@ -152,7 +152,7 @@ entrega(hamburger, luke, antonio, sao-vitor/rua-da-fabrica, data(2021, 3, 30)/da
 
 % estafeta(idEstafeta, freguesia, veiculo)
 
-+estafeta(Id, _, _) :: (findall(Id,(estafeta(Id, _, _)),Sol), length(Sol,N), N < 1).
++estafeta(Id, _, _) :: (findall(Id,(estafeta(Id, _, _)),Sol), length(Sol,N), N == 1).
 
 estafeta(bobbaFett, palmeira, carro).
 estafeta(yoda, palmeira, mota).

@@ -23,7 +23,10 @@ evolucao( Termo ):- (
 
 
 
-contaEncomendas(Res) :- findall(Encomenda, encomenda(_, _, _, _, _, _, _), Sol), length(Sol, Res).
+contaEncomendas(Res) :- findall(IdEncomenda, encomenda(_, IdEncomenda, _, _, _, _, _), Sol), length(Sol, Res).
+contaCircuitos(Res) :- findall(IdCircuito, circuito(IdCircuito, _), Sol), length(Sol, Res).
+contaEstafetas(Res) :- findall(IdEstafeta, estafeta(IdEstafeta, _, _), Sol), length(Sol, Res).
+contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _), Sol), length(Sol, Res).
 
 % Circuitos com mais entregas
 % recebe x para mostrar top x caminhos
