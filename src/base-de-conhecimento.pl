@@ -133,28 +133,28 @@ encomenda(maximinos/rua_do_cruzeiro, sapatos, stormtrooper, data(2022, 01, 04), 
 encomenda(palmeira/rua_do_rio, pizza, yoda, data(2021, 02, 05), hora(15,40), 10/2, 50).
 
 
-% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataEntrega/dataEntrega , classificação, peso/volume, preço)
+% entrega(idEncomenda, idEstafeta, idCliente, freguesia/rua , dataPrazo/horaPrazo,dataEntrega/horaEntrega , classificação, peso/volume, preço)
 
 +entrega(Id, _, _, _, _, _, _, _) :: (findall(Id,(entrega(Id, _, _, _, _, _, _, _)),Sol), length(Sol,N), N == 1).
 
 
-entrega(televisao, darthMaul, manuel, palmeira/rua_do_rio, data(2021, 1, 30)/data(2021, 1, 29),5, 30/80, 10).
-entrega(portatil, rui, bernardo, real/rua_das_giestas, data(2021, 2, 12)/data(2021, 2, 11),4 , 12/30, 5).
-entrega(telemovel, ze_joao, miguel, nogueiro/rua_da_capela, data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
+entrega(televisao, darthMaul, manuel, palmeira/rua_do_rio, data(2021, 1, 30)/hora(12,00),data(2021, 1, 29)/hora(12,00),5, 30/80, 10).
+entrega(portatil, rui, bernardo, real/rua_das_giestas, data(2021, 2, 12)/hora(12,00),data(2021, 2, 11)//hora(12,00),4 , 12/30, 5).
+entrega(telemovel, ze_joao, miguel, nogueiro/rua_da_capela, data(2021, 3, 10)/hora(12,00),data(2021, 1, 29)/hora(12,00), 3, 3/10, 3).
 
-entrega(forno, darthVader, bernardo, gualtar/rua_breias, data(2021, 2, 12)/data(2021, 3, 29), 1, 12/30, 5).
-entrega(teclado, jangoFett, alberto, maximinos/rua_do_cruzeiro, data(2021, 6, 19)/data(2021, 5, 22), 5, 21/30, 4).
-entrega(rato, r2d2, joao, real/rua_dos_paiois, data(2021, 6, 22)/data(2021, 6, 22), 5, 2/30, 50).
-entrega(headset, c3po, ana, lamacaes/rua_do_passal, data(2021, 12, 30)/data(2021, 12, 29), 3, 9/30, 24).
+entrega(forno, darthVader, bernardo, gualtar/rua_breias, data(2021, 2, 12)/hora(12,00),data(2021, 3, 29)/hora(12,00), 1, 12/30, 5).
+entrega(teclado, jangoFett, alberto, maximinos/rua_do_cruzeiro, data(2021, 6, 19)/hora(12,00),data(2021, 5, 22)/hora(12,00), 5, 21/30, 4).
+entrega(rato, r2d2, joao, real/rua_dos_paiois, data(2021, 6, 22)/hora(12,00),data(2021, 6, 22)/hora(12,00), 5, 2/30, 50).
+entrega(headset, c3po, ana, lamacaes/rua_do_passal, data(2021, 12, 30)/hora(12,00),data(2021, 12, 29)/hora(12,00), 3, 9/30, 24).
 
-entrega(pao, gigachad, ana, maximinos/rua_da_naia,data(2021, 3, 10)/data(2021, 1, 29), 3, 3/10, 3).
-entrega(pizza, leia, bernardo, maximinos/rua_de_caires,data(2021, 3, 11)/data(2021, 1, 30), 3, 3/10, 3).
-entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/data(2021,3,15), 5 , 4/11 , 5).
+entrega(pao, gigachad, ana, maximinos/rua_da_naia,data(2021, 3, 10)/hora(12,00),data(2021, 1, 29)/hora(12,00), 3, 3/10, 3).
+entrega(pizza, leia, bernardo, maximinos/rua_de_caires,data(2021, 3, 11)/hora(12,00),data(2021, 1, 30)/hora(12,00), 3, 3/10, 3).
+entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/hora(12,00),data(2021,3,15)/hora(12,00), 5 , 4/11 , 5).
 
-entrega(lataDaMonster, yoda, palmeira/rua_do_rio, data(2021, 01, 05),data(2021, 01, 05) , 5, 10/2, 50). 
-entrega(lata, yoda, palmeira/rua_do_rio, data(2021, 01, 05),data(2021, 01, 05) , 5, 10/2, 50).  
+entrega(lataDaMonster, yoda, palmeira/rua_do_rio, data(2021, 01, 05)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
+entrega(lata, yoda, palmeira/rua_do_rio, data(2021, 01, 05)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50).  
 
-entrega(cogumelos, margarida, palmeira/rua_do_rio,  data(2021, 01, 05), hora(15,40),5, 10/2, 50).
+entrega(cogumelos, margarida, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 01, 05)/hora(12,00),5, 10/2, 50).
 
 
 
