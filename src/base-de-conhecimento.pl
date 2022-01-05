@@ -151,10 +151,10 @@ entrega(pao, gigachad, ana, maximinos/rua_da_naia,data(2021, 3, 10)/hora(12,00),
 entrega(pizza, leia, bernardo, maximinos/rua_de_caires,data(2021, 3, 11)/hora(12,00),data(2021, 1, 30)/hora(12,00), 3, 3/10, 3).
 entrega(hamburger, luke, antonio, sao_vitor/rua_da_fabrica, data(2021, 3, 30)/hora(12,00),data(2021,3,15)/hora(12,00), 5 , 4/11 , 5).
 
-entrega(lataDaMonster, yoda, palmeira/rua_do_rio, data(2021, 01, 05)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
-entrega(lata, yoda, palmeira/rua_do_rio, data(2021, 01, 05)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50).  
+entrega(lataDaMonster, yoda, manuel, palmeira/rua_do_rio, data(2021, 01, 06)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50). 
+entrega(lata, yoda, ze, palmeira/rua_do_rio, data(2021, 01, 07)/hora(12,00),data(2021, 01, 05)/hora(12,00) , 5, 10/2, 50).  
 
-entrega(cogumelos, margarida, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 01, 05)/hora(12,00),5, 10/2, 50).
+entrega(cogumelos, margarida,joao, palmeira/rua_do_rio,  data(2021, 01, 05)/hora(15,40),data(2021, 01, 05)/hora(12,00),5, 10/2, 50).
 
 
 
