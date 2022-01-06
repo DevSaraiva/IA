@@ -43,10 +43,10 @@ expande_gulosaD(Caminho,ExpCaminhos) :-
 
 %--------------------------- estratégia de pesquisa informada gulosa tendo em conta CustoTempo ------------
 
-adjacenteT([Nodo|Caminho]/CustoD/CustoT/_, [ProxNodo,Nodo|Caminho]/NovoCustoD/NovoCustoT/EstT):-
+adjacenteT([Nodo|Caminho]/CustoD/_, [ProxNodo,Nodo|Caminho]/NovoCustoD/EstT):-
     aresta(Nodo, ProxNodo, PassoCustoD, PassoCustoT),
     \+ member(ProxNodo,Caminho),
-    NovoCustoT is CustoT + PassoCustoT,
+    NovoCustoD is CustoD + PassoCustoD,
     estima(ProxNodo,_,EstT).
 
 resolve_gulosaT(Nodo,Caminho/CustoD) :- 
@@ -69,10 +69,11 @@ agulosaT(Caminhos, SolucaoCaminho) :-
 
 
 obtem_melhor_g_T([Caminho],Caminho) :- !.
-obtem_melhor_g_T([Caminho1/CustoD1/Est1, _/CustoD2/Est2|Caminhos], MelhorCaminho) :-
+obtem_melhor_g_T([Caminho1/CustoD1/Est1, _/_/Est2|Caminhos], MelhorCaminho) :-
     Est1 =< Est2, !,
     obtem_melhor_g_T([Caminho1/CustoD1/Est1|Caminhos], MelhorCaminho).
-obtem_melhor_g_T([_|Caminhos], MelhorCaminho) :- obtem_melhor_g_T(Caminhos, MelhorCaminho).
+obtem_melhor_g_T([_|Caminhos], MelhorCaminho) :- 
+    obtem_melhor_g_T(Caminhos, MelhorCaminho).
 
 expande_gulosaT(Caminho,ExpCaminhos) :-
     findall(NovoCaminho, adjacenteT(Caminho,NovoCaminho),ExpCaminhos).
