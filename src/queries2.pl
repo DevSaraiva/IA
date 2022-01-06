@@ -30,14 +30,13 @@ contaEntregas(Res) :- findall(IdEntrega, entrega(IdEntrega, _, _, _, _, _, _, _,
 
 
 
-% Circuitos com mais entregas
-% recebe x para mostrar top x caminhos
-% recebe Solucao onde irá armazenar a lista
+% ----Circuitos com mais entregas volume e peso -----------------------
 
 devolveCusto(Lista/Custo,Custo).
 
 
 
+%-------Volume---------------------------------------------------
 
 
 descending([], []).
@@ -50,35 +49,82 @@ descending(A,  [X,Y|C]) :-
           W   >=    Z.
 
 
-circuitosComMaisEntregas(NumCircuitos, Solucao) :-
-    findall(Caminho, circuito(_,Caminho),Caminhos),
-    circuitosComMaisEntregasAux(Caminhos,[],Res),
+circuitosComMaisVolume(NumCircuitos, Solucao) :-
+    findall(circuito(IdEncomenda,Caminho), circuito(IdEncomenda,Caminho),Caminhos),
+    circuitosComMaisVolumeAux(Caminhos,[],Res),
     descending(Res,ResOrder),
     take(NumCircuitos,ResOrder,Solucao).
-   
-
-circuitosComMaisEntregasAux([],_,[]) :- !.
-
-circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,[Caminho/Counter|Res]):-
-        not(member(Caminho,Visitados)),
-        calculaOcorrencias(Caminho,Caminhos,C),
-        Counter is C + 1,
-        circuitosComMaisEntregasAux(Caminhos,[Caminho|Visitados],Res).
-
-circuitosComMaisEntregasAux([Caminho|Caminhos],Visitados,Res):-
-        member(Caminho,Visitados),
-        circuitosComMaisEntregasAux(Caminhos,Visitados,Res).
 
 
-calculaOcorrencias(X,[],0).
+circuitosComMaisVolumeAux([],_,[]).
 
-calculaOcorrencias(X, [X|XS], Res) :-
-    calculaOcorrencias(X,XS,Aux),
-    Res is 1 + Aux.
+circuitosComMaisVolumeAux([circuito(IdEncomenda,Caminho)|Circuitos], Visitados, [Caminho/Volume|Res]) :-
+    not(member(Caminho,Visitados)),
+    calculaVolumeNumCircuito(circuito(IdEncomenda,Caminho),Circuitos,Volume),
+    circuitosComMaisVolumeAux(Circuitos,[Caminho|Visitados],Res),!.
 
-calculaOcorrencias(X, [Y|XS], Res) :-
-    calculaOcorrencias(X,XS,Aux),
-    Res is Aux.
+circuitosComMaisVolumeAux([circuito(IdEncomenda,Caminho)|Circuitos], Visitados, Res) :-
+    member(Caminho,Visitados),
+    circuitosComMaisVolumeAux(Circuitos,Visitados,Res),!.
+
+
+
+
+calculaVolumeNumCircuito(circuito(IdEncomenda,Caminho),[],Volume):-
+    encomenda(_,IdEncomenda,_, _,_, _/Volume, _).
+
+calculaVolumeNumCircuito(circuito(IdEncomenda,Caminho),[circuito(IdEncomenda2,Caminho)|Circuitos], ResVolume) :-
+        encomenda(_,IdEncomenda,_, _,_, _/Volume, _),
+        calculaVolumeNumCircuito(circuito(IdEncomenda2,Caminho),Circuitos,VolumeAux),
+        ResVolume is Volume + VolumeAux.
+        
+
+calculaVolumeNumCircuito(circuito(IdEncomenda,Caminho1),[circuito(IdEncomenda2,Caminho2)|Circuitos], ResVolume) :-
+        calculaVolumeNumCircuito(circuito(IdEncomenda,Caminho1),Circuitos,ResVolume).
+
+
+%----------------------------------Peso-------------------------------------------------------------------------
+
+circuitosComMaisPeso(NumCircuitos, Solucao) :-
+    findall(circuito(IdEncomenda,Caminho), circuito(IdEncomenda,Caminho),Caminhos),
+    circuitosComMaisPesoAux(Caminhos,[],Res),
+    descending(Res,ResOrder),
+    take(NumCircuitos,ResOrder,Solucao).
+
+
+circuitosComMaisPesoAux([],_,[]).
+
+circuitosComMaisPesoAux([circuito(IdEncomenda,Caminho)|Circuitos], Visitados, [Caminho/Peso|Res]) :-
+    not(member(Caminho,Visitados)),
+    calculaPesoNumCircuito(circuito(IdEncomenda,Caminho),Circuitos,Peso),
+    circuitosComMaisPesoAux(Circuitos,[Caminho|Visitados],Res),!.
+
+circuitosComMaisPesoAux([circuito(IdEncomenda,Caminho)|Circuitos], Visitados, Res) :-
+    member(Caminho,Visitados),
+    circuitosComMaisPesoAux(Circuitos,Visitados,Res),!.
+
+
+
+
+calculaPesoNumCircuito(circuito(IdEncomenda,Caminho),[],Peso):-
+    encomenda(_,IdEncomenda,_, _,_, Peso/_, _).
+
+calculaPesoNumCircuito(circuito(IdEncomenda,Caminho),[circuito(IdEncomenda2,Caminho)|Circuitos], ResPeso) :-
+        encomenda(_,IdEncomenda,_, _,_, _/Peso, _),
+        calculaPesoNumCircuito(circuito(IdEncomenda2,Caminho),Circuitos,PesoAux),
+        ResPeso is Peso + PesoAux.
+        
+
+calculaPesoNumCircuito(circuito(IdEncomenda,Caminho1),[circuito(IdEncomenda2,Caminho2)|Circuitos], ResPeso) :-
+        calculaPesoNumCircuito(circuito(IdEncomenda,Caminho1),Circuitos,ResPeso).
+
+
+
+
+
+
+
+%--------------------------------------------------------------------------------------------------------
 
 
 
@@ -473,5 +519,5 @@ mostraEntregas(Res) :-
 
 chronometrise(X) :-
     write('Executing: '), write(X), nl, nl,
-    statistics(walltime, _), call(X), statistics(walltime, [_,E]),
-    nl, write('Time: '), write(E), write(' ms.'), nl.
+    get_time(Time), call(X), statistics(walltime, [_,E]),
+    nl, write('Time: '), write(E), write(' µs.'), nl.
