@@ -23,10 +23,15 @@ menu :- repeat, nl, nl, nl,
 
 
 runQuery(1) :- 
-	write("Digite o número de circuitos que pretende: "),
-	read(NumeroCircuitos),
-	circuitosComMaisEntregas(NumeroCircuitos, Solucao),
-	write(Solucao).
+	write("Digite o número de circuitos que pretende:"), read(NCircuitos), nl,
+	write("1 - Por volume"), nl,
+	write("2 - Por peso"), nl,
+	read(Opcao),
+	query1_Aux(Opcao, NCircuitos, Res), 
+	write(Res).
+
+query1_Aux(1, NCircuitos, Res) :- circuitosComMaisVolume(NCircuitos, Res).
+query1_Aux(2, NCircuitos, Res) :- circuitosComMaisPeso(NCircuitos, Res).
 
 runQuery(2) :- 
 	write("Digite o número de circuitos que prentende: "),
@@ -84,7 +89,7 @@ runQuery(6) :-
 	contaEncomendas(NEncomendas), write(NEncomendas), write(" encomendas.").
 
 runQuery(7) :- 
-	write("A calcular as encomendas que ainda não foram entregues..."), nl,
+	write("Encomendas não entregues:"), nl,
 	encomendasPorEntregar(EncomendasPorEntregar),
 	write(EncomendasPorEntregar). 
 
