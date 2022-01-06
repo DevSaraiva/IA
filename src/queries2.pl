@@ -305,7 +305,6 @@ verificaDisponiblidadeEstafetaAux(Data/Hora,[IdEncomenda|IdEncomendas]):-
 
 devolveMelhorEstafetaRapidez(Data/Hora,Zona,Peso,IdEstafeta):-
     Peso =< 100,
-    writeln(Peso),
     findall(IdEstafeta,estafeta(IdEstafeta,Zona,carro),Carro),
     verificaListaEstafeta(Data/Hora,Carro,IdEstafeta),
     IdEstafeta \= nop,

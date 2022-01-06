@@ -121,10 +121,8 @@ circuito(cogumelos, [nogueiro/rua_do_major, gualtar/rua_breias, gualtar/green_di
 
 +circuito(Id, _) :: (findall(Id,(circuito(Id,_)),Sol), length(Sol,N), N == 1).
 
+
 % encomenda(Freguesia/Rua,idEncomenda,idCliente, DataPrazo,TimePrazo, peso/volume, preco).
-
-
-
 
 %encomendas entregues
 
