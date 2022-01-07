@@ -195,7 +195,7 @@ bfs1(Final,[Atuais|Outros],Caminho):-
 
 resolve_limitada(Nodo,Caminho/Custo) :-
     goal(Final),
-    parede(Limite,15,15),
+    parede(Limite,5,5),
     depthFirstIterativeDeepening(Nodo,Final,0,Limite,Caminho),
     calculaCusto(Caminho,Custo).
 

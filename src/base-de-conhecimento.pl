@@ -91,7 +91,7 @@ estima(lamacaes/rua_da_torre,8.5,16.4).
 estima(lamacaes/rua_do_passal,8.7,17.5).
 estima(nogueiro/rua_do_major,7.4,13).
 estima(nogueiro/rua_da_capela,8.1,15).
-estima(nogueiro/rua_do_rasa,7.8,16).
+estima(nogueiro/rua_da_rasa,7.8,16).
 estima(sao_vitor/rua_dom_pedro_v,7.9,14.8).
 estima(sao_vitor/rua_da_fabrica,6.6,18).
 estima(sao_vitor/rua_do_taxa,9.5,20).
