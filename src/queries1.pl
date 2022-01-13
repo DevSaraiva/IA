@@ -38,7 +38,7 @@ findEstafetasPorVeiculo(Veiculo, Res) :-
 
 
 calculaEntregasEstafeta(IdEstafeta,Res) :-
-        findall(IdEntrega,entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _),Lista),
+        findall(IdEntrega,entrega(IdEntrega, IdEstafeta, _, _, _, _, _, _, _),Lista),
         length(Lista,Res).
 
 

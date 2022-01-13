@@ -354,11 +354,10 @@ escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :-
         encomenda(Freguesia/Rua,IdEncomenda,IdCliente,DataPrazo,HoraPrazo, Peso/Volume, Preco),
         resolve_aestrelaT(Freguesia/Rua,CaminhoAux/DistanciaAux), % algoritmo aestrela tendo em conta o tempo mas devolve o custo distancia
         duplicaCaminho(CaminhoAux/DistanciaAux,Caminho/Distancia),
-        write("Caminho a estrela: "),writeln(Caminho),
+        write("Caminho: "),writeln(Caminho),
         atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo), % temos idestafeta e veiculo
         calcularTempo(Distancia,Veiculo,Peso,Tempo),
-        write("Distancia"),writeln(Distancia),
-        write("Tempo:"),writeln(Tempo),
+        write("Tempo para entrega foi de "),write(Tempo), writeln(" minutos"),
         somaDataHora(DataInicio,HoraInicio,Tempo,DataEntrega/HoraEntrega),
         writeln("Introduza a classificacao da entrega"),
         read(Classificacao),
@@ -371,14 +370,8 @@ escolherCircuitoMaisEcologico(DataInicio/HoraInicio,IdEncomenda) :-
 atribuiEstafetaEco(Freguesia,Distancia,Peso,DataInicio/HoraInicio,DataPrazo/HoraPrazo,IdEstafetaAtri/Veiculo) :- 
             veiculosPossiveisPeso(Peso,VeiculosPossiveisPeso),
             veiculosPossiveisPrazo(Peso,Distancia,DataInicio/HoraInicio,DataPrazo/HoraPrazo,VeiculosPossiveisPrazo),
-            write("Peso: "),writeln(Peso),
-            write("Vei possiveis peso"),writeln(VeiculosPossiveisPeso),
-            write("Vei possiveis prazo"),writeln(VeiculosPossiveisPrazo),
             conjuncaoListas(VeiculosPossiveisPeso,VeiculosPossiveisPrazo,Veiculos),
-            writeln(Veiculos),
-            write("Freguesia"),writeln(Freguesia),
             listaEstafetaVeiculos(Freguesia,Veiculos,[],Estafetas),
-            write("Estafetas"),writeln(Estafetas),
             descendingEco(Estafetas,EstafetasOrd),
             verificaListaEstafeta(DataInicio/HoraInicio,EstafetasOrd,IdEstafetaAtri),
             write("Estafeta atribuido:"),writeln(IdEstafetaAtri),
